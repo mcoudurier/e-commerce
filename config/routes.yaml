@@ -1,0 +1,7 @@
+index:
+    path: /
+    controller: App\Controller\ProductController::index
+
+product_show:
+    path: /product/{id}
+    controller: App\Controller\ProductController::show
