@@ -4,6 +4,7 @@ namespace App\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Product;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -19,10 +20,10 @@ class Image
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="images")
      * @ORM\JoinColumn(name="productId", referencedColumnName="id")
      */
-    private $productId;
+    private $product;
 
     /**
      * @ORM\Column(type="string")
@@ -48,9 +49,9 @@ class Image
         return $this->id;
     }
 
-    public function getProductId()
+    public function getProduct(): Product
     {
-        return $this->productId;
+        return $this->product;
     }
     
     public function getName(): string
@@ -68,9 +69,9 @@ class Image
         return $this->size;
     }
     
-    public function setProductId($productId)
+    public function setProduct($product)
     {
-        $this->productId = $productId;
+        $this->product = $product;
     }
 
     public function setName($name)

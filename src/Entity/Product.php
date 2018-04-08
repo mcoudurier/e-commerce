@@ -51,7 +51,7 @@ class Product
     private $weight;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="productId")
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product")
      */
     private $images;
 
