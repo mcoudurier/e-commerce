@@ -5,3 +5,7 @@ index:
 product_show:
     path: /product/{id}
     controller: App\Controller\ProductController::show
+
+admin:
+    path: /admin
+    controller: App\Controller\DefaultController::admin
