@@ -1,12 +1,28 @@
 {% extends 'base.html.twig' %}
+{% block title %}Home{% endblock title %}
 
 {% block body %}
 
-<h1>Products</h1>
-
 {% for product in products %}
-    {{ product.name }}
+    <article class="product-card">
+        <header class="product-card__header">
+            {% set thumb = product.images|first %}
+            <a href="/product/{{ product.id }}">
+                <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product-card__image">
+            </a>
+            <h4 class="product-card__heading">
+                <a href="/product/{{ product.id }}" class="product-card__link">
+                    {{ product.name }}
+                </a>
+            </h4>
+        </header>
+        <div class="product-card__body">
+            {{ product.description }}
+        </div>
+        <footer class="product-card__footer">
+            € {{ product.price }}
+        </footer>
+    </article>
 {% endfor %}
-
 
 {% endblock %}
