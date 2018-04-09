@@ -2,4 +2,25 @@
 
 {% block body %}
 
+    <article class="product">
+        <header class="product__header">
+            {% set thumb = product.images|first %}
+            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product__img">
+            <h1 class="product__heading">
+                {{ product.name }}
+            </h1>
+        </header>
+        <div class="product__description">
+            {{ product.description }}
+        </div>
+    </article>
+    <aside class="product-buy">
+        <p class="product-buy__price">€ {{ product.price }}</p>
+        {% if product.hasStock %}
+            <a href="/basket/add/{{ product.id }}" class="product-buy__btn">Ajouter au panier</a>
+        {% else %}
+            <p>Rupture de stock</p>
+        {% endif %}
+    </aside>
+
 {% endblock %}

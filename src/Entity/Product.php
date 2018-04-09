@@ -146,4 +146,9 @@ class Product
     {
         $this->images = $images;
     }
+
+    public function hasStock(): bool
+    {
+        return $this->stock > 0;
+    }
 }
