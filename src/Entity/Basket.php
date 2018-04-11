@@ -4,7 +4,7 @@ namespace App\Entity;
 use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class Basket
+class Basket implements \Countable
 {
     public function __construct()
     {
@@ -91,5 +91,17 @@ class Basket
     public function haveProducts(): bool
     {
         return !empty($this->session->get('products'));
+    }
+
+    public function count()
+    {
+        $quantity = 0;
+
+        foreach ($this->getProducts() as $product)
+        {
+            $quantity += $product['quantity'];
+        }
+
+        return $quantity;
     }
 }

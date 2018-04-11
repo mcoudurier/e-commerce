@@ -10,7 +10,7 @@
         <header>
             <nav class="navbar navbar-light">
                 <a href="/" class="navbar-brand">Brand</a>
-                <a href="/basket">Panier</a>
+                <a href="/basket">Panier ({{ render(controller('App\\Controller\\BasketController::productCount')) }})</a>
             </nav>
         </header>
         <main class="container">

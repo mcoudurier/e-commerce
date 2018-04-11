@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Basket;
 use App\Entity\Product;
@@ -64,5 +65,10 @@ class BasketController extends Controller
     public function update(Request $req)
     {
 
+    }
+
+    public function productCount()
+    {
+        return new Response(count($this->basket));
     }
 }
