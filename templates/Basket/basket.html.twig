@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+{% for product in products %}
+    <div class="basket-product row border-bottom py-2">
+        {% set thumb = product.images|first %}
+        <div class="col">
+            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="basket-product__img img img-fluid">
+        </div>
+        <div class="col">
+            <span class="basket-product__name">
+                {{ product.name }}
+            </span>
+        </div>
+        <div class="col">
+            <input class="basket-product__quantity" type="number" name="quantity" data-target-id="{{ product.id }}" min="1" value="{{ product.quantity }}">
+        </div>
+        <div class="col">
+            <span class="basket-product__price">
+                € {{ product.calcTotalPrice }}
+            </span>
+        </div>
+        <div class="col">
+            <a href="/basket/remove/{{ product.id }}" class="basket-product__remove">supprimer</a>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="js/basket.js"></script>
+{% endblock %}

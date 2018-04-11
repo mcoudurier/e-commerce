@@ -9,3 +9,19 @@ product_show:
 admin:
     path: /admin
     controller: App\Controller\DefaultController::admin
+
+basket_show:
+    path: /basket
+    controller: App\Controller\BasketController::show
+
+basket_add:
+    path: /basket/add/{id}
+    controller: App\Controller\BasketController::add
+
+basket_remove:
+    path: /basket/remove/{id}
+    controller: App\Controller\BasketController::remove
+
+basket_update:
+    path: /basket/update/{id}
+    controller: App\Controller\BasketController::update

@@ -55,6 +55,8 @@ class Product
      */
     private $images;
 
+    private $quantity;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -110,6 +112,23 @@ class Product
     public function getImages()
     {
         return $this->images;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function calcTotalPrice(): float
+    {
+        return $this->quantity * $this->price;
     }
 
     public function setName($name)

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block main %}
 
     <article class="product">
         <header class="product__header">
             {% set thumb = product.images|first %}
-            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product__img">
+            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product__img img img-fluid">
             <h1 class="product__heading">
                 {{ product.name }}
             </h1>
