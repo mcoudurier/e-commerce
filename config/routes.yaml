@@ -6,9 +6,14 @@ product_show:
     path: /product/{id}
     controller: App\Controller\ProductController::show
 
-admin:
+admin_index:
     path: /admin
-    controller: App\Controller\DefaultController::admin
+    controller: App\Controller\AdminController::index
+
+admin_productEditor:
+    path: /admin/product-editor/{id}
+    controller: App\Controller\AdminController::productEditor
+    defaults: { id: null }
 
 basket_show:
     path: /basket

@@ -109,7 +109,7 @@ class Product
         return $this->weight;
     }
 
-    public function getImages(): ?array
+    public function getImages()
     {
         return $this->images;
     }
