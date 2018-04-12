@@ -74,44 +74,49 @@ class Product
         $metadata->addPropertyConstraint('images', new Assert\Type('array'));
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getCategory(): string
+    public function getCategory(): ?string
     {
         return $this->category;
     }
 
-    public function getStock(): int
+    public function getStock(): ?int
     {
         return $this->stock;
     }
 
-    public function getPrice(): float
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function getWeight(): float
+    public function getWeight(): ?float
     {
         return $this->weight;
     }
 
-    public function getImages()
+    public function getImages(): ?array
     {
         return $this->images;
+    }
+    
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
     }
 
     public function setQuantity(int $quantity): self
@@ -119,16 +124,6 @@ class Product
         $this->quantity = $quantity;
 
         return $this;
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    public function calcTotalPrice(): float
-    {
-        return $this->quantity * $this->price;
     }
 
     public function setName($name)
@@ -169,5 +164,10 @@ class Product
     public function hasStock(): bool
     {
         return $this->stock > 0;
+    }
+    
+    public function calcTotalPrice(): float
+    {
+        return $this->quantity * $this->price;
     }
 }
