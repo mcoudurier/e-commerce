@@ -93,13 +93,16 @@ class Basket implements \Countable
         return !empty($this->session->get('products'));
     }
 
-    public function count()
+    public function count(): int
     {
         $quantity = 0;
 
-        foreach ($this->getProducts() as $product)
+        if ($products = $this->getProducts())
         {
-            $quantity += $product['quantity'];
+            foreach ($products as $product)
+            {
+                $quantity += $product['quantity'];
+            }
         }
 
         return $quantity;
