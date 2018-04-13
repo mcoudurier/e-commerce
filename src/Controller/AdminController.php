@@ -3,9 +3,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\ProductType;
 use App\Entity\Product;
 
 class AdminController extends Controller
@@ -33,13 +31,14 @@ class AdminController extends Controller
             $title = 'Modification d\'un produit';
         }
 
-        $form = $this->createFormBuilder($product)
-            ->add('name', TextType::class)
-            ->add('description', TextType::class)
-            ->add('category', TextType::class)
-            ->add('stock', IntegerType::class)
-            ->add('send', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $product = $form->getData();
+        }
 
         return $this->render('Admin/productEditor.html.twig', [
             'form' => $form->createView(),
