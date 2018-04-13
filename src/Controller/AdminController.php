@@ -37,7 +37,21 @@ class AdminController extends Controller
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            foreach ($product->getImages() as $image)
+            {
+                $file = $image->getFile();
+                $filename = time().'_'.$file->getClientOriginalName();
+                $filesize = filesize($file);
+                $image->setSize($filesize);
+                $image->setName($filename);
+                $file->move('img/upload/', $filename);
+            }
+
             $product = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
         }
 
         return $this->render('Admin/productEditor.html.twig', [

@@ -69,9 +69,6 @@ class Product
         $metadata->addPropertyConstraint('description', new Assert\Type('string'));
         $metadata->addPropertyConstraint('category', new Assert\Type('string'));
         $metadata->addPropertyConstraint('stock', new Assert\Type('int'));
-        $metadata->addPropertyConstraint('price', new Assert\Type('float'));
-        $metadata->addPropertyConstraint('weight', new Assert\Type('float'));
-        $metadata->addPropertyConstraint('images', new Assert\Type('array'));
     }
 
     public function getId(): ?int

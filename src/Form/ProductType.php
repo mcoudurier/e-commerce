@@ -5,8 +5,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Product;
 
@@ -19,6 +22,11 @@ class ProductType extends AbstractType
             ->add('description', TextType::class)
             ->add('category', TextType::class)
             ->add('stock', IntegerType::class)
+            ->add('price', MoneyType::class)
+            ->add('weight', NumberType::class)
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class
+            ])
             ->add('send', SubmitType::class)
         ;
     }

@@ -39,9 +39,30 @@ class Image
      * @ORM\Column(type="integer")
      */
     private $size;
+
+    /**
+     * The uploaded file
+     *
+     * @var [UploadedFile]
+     */
+    private $file;
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
+        $metadata->addPropertyConstraint('file', new Assert\Image());
+        $metadata->addPropertyConstraint('name', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('description', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('size', new Assert\Type('integer'));
     }
 
     public function getId(): int
@@ -59,7 +80,7 @@ class Image
         return $this->name;
     }
     
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
