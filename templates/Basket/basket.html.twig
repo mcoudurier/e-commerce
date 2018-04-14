@@ -17,7 +17,7 @@
             <input class="basket-product__quantity" type="number" name="quantity" data-target-id="{{ product.id }}" min="1" value="{{ product.quantity }}">
         </div>
         <div class="col">
-            <span class="basket-product__price">
+            <span class="basket-product__price" data-target-id="{{ product.id }}">
                 € {{ product.calcTotalPrice }}
             </span>
         </div>

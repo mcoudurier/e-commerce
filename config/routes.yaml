@@ -28,5 +28,5 @@ basket_remove:
     controller: App\Controller\BasketController::remove
 
 basket_update:
-    path: /basket/update/{id}
+    path: /basket/update
     controller: App\Controller\BasketController::update

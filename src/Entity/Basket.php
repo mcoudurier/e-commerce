@@ -30,6 +30,25 @@ class Basket implements \Countable
 
         $this->session->set('products', $products);
     }
+    
+    public function update(Product $product, int $quantity)
+    {
+        $products = $this->getProducts();
+
+        $products[$product->getId()] = [
+            'id' => $product->getId(),
+            'quantity' => $quantity
+        ];
+        
+        $this->session->set('products', $products);
+    }
+    
+    public function remove(Product $product)
+    {
+        $products = $this->getProducts();
+        unset($products[$product->getId()]);
+        $this->session->set('products', $products);
+    }
 
     public function getIds(): ?array
     {
@@ -66,21 +85,9 @@ class Basket implements \Countable
         return $setProducts;
     }
 
-    public function update()
-    {
-
-    }
-
     public function hasProduct(string $key): bool
     {
         return isset($this->getProducts()[$key]);
-    }
-
-    public function remove(Product $product)
-    {
-        $products = $this->getProducts();
-        unset($products[$product->getId()]);
-        $this->session->set('products', $products);
     }
 
     public function getProducts()

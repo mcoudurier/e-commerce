@@ -64,7 +64,18 @@ class BasketController extends Controller
 
     public function update(Request $req)
     {
+        $data = json_decode($req->getContent(), true);
+        $id = (int) $data['id'];
+        $quantity = (int) $data['quantity'];
+       
+        $product = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->find($id);
 
+        $this->basket->update($product, $quantity);
+        $product->setQuantity($quantity);
+
+        return new Response($product->calcTotalPrice());
     }
 
     public function productCount()
