@@ -30,3 +30,18 @@ basket_remove:
 basket_update:
     path: /basket/update
     controller: App\Controller\BasketController::update
+
+user_welcome:
+    path: /user/welcome
+    controller: App\Controller\UserController::welcome
+
+user_login:
+    path: /user/login
+    controller: App\Controller\UserController::login
+
+user_register:
+    path: /user/register
+    controller: App\Controller\UserController::register
+
+user_logout:
+    path: /user/logout

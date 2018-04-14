@@ -49,6 +49,18 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255)
      */
     private $role;
+
+    private $plainPassword;
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -59,6 +71,7 @@ class User implements UserInterface, \Serializable
         $metadata->addPropertyConstraint('firstName', new Assert\Type('string'));
         $metadata->addPropertyConstraint('lastName', new Assert\Type('string'));
         $metadata->addPropertyConstraint('role', new Assert\Type('array'));
+        $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string'));
     }
 
     public function getId()
@@ -78,7 +91,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
     
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -107,7 +120,7 @@ class User implements UserInterface, \Serializable
         return null;
     }
     
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
