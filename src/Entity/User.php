@@ -67,7 +67,6 @@ class User implements UserInterface, \Serializable
         $metadata->addPropertyConstraint('id', new Assert\GreaterThan(0));
         $metadata->addPropertyConstraint('username', new Assert\Type('string'));
         $metadata->addPropertyConstraint('password', new Assert\Type('string'));
-        $metadata->addPropertyConstraint('email', new Assert\Type('email'));
         $metadata->addPropertyConstraint('firstName', new Assert\Type('string'));
         $metadata->addPropertyConstraint('lastName', new Assert\Type('string'));
         $metadata->addPropertyConstraint('role', new Assert\Type('array'));

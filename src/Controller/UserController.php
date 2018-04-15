@@ -9,12 +9,15 @@ use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\RegisterType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends Controller
 {
-    public function welcome()
+    public function welcome($form = null)
     {
-        return $this->render('User/welcome.html.twig');
+        return $this->render('User/welcome.html.twig', [
+            'form' => $form
+        ]);
     }
 
     public function login(Request $req, AuthenticationUtils $authenticationUtils)
@@ -36,8 +39,16 @@ class UserController extends Controller
         ]);
     }
 
-    public function register(Request $req)
+    public function register($form = null, Request $req, UserPasswordEncoderInterface $passwordEncoder)
     {
+        // Injected form with errors
+        if ($form)
+        {
+            return $this->render('User/register.html.twig', [
+                'registrationForm' => $form->createView(),
+            ]);
+        }
+
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user, [
             'action' => $this->generateUrl('user_register'),
@@ -46,9 +57,10 @@ class UserController extends Controller
 
         $form->handleRequest($req);
         
+        // Reinject in the welcome page to display errors
         if ($form->isSubmitted() && !$form->isValid()) {
-            $errors = $form->getErrors();
-            return $this->redirectToRoute('user_welcome', [
+            return $this->forward('App\Controller\UserController::welcome', [
+                'form' => $form
             ]);
         }
 
