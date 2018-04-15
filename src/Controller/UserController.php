@@ -68,12 +68,11 @@ class UserController extends Controller
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setRoles('ROLE_USER');
 
-            /*
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            */
 
             return $this->redirectToRoute('index');
         }
