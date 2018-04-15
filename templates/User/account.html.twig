@@ -3,5 +3,13 @@
 
 {% block main %}
 
+{{ form_start(form) }}
+    {{ form_row(form.address1) }}
+    {{ form_row(form.address2) }}
+    {{ form_row(form.city) }}
+    {{ form_row(form.postCode) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.submit) }}
+{{ form_end(form) }}
 
 {% endblock %}

@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\User;
+use App\Entity\Address;
+use App\Form\AddressType;
 use App\Form\LoginType;
 use App\Form\RegisterType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -82,8 +84,32 @@ class UserController extends Controller
         ]);
     }
 
-    public function account()
+    public function account(Request $req)
     {
-        return $this->render('User/account.html.twig');
+        $address = new Address();
+        
+        $user = $this->getUser();
+        if (!$user->getAddresses()->isEmpty())
+        {
+            $address = $user->getAddresses()[0];
+        }
+        
+        $form = $this->createForm(AddressType::class, $address);
+        
+        $form->handleRequest($req);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $address->setUser($user)
+                    ->setCountry('France');
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($address);
+            $em->flush();
+        }
+
+        return $this->render('User/account.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
