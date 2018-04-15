@@ -36,12 +36,16 @@ user_welcome:
     controller: App\Controller\UserController::welcome
 
 user_login:
-    path: /user/login
+    path: /internal/login
     controller: App\Controller\UserController::login
 
 user_register:
-    path: /user/register
+    path: /internal/register
     controller: App\Controller\UserController::register
 
 user_logout:
     path: /user/logout
+
+user_account:
+    path: /user/account
+    controller: App\Controller\UserController::account

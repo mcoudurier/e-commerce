@@ -19,7 +19,7 @@ security:
             http_basic: ~
             provider: our_db_provider
             form_login:
-                login_path: user_login
+                login_path: user_welcome
                 check_path: user_login
                 failure_path: user_welcome
                 username_parameter: _email
@@ -39,4 +39,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/user/welcome , roles: IS_AUTHENTICATED_ANONYMOUSLY}
+         - { path: ^/user/account, roles: ROLE_USER }
+         - { path: ^/internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: [127.0.0.1, ::1, 192.168.0.1/24] }
+         - { path: ^/internal, roles: ROLE_NO_ACCESS }
