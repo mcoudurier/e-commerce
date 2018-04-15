@@ -6,6 +6,6 @@
 {% endif %}
 
 {{ form_start(loginForm) }}
-    {{ form_row(loginForm.username, {'full_name': '_username', 'value': lastUserName}) }}
+    {{ form_row(loginForm.username, {'full_name': '_email', 'value': lastUserName}) }}
     {{ form_row(loginForm.plainPassword, {'full_name': '_password'}) }}
 {{ form_end(loginForm) }}

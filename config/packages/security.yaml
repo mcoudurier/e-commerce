@@ -8,7 +8,7 @@ security:
         our_db_provider:
             entity:
                 class: App\Entity\User
-                property: username
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -22,6 +22,7 @@ security:
                 login_path: user_login
                 check_path: user_login
                 failure_path: user_welcome
+                username_parameter: _email
             logout:
                 path: user_logout
                 target: index
