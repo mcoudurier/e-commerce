@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints\PhoneNumber;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
@@ -40,7 +41,7 @@ class Address
     private $postCode;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $phone;
 
@@ -61,7 +62,9 @@ class Address
         $metadata->addPropertyConstraint('address2', new Assert\Type('string'));
         $metadata->addPropertyConstraint('city', new Assert\Type('string'));
         $metadata->addPropertyConstraint('postCode', new Assert\Type('integer'));
-        $metadata->addPropertyConstraint('phone', new Assert\Type('integer'));
+        $metadata->addPropertyConstraint('phone', new PhoneNumber([
+            'message' => 'Numéro de téléphone invalide'
+        ]));
     }
 
     public function getId()
@@ -117,12 +120,12 @@ class Address
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): self
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
