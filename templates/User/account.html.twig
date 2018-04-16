@@ -3,13 +3,7 @@
 
 {% block main %}
 
-{{ form_start(form) }}
-    {{ form_row(form.address1) }}
-    {{ form_row(form.address2) }}
-    {{ form_row(form.city) }}
-    {{ form_row(form.postCode) }}
-    {{ form_row(form.phone) }}
-    {{ form_row(form.submit) }}
-{{ form_end(form) }}
+<a href="{{ path('user_edit-address') }}">Mon addresse</a>
+<a href="{{ path('user_change-password') }}">Changer de mot de passe</a>
 
 {% endblock %}

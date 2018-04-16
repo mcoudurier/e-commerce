@@ -49,3 +49,11 @@ user_logout:
 user_account:
     path: /user/account
     controller: App\Controller\UserController::account
+
+user_edit-address:
+    path: /user/account/edit-address
+    controller: App\Controller\UserController::editAddress
+
+user_change-password:
+    path: /user/account/change-password
+    controller: App\Controller\UserController::changePassword

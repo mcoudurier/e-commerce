@@ -10,6 +10,8 @@ use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\LoginType;
 use App\Form\RegisterType;
+use App\Form\ChangePasswordType;
+use App\Form\Model\ChangePassword;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -86,6 +88,11 @@ class UserController extends Controller
 
     public function account(Request $req)
     {
+        return $this->render('User/account.html.twig');
+    }
+
+    public function editAddress(Request $req)
+    {
         $address = new Address();
         
         $user = $this->getUser();
@@ -108,7 +115,36 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->render('User/account.html.twig', [
+        return $this->render('User/editAddress.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function changePassword(Request $req, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $changePassword = new changePassword();
+
+        $form = $this->createForm(changePasswordType::class, $changePassword);
+
+        $form->handleRequest($req);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            
+            $newPassword = $passwordEncoder->encodePassword($user, $changePassword->getNewPassword());
+            
+            $user->setPassword($newPassword);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('notice', 'Mot de passe changé');
+
+            return $this->redirectToRoute('user_account');
+        }
+
+        return $this->render('User/changePassword.html.twig', [
             'form' => $form->createView()
         ]);
     }
