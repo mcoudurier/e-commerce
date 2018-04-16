@@ -139,7 +139,7 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('notice', 'Mot de passe changé');
+            $this->addFlash('success', 'Mot de passe changé');
 
             return $this->redirectToRoute('user_account');
         }
