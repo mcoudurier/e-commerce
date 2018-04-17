@@ -71,6 +71,11 @@ class Product
         $metadata->addPropertyConstraint('stock', new Assert\Type('int'));
     }
 
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class Basket implements \Countable
 {
+    private $session;
+
     public function __construct()
     {
         $this->session = new Session();
@@ -48,6 +50,11 @@ class Basket implements \Countable
         $products = $this->getProducts();
         unset($products[$product->getId()]);
         $this->session->set('products', $products);
+    }
+
+    public function clear()
+    {
+        $this->session->remove('products');
     }
 
     public function getIds(): ?array
