@@ -52,7 +52,7 @@ class Basket implements \Countable
 
     public function getIds(): ?array
     {
-        if ($this->haveProducts())
+        if ($this->hasProducts())
         {
             $ids = [];
 
@@ -95,7 +95,7 @@ class Basket implements \Countable
         return $this->session->get('products');
     }
 
-    public function haveProducts(): bool
+    public function hasProducts(): bool
     {
         return !empty($this->session->get('products'));
     }
@@ -113,5 +113,17 @@ class Basket implements \Countable
         }
 
         return $quantity;
+    }
+
+    public function totalPrice(array $products): float 
+    {
+        $totalPrice = 0;
+
+        foreach ($products as $product)
+        {
+            $totalPrice += $product->calcTotalPrice();
+        }
+
+        return round($totalPrice, 3);
     }
 }

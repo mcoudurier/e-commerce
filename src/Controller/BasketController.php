@@ -4,6 +4,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Basket;
 use App\Entity\Product;
@@ -19,20 +20,24 @@ class BasketController extends Controller
 
     public function show(Request $req)
     {
-        $ids = $this->basket->getIds();
         $products = [];
+        $totalPrice = 0;
 
-        if ($ids)
+        if ($this->basket->hasProducts())
         {
+            $ids = $this->basket->getIds();
+            
             $products = $this->getDoctrine()
                 ->getRepository(Product::class)
                 ->findAllById($ids);
 
             $products = $this->basket->setQuantities($products);
+            $totalPrice = $this->basket->totalPrice($products);
         }
 
         return $this->render('Basket/basket.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'totalPrice' => $totalPrice
         ]);
     }
 
@@ -73,9 +78,20 @@ class BasketController extends Controller
             ->find($id);
 
         $this->basket->update($product, $quantity);
-        $product->setQuantity($quantity);
+            
+        $ids = $this->basket->getIds();
+            
+        $products = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->findAllById($ids);
 
-        return new Response($product->calcTotalPrice());
+        $products = $this->basket->setQuantities($products);
+        $totalPrice = $this->basket->totalPrice($products);
+
+        return new JsonResponse([
+            'price' => $product->calcTotalPrice(),
+            'totalPrice' => $totalPrice
+        ]);
     }
 
     public function productCount()

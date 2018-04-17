@@ -14,26 +14,18 @@ function updateQuantity(e) {
     
     fetch(req)
     .then(response => {
-        return response.text();
+        return response.json();
     })
-    .then(text => {
+    .then(json => {
         document.querySelector(`.basket-product__price[data-target-id="${id}"`)
-            .innerHTML = `€ ${text}`;
+            .innerHTML = `€ ${json.price}`;
+        document.querySelector('.basket-checkout__total-price')
+            .innerHTML = json.totalPrice;
     })
     .catch(error => {});
-}
-
-function removeProduct(e)
-{
-
 }
 
 quantityElts = document.querySelectorAll('.basket-product__quantity');
 quantityElts.forEach (quantityElt => {
     quantityElt.addEventListener('change', updateQuantity);
-});
-
-removeElts = document.querySelectorAll('.basket-product__remove');
-removeElts.forEach (quantityElt => {
-    quantityElt.addEventListener('click', removeProduct);
 });
