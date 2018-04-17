@@ -8,14 +8,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Basket;
 use App\Entity\Product;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class BasketController extends Controller
 {
     private $basket;
 
-    public function __construct()
+    public function __construct(ObjectManager $objectManager)
     {
-        $this->basket = new Basket();
+        $this->basket = new Basket($objectManager);
     }
 
     public function show(Request $req)
@@ -25,13 +26,7 @@ class BasketController extends Controller
 
         if ($this->basket->hasProducts())
         {
-            $ids = $this->basket->getIds();
-            
-            $products = $this->getDoctrine()
-                ->getRepository(Product::class)
-                ->findAllById($ids);
-
-            $products = $this->basket->setQuantities($products);
+            $products = $this->basket->getProducts();
             $totalPrice = $this->basket->totalPrice($products);
         }
 
@@ -79,13 +74,7 @@ class BasketController extends Controller
 
         $this->basket->update($product, $quantity);
             
-        $ids = $this->basket->getIds();
-            
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->findAllById($ids);
-
-        $products = $this->basket->setQuantities($products);
+        $products = $this->basket->getProducts();
         $totalPrice = $this->basket->totalPrice($products);
 
         return new JsonResponse([

@@ -3,19 +3,23 @@ namespace App\Entity;
 
 use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class Basket implements \Countable
 {
     private $session;
 
-    public function __construct()
+    private $objectManager;
+
+    public function __construct(ObjectManager $objectManager = null)
     {
         $this->session = new Session();
+        $this->objectManager = $objectManager;
     }
 
     public function add(Product $product)
     {
-        $products = $this->getProducts();
+        $products = $this->all();
         $id = $product->getId();
         $quantity = 1;
 
@@ -35,7 +39,7 @@ class Basket implements \Countable
     
     public function update(Product $product, int $quantity)
     {
-        $products = $this->getProducts();
+        $products = $this->all();
 
         $products[$product->getId()] = [
             'id' => $product->getId(),
@@ -47,7 +51,7 @@ class Basket implements \Countable
     
     public function remove(Product $product)
     {
-        $products = $this->getProducts();
+        $products = $this->all();
         unset($products[$product->getId()]);
         $this->session->set('products', $products);
     }
@@ -57,18 +61,24 @@ class Basket implements \Countable
         $this->session->remove('products');
     }
 
-    public function getIds(): ?array
+    public function getProducts(): ?array
     {
         if ($this->hasProducts())
         {
             $ids = [];
 
-            foreach ($this->getProducts() as $product)
+            foreach ($this->all() as $product)
             {
                 $ids[] = $product['id'];
             }
 
-            return $ids;
+            $products = $this->objectManager
+                ->getRepository(Product::class)
+                ->findAllById($ids);
+
+            $products = $this->setQuantities($products);
+
+            return $products;
         }
 
         return null;
@@ -76,7 +86,7 @@ class Basket implements \Countable
 
     public function getQuantity(Product $product)
     {
-        return $this->getProducts()[$product->getId()]['quantity'];
+        return $this->all()[$product->getId()]['quantity'];
     }
 
     public function setQuantities(array $products)
@@ -94,10 +104,10 @@ class Basket implements \Countable
 
     public function hasProduct(string $key): bool
     {
-        return isset($this->getProducts()[$key]);
+        return isset($this->all()[$key]);
     }
 
-    public function getProducts()
+    public function all()
     {
         return $this->session->get('products');
     }
@@ -111,7 +121,7 @@ class Basket implements \Countable
     {
         $quantity = 0;
 
-        if ($products = $this->getProducts())
+        if ($products = $this->all())
         {
             foreach ($products as $product)
             {
