@@ -5,6 +5,9 @@ use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Represents the basket in the session
+ */
 class Basket implements \Countable
 {
     private $session;
@@ -61,45 +64,34 @@ class Basket implements \Countable
         $this->session->remove('products');
     }
 
+    /**
+     * Retrieves session products from the database
+     *
+     * @return Product[]|null
+     */
     public function getProducts(): ?array
     {
         if ($this->hasProducts())
         {
-            $ids = [];
-
-            foreach ($this->all() as $product)
-            {
-                $ids[] = $product['id'];
-            }
+            $ids = array_column($this->all(), 'id');
 
             $products = $this->objectManager
                 ->getRepository(Product::class)
                 ->findAllById($ids);
-
-            $products = $this->setQuantities($products);
-
-            return $products;
+            
+            return $products = array_map(
+                function($p) {
+                    return $p->setQuantity($this->getQuantity($p));
+                }, 
+                $products);
         }
 
         return null;
     }
 
-    public function getQuantity(Product $product)
+    public function getQuantity(Product $product): int
     {
         return $this->all()[$product->getId()]['quantity'];
-    }
-
-    public function setQuantities(array $products)
-    {
-        $setProducts = [];
-
-        foreach ($products as $product)
-        {
-            $product->setQuantity($this->getQuantity($product));
-            $setProducts[] = $product;
-        }
-
-        return $setProducts;
     }
 
     public function hasProduct(string $key): bool
@@ -107,7 +99,7 @@ class Basket implements \Countable
         return isset($this->all()[$key]);
     }
 
-    public function all()
+    public function all(): ?array
     {
         return $this->session->get('products');
     }
