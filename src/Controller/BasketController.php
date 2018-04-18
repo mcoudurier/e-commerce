@@ -44,7 +44,14 @@ class BasketController extends Controller
             ->getRepository(Product::class)
             ->find($id);
 
-        $this->basket->add($product);
+        if ($product->hasStock())
+        {
+            $this->basket->add($product);
+        }
+        else
+        {
+            $this->addFlash('primary', 'Le produit n\'est plus en stock');
+        }
 
         return $this->redirect('/product/' . $id);
     }
