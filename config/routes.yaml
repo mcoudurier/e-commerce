@@ -57,3 +57,11 @@ user_edit-address:
 user_change-password:
     path: /user/account/change-password
     controller: App\Controller\UserController::changePassword
+
+paypal_checkout:
+    path: /checkout/paypal
+    controller: App\Controller\Payments\PaypalController::paypalCheckout
+
+paypal_payment:
+    path: /checkout/success
+    controller: App\Controller\Payments\PaypalController::paypalPayment

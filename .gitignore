@@ -12,3 +12,5 @@
 ###< symfony/phpunit-bridge ###
 
 /public/img
+/config/paypal.php
+
