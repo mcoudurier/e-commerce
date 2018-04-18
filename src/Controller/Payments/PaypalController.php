@@ -93,7 +93,7 @@ class PaypalController extends Controller
             return new Response('Payement impossible');
         }
 
-        $this->setFlash('success', 'Merci pour votre achat');
+        $this->addFlash('success', 'Merci pour votre achat');
         return $this->redirectToRoute('index');
     }
 }
