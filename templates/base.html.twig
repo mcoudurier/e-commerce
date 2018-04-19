@@ -14,8 +14,15 @@
         <header>
             <nav class="navbar navbar-light bg-light">
                 <a href="/" class="navbar-brand">Brand</a>
-                <a href="{{ path('user_welcome') }}"><i class="fas fa-user"></i> Mon compte</a>
-                <a href="/basket">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a href="{{ path('user_account') }}"><i class="fas fa-user"></i> Mon compte</a>
+                {% else %}
+                    <a href="{{ path('user_welcome') }}"></i> Connexion</a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin_index') }}">Administration</a>
+                {% endif %}
+                <a href="{{ path('basket_show') }}">
                     <i class="fas fa-shopping-cart"></i> 
                     <span class="basket-count">
                         ({{ render(controller('App\\Controller\\BasketController::productCount')) }})
