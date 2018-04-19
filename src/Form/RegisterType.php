@@ -20,7 +20,7 @@ class RegisterType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter mot the passe']
+                'second_options' => ['label' => 'Répéter mot de passe']
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer'
