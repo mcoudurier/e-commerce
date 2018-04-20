@@ -19,7 +19,7 @@ class UserController extends Controller
 {
     public function welcome($form = null)
     {
-        return $this->render('User/welcome.html.twig', [
+        return $this->render('shop/account/welcome.html.twig', [
             'form' => $form
         ]);
     }
@@ -36,7 +36,7 @@ class UserController extends Controller
             'method' => 'POST'
         ]);
         
-        return $this->render('User/login.html.twig', [
+        return $this->render('shop/account/login.html.twig', [
             'loginForm' => $form->createView(),
             'error' => $error,
             'lastUserName' => $lastUsername
@@ -48,7 +48,7 @@ class UserController extends Controller
         // Injected form with errors
         if ($form)
         {
-            return $this->render('User/register.html.twig', [
+            return $this->render('shop/account/register.html.twig', [
                 'registrationForm' => $form->createView(),
             ]);
         }
@@ -81,14 +81,14 @@ class UserController extends Controller
             return $this->redirectToRoute('user_account');
         }
 
-        return $this->render('User/register.html.twig', [
+        return $this->render('shop/account/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
 
     public function account(Request $req)
     {
-        return $this->render('User/account.html.twig');
+        return $this->render('shop/account/account.html.twig');
     }
 
     public function editAddress(Request $req)
@@ -115,7 +115,7 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->render('User/editAddress.html.twig', [
+        return $this->render('shop/account/editAddress.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -144,7 +144,7 @@ class UserController extends Controller
             return $this->redirectToRoute('user_account');
         }
 
-        return $this->render('User/changePassword.html.twig', [
+        return $this->render('shop/account/changePassword.html.twig', [
             'form' => $form->createView()
         ]);
     }

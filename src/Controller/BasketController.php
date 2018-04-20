@@ -30,7 +30,7 @@ class BasketController extends Controller
             $totalPrice = $this->basket->totalPrice($products);
         }
 
-        return $this->render('Basket/basket.html.twig', [
+        return $this->render('shop/basket.html.twig', [
             'products' => $products,
             'totalPrice' => $totalPrice
         ]);

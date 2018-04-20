@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <nav class="sidebar col-2">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_index') }}">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_product-editor') }}">Ajouter un produit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_all-products') }}">Tous les produits</a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <main class="col-9">
+            {% block admin_content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+{% endblock %}

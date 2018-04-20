@@ -12,7 +12,7 @@ class ProductController extends Controller
             ->getRepository(Product::class)
             ->findAll();
 
-        return $this->render('home.html.twig', [
+        return $this->render('shop/index.html.twig', [
             'products' => $products
         ]);
     }
@@ -27,7 +27,7 @@ class ProductController extends Controller
             throw $this->createNotFoundException();
         }
 
-        return $this->render('Product/single.html.twig', [
+        return $this->render('shop/product_single.html.twig', [
             'product' => $product
         ]);
     }

@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return $this->render('Admin/admin_panel.html.twig');
+        return $this->render('admin/index.html.twig');
     }
 
     public function productEditor(Request $req)
@@ -56,7 +56,7 @@ class AdminController extends Controller
             $em->flush();
         }
 
-        return $this->render('Admin/product_editor.html.twig', [
+        return $this->render('admin/product_editor.html.twig', [
             'form' => $form->createView(),
             'title' => $title
         ]);
@@ -91,7 +91,7 @@ class AdminController extends Controller
                 ->findAll();
         }
 
-        return $this->render('Admin/all_products.html.twig', [
+        return $this->render('admin/all_products.html.twig', [
             'products' => $products,
             'form' => $form->createView()
         ]);
