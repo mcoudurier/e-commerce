@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return $this->render('Admin/adminPanel.html.twig');
+        return $this->render('Admin/admin_panel.html.twig');
     }
 
     public function productEditor(Request $req)
@@ -56,7 +56,7 @@ class AdminController extends Controller
             $em->flush();
         }
 
-        return $this->render('Admin/productEditor.html.twig', [
+        return $this->render('Admin/product_editor.html.twig', [
             'form' => $form->createView(),
             'title' => $title
         ]);
