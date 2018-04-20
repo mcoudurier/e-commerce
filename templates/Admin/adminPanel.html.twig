@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-<a href="/admin/product-editor">Ajouter un article</a>
+<a href="{{ path('admin_product-editor') }}">Ajouter un produit</a>
+<a href="{{ path('admin_all-products') }}">Tous les produits</a>
 {% endblock %}

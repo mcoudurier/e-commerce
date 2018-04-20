@@ -4,6 +4,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProductType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Product;
 
 class AdminController extends Controller
@@ -57,6 +59,41 @@ class AdminController extends Controller
         return $this->render('Admin/productEditor.html.twig', [
             'form' => $form->createView(),
             'title' => $title
+        ]);
+    }
+
+    public function allProducts(Request $req)
+    {
+        $form = $this->createFormBuilder()
+            ->add('search', SearchType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Rechercher'
+                ]
+            ])
+            ->getForm();
+        
+        $form->handleRequest($req);
+       
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $query = $form->getData();
+            
+            $products = $this->getDoctrine()
+                ->getRepository(Product::class)
+                ->search($query['search']);
+        }
+        else
+        {
+            $products = $this->getDoctrine()
+                ->getRepository(Product::class)
+                ->findAll();
+        }
+
+        return $this->render('Admin/all_products.html.twig', [
+            'products' => $products,
+            'form' => $form->createView()
         ]);
     }
 }

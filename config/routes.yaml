@@ -10,10 +10,14 @@ admin_index:
     path: /admin
     controller: App\Controller\AdminController::index
 
-admin_productEditor:
+admin_product-editor:
     path: /admin/product-editor/{id}
     controller: App\Controller\AdminController::productEditor
     defaults: { id: null }
+
+admin_all-products:
+    path: /admin/all-products
+    controller: App\Controller\AdminController::allProducts
 
 basket_show:
     path: /basket

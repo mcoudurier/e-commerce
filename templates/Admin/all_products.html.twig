@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+<h1 class="my-4">Produits</h1>
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+<table class="table table-hover">
+    <thead>
+        <tr class="row">
+            <th class="col-md-2 d-sm-table-cell d-none"></th>
+            <th class="col-md d-sm-table-cell d-none">Nom</th>
+            <th class="col-md d-sm-table-cell d-none">Catégorie</th>
+            <th class="col-md d-sm-table-cell d-none">Stock</th>
+        </tr>
+    </thead>
+    {% if products is not empty %}
+        {% for product in products %}
+        <tr class="row tr-link" data-href="{{ path('admin_product-editor', {'id': product.id }) }}">
+            <td class="col-md-2 d-sm-table-cell d-block">
+                {% set thumb = product.images|first %}
+                <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product__img img img-fluid">
+            </td>
+            <td class="col-md d-sm-table-cell d-block">{{ product.name }}</td>
+            <td class="col-md d-sm-table-cell d-block">{{ product.category }}</td>
+            <td class="col-md d-sm-table-cell d-block">{{ product.stock }}</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+    <tr><td>Aucun résultat</td></tr>
+    {% endif %}
+</table>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/allProducts.js"></script>
+{% endblock %}
