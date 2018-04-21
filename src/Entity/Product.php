@@ -51,7 +51,7 @@ class Product
     private $weight;
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product", cascade={"persist"})
      */
     private $images;
 
@@ -69,6 +69,12 @@ class Product
         $metadata->addPropertyConstraint('description', new Assert\Type('string'));
         $metadata->addPropertyConstraint('category', new Assert\Type('string'));
         $metadata->addPropertyConstraint('stock', new Assert\Type('int'));
+        $metadata->addPropertyConstraint('images', new Assert\Count([
+            'min' => 1,
+            'max' => 3,
+            'minMessage' => 'Chaque produit doit avoir au moins une image',
+            'maxMessage' => 'Un produit ne peut pas avoir plus de trois images'
+        ]));
     }
 
     public function setId(int $id)
@@ -171,5 +177,17 @@ class Product
     public function calcTotalPrice(): float
     {
         return $this->quantity * $this->price;
+    }
+
+    public function addImage(Image $image)
+    {
+        $image->setProduct($this);
+        
+        $this->images->add($image);
+    }
+
+    public function removeImage(Image $image)
+    {
+        $this->images->remove($image);
     }
 }

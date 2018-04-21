@@ -25,7 +25,11 @@ class ProductType extends AbstractType
             ->add('price', MoneyType::class)
             ->add('weight', NumberType::class)
             ->add('images', CollectionType::class, [
-                'entry_type' => ImageType::class
+                'entry_type' => ImageType::class,
+                'entry_options' => [ 'label' => false ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
             ])
             ->add('send', SubmitType::class)
         ;

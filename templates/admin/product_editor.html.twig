@@ -5,7 +5,23 @@
     <h1 class="mb-4">{{ title }}</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.weight) }}
+        <h3>Images</h3>
+        <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+            {% for image in form.images %}
+                <li>{{ form_row(image.file) }}</li>
+                <li>{{ form_row(image.description) }}</li>
+            {% endfor %}
+        </ul>
     {{ form_end(form) }}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/productEditor.js"></script>
 {% endblock %}

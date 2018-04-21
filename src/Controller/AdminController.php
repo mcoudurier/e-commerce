@@ -54,6 +54,8 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
+            
+            $this->addFlash('success', 'Produit ajouté');
         }
 
         return $this->render('admin/product_editor.html.twig', [
