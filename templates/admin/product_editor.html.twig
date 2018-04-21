@@ -2,7 +2,12 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block admin_content %}
-    <h1 class="mb-4">{{ title }}</h1>
+    <header class="mb-4 d-flex align-items-center justify-content-between">
+        <h1>{{ title }}</h1>
+        {% if form.vars.data.id is not empty %}
+            <a href="{{ path('product_delete', {'id': form.vars.data.id }) }}" class="delete-product btn btn-danger">Supprimer</a>
+        {% endif %}
+    </header>
 
     {{ form_start(form) }}
         {{ form_row(form.name) }}

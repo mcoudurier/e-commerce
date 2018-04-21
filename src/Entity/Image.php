@@ -21,7 +21,7 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="images")
-     * @ORM\JoinColumn(name="productId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="productId", referencedColumnName="id", onDelete="CASCADE")
      */
     private $product;
 

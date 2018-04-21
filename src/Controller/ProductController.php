@@ -31,4 +31,18 @@ class ProductController extends Controller
             'product' => $product
         ]);
     }
+
+    public function delete($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+       
+        $product = $em->getRepository(Product::class)->find($id);
+        
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash('success', 'Produit supprimé');
+
+        return $this->redirectToRoute('admin_index');
+    }
 }

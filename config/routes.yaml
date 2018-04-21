@@ -6,6 +6,10 @@ product_show:
     path: /product/{id}
     controller: App\Controller\ProductController::show
 
+product_delete:
+    path: /admin/delete-product/{id}
+    controller: App\Controller\ProductController::delete
+
 admin_index:
     path: /admin
     controller: App\Controller\AdminController::index
