@@ -46,7 +46,7 @@ class AdminController extends Controller
                 $filesize = filesize($file);
                 $image->setSize($filesize);
                 $image->setName($filename);
-                $file->move('img/upload/', $filename);
+                $file->move($this->getParameter('images_directory'), $filename);
             }
 
             $product = $form->getData();
