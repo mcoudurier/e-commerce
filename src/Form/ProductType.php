@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\Product;
 
 class ProductType extends AbstractType
@@ -19,7 +20,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('description', TextType::class)
+            ->add('description', TextAreaType::class)
             ->add('category', TextType::class)
             ->add('stock', IntegerType::class)
             ->add('price', MoneyType::class)
