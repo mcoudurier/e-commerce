@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,12 +29,24 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function search(?string $query)
+    public function search(?string $query, int $firstResult = 0, int $maxResults = 10)
     {
-        return $this->createQueryBuilder('p')
+        $query = $this->createQueryBuilder('p')
             ->where('p.name LIKE :query')
-            ->setParameter('query', '%'.addcslashes($query, '%_').'%')
-            ->getQuery()
-            ->getResult();
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults)
+            ->setParameter('query', '%'.addcslashes($query, '%_').'%');
+
+        return new Paginator($query);
+    }
+
+    public function getPaginated(int $firstResult = 0, int $maxResults = 10)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p')
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults);
+
+        return new Paginator($query);
     }
 }

@@ -77,6 +77,10 @@ class AdminController extends Controller
             ->getForm();
         
         $form->handleRequest($req);
+            
+        $maxResults = 10;
+        $currentPage = $req->get('page');
+        $firstResult = $maxResults * ($currentPage - 1);
        
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -84,18 +88,23 @@ class AdminController extends Controller
             
             $products = $this->getDoctrine()
                 ->getRepository(Product::class)
-                ->search($query['search']);
+                ->search($query['search'], $firstResult, $maxResults);
         }
         else
         {
             $products = $this->getDoctrine()
                 ->getRepository(Product::class)
-                ->findAll();
+                ->getPaginated($firstResult, $maxResults);
         }
+        
+        $totalResults = count($products);
+        $totalPages = ceil($totalResults / $maxResults);
 
         return $this->render('admin/all_products.html.twig', [
             'products' => $products,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'totalPages' => $totalPages,
+            'currentPage' => $currentPage
         ]);
     }
 }

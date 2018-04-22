@@ -20,8 +20,11 @@ admin_product-editor:
     defaults: { id: null }
 
 admin_all-products:
-    path: /admin/all-products
+    path: /admin/all-products/{page}
     controller: App\Controller\AdminController::allProducts
+    defaults: { page: 1 }
+    requirements:
+        page: '\d+'
 
 basket_show:
     path: /basket
