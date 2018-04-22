@@ -5,10 +5,14 @@ index:
 product_show:
     path: /product/{id}
     controller: App\Controller\ProductController::show
+    requirements:
+        id: '\d+'
 
 product_delete:
     path: /admin/delete-product/{id}
     controller: App\Controller\ProductController::delete
+    requirements:
+        id: '\d+'
 
 admin_index:
     path: /admin
@@ -18,6 +22,8 @@ admin_product-editor:
     path: /admin/product-editor/{id}
     controller: App\Controller\AdminController::productEditor
     defaults: { id: null }
+    requirements:
+        id: '\d+'
 
 admin_all-products:
     path: /admin/all-products/{page}
@@ -37,6 +43,8 @@ basket_add:
 basket_remove:
     path: /basket/remove/{id}
     controller: App\Controller\BasketController::remove
+    requirements:
+        id: '\d+'
 
 basket_update:
     path: /basket/update
