@@ -20,10 +20,29 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    public function find($id, $lockMode = null, $lockVersion = null)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.id = :id')
+            ->andWhere('p.active = true')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findAll()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.active = true')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllById(array $ids)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.id IN (:ids)')
+            ->where('p.id IN (:ids)')
+            ->andWhere('p.active = true')
             ->setParameter('ids', $ids)
             ->getQuery()
             ->getResult();
@@ -33,6 +52,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.name LIKE :query')
+            ->andWhere('p.active = true')
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults)
             ->setParameter('query', '%'.addcslashes($query, '%_').'%');
@@ -44,6 +64,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->select('p')
+            ->where('p.active = true')
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);
 

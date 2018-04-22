@@ -37,8 +37,9 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
        
         $product = $em->getRepository(Product::class)->find($id);
+        $product->setActive(false);
         
-        $em->remove($product);
+        $em->persist($product);
         $em->flush();
 
         $this->addFlash('success', 'Produit supprimé');
