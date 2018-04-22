@@ -93,7 +93,16 @@ class PaypalController extends Controller
             return new Response('Payement impossible');
         }
 
-        $this->addFlash('success', 'Merci pour votre achat');
-        return $this->redirectToRoute('index');
+        $message = (new \Swift_Message('Confirmation de commande'))
+            ->setFrom('send@example.com')
+            ->setTo($this->getUser()->getEmail())
+            ->setBody(
+                $this->renderView('emails/order_confirmation.html.twig'),
+                'text/html'
+            );
+
+        $mailer->send($message);
+
+        return $this->render('shop/order_confirmation.html.twig');
     }
 }
