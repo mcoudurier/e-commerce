@@ -52,7 +52,7 @@ class Address
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="addresses")
-     * @ORM\JoinColumn(name="userId", nullable=false)
+     * @ORM\JoinColumn(name="user_id", nullable=false)
      */
     private $user;
     
