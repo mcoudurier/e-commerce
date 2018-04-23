@@ -34,6 +34,12 @@ class Order
      */
     private $dateModified;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="orders")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -96,6 +102,18 @@ class Order
     public function setDateModified(?\DateTimeInterface $dateModified): self
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

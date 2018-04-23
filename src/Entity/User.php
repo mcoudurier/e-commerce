@@ -59,9 +59,15 @@ class User implements UserInterface, \Serializable
      */
     private $addresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getPlainPassword(): ?string
@@ -215,6 +221,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($address->getUser() === $this) {
                 $address->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
             }
         }
 
