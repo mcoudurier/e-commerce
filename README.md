@@ -11,4 +11,11 @@ Setup the database connection in .env then run
 ```
 php bin/console doctrine:database:create
 php bin/console doctrine:schema:create
-``
+```
+
+## Built with
+- Symfony 4
+- Doctrine
+- Twig
+- Bootstrap
+- Paypal rest-api-sdk
