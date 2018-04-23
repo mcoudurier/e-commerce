@@ -11,7 +11,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="uniq_email", columns={"email"})})
+ * @ORM\Table(
+ *     name="users",
+ *     options={"row_format":"DYNAMIC"},
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="uniq_email", columns={"email"})
+ *     }
+ * )
  */
 class User implements UserInterface, \Serializable
 {
