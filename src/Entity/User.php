@@ -90,11 +90,18 @@ class User implements UserInterface, \Serializable
     {
         $metadata->addPropertyConstraint('id', new Assert\GreaterThan(0));
         $metadata->addPropertyConstraint('username', new Assert\Type('string'));
+        
         $metadata->addPropertyConstraint('password', new Assert\Type('string'));
+        
+        $metadata->addPropertyConstraint('email', new Assert\Email());
         $metadata->addPropertyConstraint('firstName', new Assert\Type('string'));
         $metadata->addPropertyConstraint('lastName', new Assert\Type('string'));
-        $metadata->addPropertyConstraint('role', new Assert\Type('array'));
+        $metadata->addPropertyConstraint('role', new Assert\Type('string'));
+        
         $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('plainPassword', new Assert\Length([
+            'min' => 6
+        ]));
     }
 
     public function getId()
@@ -102,14 +109,14 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getRoles(): array
+    public function getRoles(): string
     {
-        return [$this->role];
+        return $this->role;
     }
     
-    public function setRoles($roles): self
+    public function setRoles($role): self
     {
-        $this->role = $roles;
+        $this->role = $role;
         
         return $this;
     }
