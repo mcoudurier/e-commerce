@@ -109,9 +109,9 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getRoles(): string
+    public function getRoles(): array
     {
-        return $this->role;
+        return [$this->role];
     }
     
     public function setRoles($role): self
