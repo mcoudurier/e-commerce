@@ -3,7 +3,35 @@
 
 {% block shop_content %}
 
-<a href="{{ path('user_edit-address') }}">Mon addresse</a>
-<a href="{{ path('user_change-password') }}">Changer de mot de passe</a>
+<header>
+    <h1>Mon compte</h1>
+</header>
+
+<section class="card mt-4">
+    <header class="card-header">
+        <h3>Identification</h3>
+    </header>
+    <div class="row card-body">
+        <div class="col">
+            <h4>email</h4>
+            <p>{{ app.user.email }}</p>
+        </div>
+        <div class="col">
+            <h4>Mot de passe</h4>
+            <a href="{{ path('user_change-password') }}" class="btn btn-secondary">Changer</a>
+        </div>
+    </div>
+</section>
+
+<section class="card mt-4">
+    <header class="card-header">
+        <h3>Adresse</h3>
+    </header>
+    <div class="card-body">
+        {{ render(controller(
+            'App\\Controller\\UserController::editAddress'
+        ))}}
+    </div>
+</section>
 
 {% endblock %}

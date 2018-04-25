@@ -3,8 +3,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\User;
 use App\Entity\Address;
 use App\Form\AddressType;
@@ -36,7 +34,7 @@ class UserController extends Controller
             'method' => 'POST'
         ]);
         
-        return $this->render('shop/account/login.html.twig', [
+        return $this->render('shop/account/login_form.html.twig', [
             'loginForm' => $form->createView(),
             'error' => $error,
             'lastUserName' => $lastUsername
@@ -46,15 +44,13 @@ class UserController extends Controller
     public function register($form = null, Request $req, UserPasswordEncoderInterface $passwordEncoder)
     {
         // Injected form with errors
-        if ($form)
-        {
+        if ($form) {
             return $this->render('shop/account/register.html.twig', [
                 'registrationForm' => $form->createView(),
             ]);
         }
 
-        $user = new User();
-        $form = $this->createForm(RegisterType::class, $user, [
+        $form = $this->createForm(RegisterType::class, new User(), [
             'action' => $this->generateUrl('user_register'),
             'method' => 'POST'
         ]);
@@ -81,7 +77,7 @@ class UserController extends Controller
             return $this->redirectToRoute('user_account');
         }
 
-        return $this->render('shop/account/register.html.twig', [
+        return $this->render('shop/account/register_form.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -91,19 +87,19 @@ class UserController extends Controller
         return $this->render('shop/account/account.html.twig');
     }
 
-    public function editAddress(Request $req)
+    public function editAddress()
     {
         $address = new Address();
         
         $user = $this->getUser();
-        if (!$user->getAddresses()->isEmpty())
-        {
+        if (!$user->getAddresses()->isEmpty()) {
             $address = $user->getAddresses()[0];
         }
         
         $form = $this->createForm(AddressType::class, $address);
         
-        $form->handleRequest($req);
+        $masterRequest = $this->get('request_stack')->getMasterRequest();
+        $form->handleRequest($masterRequest);
         
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -115,8 +111,8 @@ class UserController extends Controller
             $em->flush();
         }
 
-        return $this->render('shop/account/editAddress.html.twig', [
-            'form' => $form->createView()
+        return $this->render('shop/account/address_form.html.twig', [
+            'address_form' => $form->createView()
         ]);
     }
 
@@ -144,7 +140,7 @@ class UserController extends Controller
             return $this->redirectToRoute('user_account');
         }
 
-        return $this->render('shop/account/changePassword.html.twig', [
+        return $this->render('shop/account/change_password.html.twig', [
             'form' => $form->createView()
         ]);
     }
