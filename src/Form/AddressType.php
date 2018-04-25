@@ -6,7 +6,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Address;
 
 class AddressType extends AbstractType
@@ -31,9 +30,6 @@ class AddressType extends AbstractType
             ->add('phone', TelType::class, [
                 'required' => false,
                 'label' => 'Téléphone'
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer'
             ])
         ;
     }
