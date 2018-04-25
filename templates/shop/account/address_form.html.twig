@@ -1,0 +1,18 @@
+{{ form_start(address_form) }}
+    {{ form_row(address_form.address1) }}
+    {{ form_row(address_form.address2) }}
+    <div class="form-row">
+        <div class="col form-group">
+            {{ form_label(address_form.postCode) }}
+            {{ form_errors(address_form.postCode) }}
+            {{ form_widget(address_form.postCode) }}
+        </div>
+        <div class="col form-group">
+            {{ form_label(address_form.city) }}
+            {{ form_errors(address_form.city) }}
+            {{ form_widget(address_form.city) }}
+        </div>
+    </div>
+    {{ form_row(address_form.phone) }}
+    <input type="submit" value="Enregistrer" class="btn btn-primary">
+{{ form_end(address_form) }}
