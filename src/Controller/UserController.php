@@ -41,29 +41,14 @@ class UserController extends Controller
         ]);
     }
 
-    public function register($form = null, Request $req, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(UserPasswordEncoderInterface $passwordEncoder)
     {
-        // Injected form with errors
-        if ($form) {
-            return $this->render('shop/account/register.html.twig', [
-                'registrationForm' => $form->createView(),
-            ]);
-        }
+        $user = new User();
+        $form = $this->createForm(RegisterType::class, $user);
 
-        $form = $this->createForm(RegisterType::class, new User(), [
-            'action' => $this->generateUrl('user_register'),
-            'method' => 'POST'
-        ]);
-
-        $form->handleRequest($req);
+        $masterRequest = $this->get('request_stack')->getMasterRequest();
+        $form->handleRequest($masterRequest);
         
-        // Reinject in the welcome page to display errors
-        if ($form->isSubmitted() && !$form->isValid()) {
-            return $this->forward('App\Controller\UserController::welcome', [
-                'form' => $form
-            ]);
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
@@ -73,8 +58,6 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
-            return $this->redirectToRoute('user_account');
         }
 
         return $this->render('shop/account/register_form.html.twig', [
