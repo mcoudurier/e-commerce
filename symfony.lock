@@ -95,6 +95,9 @@
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
     },
+    "stripe/stripe-php": {
+        "version": "v6.6.0"
+    },
     "swiftmailer/swiftmailer": {
         "version": "v6.0.2"
     },

@@ -1,0 +1,21 @@
+{% extends 'shop/layout.html.twig' %}
+{% block title %}Confirmation de commande{% endblock %}
+
+{% block shop_content %}
+
+<form action="{{ path('stripe_checkout') }}" method="POST">
+    <script
+        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="{{ stripe_pk }}"
+        data-amount="{{ total_price }}"
+        data-name="Demo Site"
+        data-description="Example charge"
+        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+        data-locale="auto"
+        data-currency="eur">
+    </script>
+</form>
+
+<a href="{{ path('paypal_checkout') }}" class="basket-checkout__order btn btn-primary">Commander</a>
+
+{% endblock %}

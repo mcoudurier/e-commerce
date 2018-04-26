@@ -76,7 +76,7 @@ class PaypalController extends Controller
      * @param Request $req
      * @return void
      */
-    public function paypalPayment(Request $req)
+    public function paypalPayment(Request $req, \Swift_Mailer $mailer)
     {
         $payment = Payment::get($req->get('paymentId'), $this->apiContext);
         
