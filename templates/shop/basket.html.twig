@@ -3,7 +3,9 @@
 
 {% block shop_content %}
 
-<h1 class="my-4">Mon panier</h1>
+<header>
+    <h1>Mon panier</h1>
+</header>
 
 {% if products is empty %}
     <div class="basket-empty">
@@ -34,7 +36,7 @@
                     </span>
                 </div>
                 <div class="col">
-                    <a href="/basket/remove/{{ product.id }}" class="basket-product__remove">supprimer</a>
+                    <a href="/basket/remove/{{ product.id }}" class="basket-product__remove btn btn-secondary">&times;</a>
                 </div>
             </div>
         {% endfor %}

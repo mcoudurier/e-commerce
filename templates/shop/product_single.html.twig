@@ -1,26 +1,43 @@
 {% extends 'shop/layout.html.twig' %}
 
 {% block shop_content %}
-
-    <article class="product">
-        <header class="product__header">
-            {% set thumb = product.images|first %}
-            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product__img img img-fluid">
-            <h1 class="product__heading">
-                {{ product.name }}
-            </h1>
-        </header>
-        <div class="product__description">
-            {{ product.description }}
+    
+    <header class="ml-4">
+        <h1>{{ product.name }}</h1>
+    </header>
+    <div class="border-bottom my-4"></div>
+    <div class="row">
+        <div class="col-md-4">
+            {% set cover = product.images|first %}
+            <div class="image-container">
+                <img src="/img/upload/{{ cover.name }}" alt="{{ cover.description }}" class="img img-fluid product-image">
+            </div>
+            {% if product.images.count > 1 %}
+                {% for image in product.images[:1] %}
+                    <div class="d-flex mt-2">
+                        <div class="mr-2 image-container">
+                            <img src="/img/upload/{{ cover.name }}" alt="{{ cover.description }}" class="img img-fluid product-image">
+                        </div>
+                        <div class="image-container">
+                            <img src="/img/upload/{{ cover.name }}" alt="{{ cover.description }}" class="img img-fluid product-image">
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
-    </article>
-    <aside class="product-buy">
-        <p class="product-buy__price">€ {{ product.price }}</p>
-        {% if product.hasStock %}
-            <a href="/basket/add/{{ product.id }}" class="product-buy__btn">Ajouter au panier</a>
-        {% else %}
-            <p>Rupture de stock</p>
-        {% endif %}
-    </aside>
+        <div class="col-12 col-md-8">
+            <div class="row col-12 mt-md-0 mt-2">
+                {{ product.description }}
+            </div>
+            <div class="row mt-4 d-flex flex-column align-items-end">
+                <p class="product-buy__price font-weight-bold">{{ product.price }} €</p>
+                {% if product.hasStock %}
+                    <a href="/basket/add/{{ product.id }}" class="btn btn-primary">Ajouter au panier</a>
+                {% else %}
+                    <a href="#" class="btn btn-secondary disabled">Rupture de stock</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

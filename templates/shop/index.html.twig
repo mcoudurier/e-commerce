@@ -5,7 +5,7 @@
 
 <div class="row">
     {% for product in products %}
-        <article class="product-card col-4 p-4">
+        <article class="card col-md-4 p-4">
             <header class="product-card__header">
                 {% set thumb = product.images|first %}
                 <a href="/product/{{ product.id }}">
