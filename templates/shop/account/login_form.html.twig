@@ -8,5 +8,8 @@
 {{ form_start(loginForm) }}
     {{ form_row(loginForm.username, {'full_name': '_email', 'value': lastUserName}) }}
     {{ form_row(loginForm.plainPassword, {'full_name': '_password'}) }}
+    {% if order == true %}
+        <input type="hidden" name="_target_path" value="{{ path('checkout_address') }}" />
+    {% endif %}
     <input type="submit" value="Connexion" class="btn btn-primary">
 {{ form_end(loginForm) }}

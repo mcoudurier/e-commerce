@@ -89,6 +89,18 @@ stripe_checkout:
     path: /checkout/stripe
     controller: App\Controller\Payments\StripeController::stripeCheckout
 
-order_details:
-    path: /order/details
-    controller: App\Controller\OrderController::details
+checkout_address:
+    path: /checkout/address
+    controller: App\Controller\CheckoutController::address
+
+checkout_shipping:
+    path: /checkout/shipping
+    controller: App\Controller\CheckoutController::shipping
+
+checkout_summary:
+    path: /checkout/summary
+    controller: App\Controller\CheckoutController::summary
+
+checkout_payment:
+    path: /checkout/payment
+    controller: App\Controller\CheckoutController::payment

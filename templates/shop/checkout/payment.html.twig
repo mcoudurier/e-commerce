@@ -1,7 +1,16 @@
 {% extends 'shop/layout.html.twig' %}
-{% block title %}Confirmation de commande{% endblock %}
+{% block title %}Récapitulatif{% endblock %}
 
 {% block shop_content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Identification</li>
+      <li class="breadcrumb-item">Adresse</li>
+      <li class="breadcrumb-item">Livraison</li>
+      <li class="breadcrumb-item">Récapitulatif</li>
+      <li class="breadcrumb-item active" aria-current="page">Paiement</li>
+    </ol>
+</nav>
 
 <form action="{{ path('stripe_checkout') }}" method="POST">
     <script
@@ -13,8 +22,7 @@
         data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
         data-locale="auto"
         data-currency="eur">
-    </script>
-</form>
+</script>
 
 <a href="{{ path('paypal_checkout') }}" class="basket-checkout__order btn btn-primary">Commander</a>
 

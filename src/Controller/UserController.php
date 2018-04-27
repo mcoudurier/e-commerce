@@ -15,14 +15,16 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends Controller
 {
-    public function welcome($form = null)
+    public function welcome(Request $req, ?bool $order = null)
     {
+        $order = $req->get('order');
+
         return $this->render('shop/account/welcome.html.twig', [
-            'form' => $form
+            'order' => $order
         ]);
     }
 
-    public function login(Request $req, AuthenticationUtils $authenticationUtils)
+    public function login(Request $req, AuthenticationUtils $authenticationUtils, ?bool $order)
     {
         $user = new User();
 
@@ -37,11 +39,12 @@ class UserController extends Controller
         return $this->render('shop/account/login_form.html.twig', [
             'loginForm' => $form->createView(),
             'error' => $error,
-            'lastUserName' => $lastUsername
+            'lastUserName' => $lastUsername,
+            'order' => $order,
         ]);
     }
 
-    public function register(UserPasswordEncoderInterface $passwordEncoder)
+    public function register(UserPasswordEncoderInterface $passwordEncoder, ?bool $order)
     {
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
@@ -62,6 +65,7 @@ class UserController extends Controller
 
         return $this->render('shop/account/register_form.html.twig', [
             'registrationForm' => $form->createView(),
+            'order' => $order,
         ]);
     }
 

@@ -135,4 +135,11 @@ class Basket implements \Countable
 
         return round($totalPrice, 3);
     }
+
+    public function vatPrice(float $totalPrice, float $vatRate = 0.2): float
+    {
+        $netPrice = $totalPrice / (1 + $vatRate);
+        $vatPrice = $totalPrice - $netPrice;
+        return round($vatPrice, 2);
+    }
 }

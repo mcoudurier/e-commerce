@@ -1,0 +1,63 @@
+{% extends 'shop/layout.html.twig' %}
+{% block title %}Récapitulatif{% endblock %}
+
+{% block shop_content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Identification</li>
+      <li class="breadcrumb-item">Adresse</li>
+      <li class="breadcrumb-item">Livraison</li>
+      <li class="breadcrumb-item active" aria-current="page">Récapitulatif</li>
+      <li class="breadcrumb-item">Paiement</li>
+    </ol>
+</nav>
+
+<table class="table">
+    <thead>
+        <tr class="row">
+            <th class="col">Produit</th>
+            <th class="col">Quantité</th>
+            <th class="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr class="row">
+                <td class="col">
+                    <div class="row">
+                        {% set image = product.images|first %}
+                        <div class="col">
+                            <img src="/img/upload/{{ image.name }}" alt="{{ image.description }}" class="img img-fluid">
+                        </div>
+                        <div class="col">
+                            {{ product.name }}
+                        </div>
+                    </div>
+                </td>
+                <td class="col">{{ product.quantity }}</td>
+                <td class="col">{{ product.calcTotalPrice }} €</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-end">
+    <div>
+        <p>
+            Sous total: {{ totalPrice }} €
+        </p>
+        <p>
+            Livraison: 
+        </p>
+        <p>
+            TVA 20%: {{ vatPrice }} €
+        </p>
+        <p>
+            Total à payer: 
+        </p>
+    </div>
+</div>
+
+<a href="{{ path('checkout_payment') }}" class="btn btn-primary">Suivant</a>
+
+{% endblock %}

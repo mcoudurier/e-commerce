@@ -1,0 +1,19 @@
+{% extends 'shop/layout.html.twig' %}
+{% block title %}Livraison{% endblock %}
+
+{% block shop_content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Identification</li>
+      <li class="breadcrumb-item">Adresse</li>
+      <li class="breadcrumb-item active" aria-current="page">Livraison</li>
+      <li class="breadcrumb-item">Récapitulatif</li>
+      <li class="breadcrumb-item">Paiement</li>
+    </ol>
+</nav>
+
+<a href="{{ path('checkout_summary') }}" class="btn btn-primary">Suivant</a>
+
+</form>
+
+{% endblock %}

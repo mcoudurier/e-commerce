@@ -45,9 +45,13 @@
     <div class="row">
         <div class="basket-checkout ml-auto">
             <p class="basket-checkout__total">
-                Total: <span class="basket-checkout__total-price">{{ totalPrice }}</span> €
+                Sous total: <span class="basket-checkout__total-price">{{ totalPrice }}</span> €
             </p>
-            <a href="{{ path('order_details') }}" class="basket-checkout__order btn btn-primary">Commander</a>
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ path('checkout_address') }}" class="basket-checkout__order btn btn-primary">Commander</a>
+            {% else %}
+                <a href="{{ path('user_welcome', {'order': true }) }}" class="basket-checkout__order btn btn-primary">Commander</a>
+            {% endif %}
         </div>
     </div>
 

@@ -2,5 +2,8 @@
     {{ form_row(registrationForm.email) }}
     {{ form_row(registrationForm.plainPassword.first) }}
     {{ form_row(registrationForm.plainPassword.second) }}
+    {% if order == true %}
+        <input type="hidden" name="_target_path" value="{{ path('checkout_address') }}" />
+    {% endif %}
     <input type="submit" value="Créer" class="btn btn-primary">
 {{ form_end(registrationForm) }}
