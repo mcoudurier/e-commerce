@@ -16,13 +16,19 @@
         {{ form_row(form.stock) }}
         {{ form_row(form.price) }}
         {{ form_row(form.weight) }}
-        <h3>Images</h3>
-        <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+        <div class="d-flex mb-2">
+            <h3>Images</h3>
+            <button class="add-image btn btn-secondary ml-2">Ajouter</button>
+        </div>
+        <div class="images row" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
             {% for image in form.images %}
-                <li>{{ form_row(image.file) }}</li>
-                <li>{{ form_row(image.description) }}</li>
+                <div class="col-md-3 image">
+                    <img src="/img/upload/{{ image.vars.value.name }}" class="img img-fluid">  
+                    <div>{{ form_row(image.description) }}</div>
+                    <div>{{ form_row(image.file) }}</div>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
         <input type="submit" value="Valider" class="btn btn-primary">
     {{ form_end(form) }}
 
