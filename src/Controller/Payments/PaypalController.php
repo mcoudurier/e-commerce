@@ -44,7 +44,7 @@ class PaypalController extends Controller
     public function paypalCheckout(Request $req)
     {
         $payer = new Payer();
-        $payer->setPaymentMethod("paypal");
+        $payer->setPaymentMethod('paypal');
 
         $baseUrl = $req->getScheme() . '://' . $req->getHttpHost();
 
@@ -58,12 +58,9 @@ class PaypalController extends Controller
             ->addTransaction(PaypalFactory::create($this->basket))
             ->setRedirectUrls($redirectUrls);
         
-        try
-        {
+        try {
             $payment->create($this->apiContext);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return new Response('Payement impossible');
         }
         
@@ -84,12 +81,9 @@ class PaypalController extends Controller
             ->setPayerId($req->get('PayerID'))
             ->setTransactions($payment->getTransactions());
         
-        try
-        {
+        try {
             $payment->execute($execution, $this->apiContext);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return new Response('Payement impossible');
         }
 

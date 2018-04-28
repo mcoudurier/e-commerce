@@ -51,15 +51,11 @@ class CreateAdminCommand extends Command
 
         $errors = $this->validator->validate($user);
 
-        if (count($errors) > 0) 
-        {
+        if (count($errors) > 0) {
             $output->writeln((string) $errors);
-        }
-        else
-        {
+        } else {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-            
             $output->writeln(['Admin user successfully created and added to the database']);
         }
     }

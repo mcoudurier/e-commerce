@@ -5,7 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
 use App\Entity\Basket;
 use App\Entity\Product;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -19,54 +18,56 @@ class BasketController extends Controller
         $this->basket = new Basket($objectManager);
     }
 
-    public function show(Request $req)
+    public function show()
     {
         $products = [];
         $totalPrice = 0;
 
-        if ($this->basket->hasProducts())
-        {
+        if ($this->basket->hasProducts()) {
             $products = $this->basket->getProducts();
             $totalPrice = $this->basket->totalPrice($products);
         }
 
         return $this->render('shop/basket.html.twig', [
             'products' => $products,
-            'totalPrice' => $totalPrice
+            'totalPrice' => $totalPrice,
         ]);
     }
 
-    public function add(Request $req)
+    public function add($id)
     {
-        $id = $req->get('id');
-        
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
             ->find($id);
-
-        if ($product->hasStock())
-        {
-            $this->basket->add($product);
+        
+        if (!$product) {
+            throw $this->createNotFoundException();
         }
-        else
-        {
+
+        if ($product->hasStock()) {
+            $this->basket->add($product);
+        } else {
             $this->addFlash('primary', 'Le produit n\'est plus en stock');
         }
 
-        return $this->redirect('/product/' . $id);
+        return $this->redirectToRoute('product_show', [
+            'id' => $id,
+        ]);
     }
 
-    public function remove(Request $req)
+    public function remove($id)
     {
-        $id = $req->get('id');
-        
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
             ->find($id);
+        
+        if (!$product) {
+            throw $this->createNotFoundException();
+        }
 
         $this->basket->remove($product);
 
-        return $this->redirect('/basket');
+        return $this->redirectToRoute('basket_show');
     }
 
     public function update(Request $req)
@@ -78,6 +79,10 @@ class BasketController extends Controller
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
             ->find($id);
+        
+        if (!$product) {
+            throw $this->createNotFoundException();
+        }
 
         $this->basket->update($product, $quantity);
             
@@ -86,7 +91,7 @@ class BasketController extends Controller
 
         return new JsonResponse([
             'price' => $product->calcTotalPrice(),
-            'totalPrice' => $totalPrice
+            'totalPrice' => $totalPrice,
         ]);
     }
 

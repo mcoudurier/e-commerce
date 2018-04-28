@@ -15,13 +15,12 @@ class AdminController extends Controller
         return $this->render('admin/index.html.twig');
     }
 
-    public function productEditor(Request $req)
+    public function productEditor(Request $req, $id)
     {
         $product = new Product();
         $title = 'Nouveau produit';
         
-        if ($id = $req->get('id'))
-        {
+        if ($id) {
             $product = $this->getDoctrine()
                 ->getRepository(Product::class)
                 ->find($id);
@@ -37,10 +36,9 @@ class AdminController extends Controller
 
         $form->handleRequest($req);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            foreach ($product->getImages() as $image)
-            {
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            foreach ($product->getImages() as $image) {
                 $file = $image->getFile();
                 $filename = time().'_'.$file->getClientOriginalName();
                 $filesize = filesize($file);
@@ -60,38 +58,34 @@ class AdminController extends Controller
 
         return $this->render('admin/product_editor.html.twig', [
             'form' => $form->createView(),
-            'title' => $title
+            'title' => $title,
         ]);
     }
 
-    public function allProducts(Request $req)
+    public function allProducts(Request $req, $page)
     {
         $form = $this->createFormBuilder()
             ->add('search', SearchType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher'
-                ]
+                    'placeholder' => 'Rechercher',
+                ],
             ])
             ->getForm();
         
         $form->handleRequest($req);
             
         $maxResults = 10;
-        $currentPage = $req->get('page');
-        $firstResult = $maxResults * ($currentPage - 1);
+        $firstResult = $maxResults * ($page - 1);
        
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $query = $form->getData();
             
             $products = $this->getDoctrine()
                 ->getRepository(Product::class)
                 ->search($query['search'], $firstResult, $maxResults);
-        }
-        else
-        {
+        } else {
             $products = $this->getDoctrine()
                 ->getRepository(Product::class)
                 ->getPaginated($firstResult, $maxResults);
@@ -104,7 +98,7 @@ class AdminController extends Controller
             'products' => $products,
             'form' => $form->createView(),
             'totalPages' => $totalPages,
-            'currentPage' => $currentPage
+            'currentPage' => $page,
         ]);
     }
 }

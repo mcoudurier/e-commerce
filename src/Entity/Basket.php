@@ -26,15 +26,14 @@ class Basket implements \Countable
         $id = $product->getId();
         $quantity = 1;
 
-        if ($this->hasProduct($id))
-        {
+        if ($this->hasProduct($id)) {
             $quantity = $products[$product->getId()]['quantity'];
             $quantity++;
         }
 
         $products[$product->getId()] = [
             'id' => $id,
-            'quantity' => $quantity
+            'quantity' => $quantity,
         ];
 
         $this->session->set('products', $products);
@@ -46,7 +45,7 @@ class Basket implements \Countable
 
         $products[$product->getId()] = [
             'id' => $product->getId(),
-            'quantity' => $quantity
+            'quantity' => $quantity,
         ];
         
         $this->session->set('products', $products);
@@ -71,8 +70,7 @@ class Basket implements \Countable
      */
     public function getProducts(): ?array
     {
-        if ($this->hasProducts())
-        {
+        if ($this->hasProducts()) {
             $ids = array_column($this->all(), 'id');
 
             $products = $this->objectManager
@@ -113,10 +111,8 @@ class Basket implements \Countable
     {
         $quantity = 0;
 
-        if ($products = $this->all())
-        {
-            foreach ($products as $product)
-            {
+        if ($products = $this->all()) {
+            foreach ($products as $product) {
                 $quantity += $product['quantity'];
             }
         }
@@ -128,12 +124,11 @@ class Basket implements \Countable
     {
         $totalPrice = 0;
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $totalPrice += $product->calcTotalPrice();
         }
 
-        return round($totalPrice, 3);
+        return round($totalPrice, 2);
     }
 
     public function vatPrice(float $totalPrice, float $vatRate = 0.2): float

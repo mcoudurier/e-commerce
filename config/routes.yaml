@@ -39,6 +39,8 @@ basket_show:
 basket_add:
     path: /basket/add/{id}
     controller: App\Controller\BasketController::add
+    requirements:
+        id: '\d+'
 
 basket_remove:
     path: /basket/remove/{id}

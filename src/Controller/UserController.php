@@ -20,7 +20,7 @@ class UserController extends Controller
         $order = $req->get('order');
 
         return $this->render('shop/account/welcome.html.twig', [
-            'order' => $order
+            'order' => $order,
         ]);
     }
 
@@ -33,7 +33,6 @@ class UserController extends Controller
 
         $form = $this->createForm(LoginType::class, $user, [
             'action' => $this->generateUrl('user_login'),
-            'method' => 'POST'
         ]);
         
         return $this->render('shop/account/login_form.html.twig', [
@@ -99,7 +98,7 @@ class UserController extends Controller
         }
 
         return $this->render('shop/account/address_form.html.twig', [
-            'address_form' => $form->createView()
+            'address_form' => $form->createView(),
         ]);
     }
 
@@ -128,7 +127,7 @@ class UserController extends Controller
         }
 
         return $this->render('shop/account/change_password.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

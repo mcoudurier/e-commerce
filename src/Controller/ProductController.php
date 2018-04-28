@@ -13,7 +13,7 @@ class ProductController extends Controller
             ->findAll();
 
         return $this->render('shop/index.html.twig', [
-            'products' => $products
+            'products' => $products,
         ]);
     }
 
@@ -28,7 +28,7 @@ class ProductController extends Controller
         }
 
         return $this->render('shop/product_single.html.twig', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 

@@ -33,8 +33,7 @@ class CheckoutController extends Controller
 
     public function shipping()
     {
-        return $this->render('shop/checkout/shipping.html.twig', [
-        ]);
+        return $this->render('shop/checkout/shipping.html.twig');
     }
 
     public function summary()

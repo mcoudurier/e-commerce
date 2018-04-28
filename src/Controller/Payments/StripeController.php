@@ -38,7 +38,7 @@ class StripeController extends Controller
             'currency' => 'eur',
             'description' => 'Test charge',
             'source' => $token,
-            'receipt_email' => $this->getUser()->getEmail()
+            'receipt_email' => $this->getUser()->getEmail(),
         ]);
         
         $message = (new \Swift_Message('Confirmation de commande'))
