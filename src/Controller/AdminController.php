@@ -91,7 +91,10 @@ class AdminController extends Controller
         }
         
         $totalResults = count($products);
-        $totalPages = ceil($totalResults / $maxResults);
+        $totalPages = 1;
+        if ($totalResults > 0) {
+            $totalPages = ceil($totalResults / $maxResults);
+        }
 
         return $this->render('admin/all_products.html.twig', [
             'products' => $products,
