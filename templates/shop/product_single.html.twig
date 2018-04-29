@@ -13,16 +13,13 @@
                 <img src="/img/upload/{{ cover.name }}" alt="{{ cover.description }}" class="img img-fluid product-image">
             </div>
             {% if product.images.count > 1 %}
-                {% for image in product.images[:1] %}
-                    <div class="d-flex mt-2">
-                        <div class="mr-2 image-container">
-                            <img src="/img/upload/{{ cover.name }}" alt="{{ cover.description }}" class="img img-fluid product-image">
-                        </div>
-                        <div class="image-container">
-                            <img src="/img/upload/{{ cover.name }}" alt="{{ cover.description }}" class="img img-fluid product-image">
-                        </div>
+                <div class="d-flex mt-2">
+                {% for image in product.images[1:] %}
+                    <div class="mr-2 image-container w-50">
+                        <img src="/img/upload/{{ image.name }}" alt="{{ image.description }}" class="img img-fluid product-image">
                     </div>
                 {% endfor %}
+                </div>
             {% endif %}
         </div>
         <div class="col-12 col-md-8">
