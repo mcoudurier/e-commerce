@@ -18,7 +18,6 @@
         {{ form_row(form.weight) }}
         <div class="d-flex mb-2">
             <h3>Images</h3>
-            <button class="add-image btn btn-secondary ml-2">Ajouter</button>
         </div>
         <div class="images row" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
             {% for image in form.images %}
@@ -28,8 +27,15 @@
                     <div>{{ form_row(image.file) }}</div>
                 </div>
             {% endfor %}
+            {% if form.images|length < 3 %}
+                <div class="col-md-3 add-image-container">
+                    <div class="w-100 h-100 border add-image d-flex align-items-center justify-content-center">
+                        <i class="far fa-plus-square"></i>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-        <input type="submit" value="Valider" class="btn btn-primary">
+        <input type="submit" value="Valider" class="btn btn-primary mt-4">
     {{ form_end(form) }}
 
 {% endblock %}

@@ -8,3 +8,9 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+.add-image {
+    outline: 1px dotted #ccc;
+    font-size: 5rem;
+    min-height: 400px;
+}
