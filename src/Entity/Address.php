@@ -13,6 +13,9 @@ use App\Validator\Constraints\PhoneNumber;
  */
 class Address
 {
+    const TYPE_BILLING = 'billing';
+    const TYPE_SHIPPING = 'shipping';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -55,6 +58,11 @@ class Address
      * @ORM\JoinColumn(name="user_id", nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -152,6 +160,21 @@ class Address
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        if (!in_array($type, [self::TYPE_BILLING, self::TYPE_SHIPPING])) {
+            throw new \InvalidArgumentException('Invalid address type');
+        }
+        $this->type = $type;
 
         return $this;
     }
