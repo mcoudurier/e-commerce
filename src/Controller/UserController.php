@@ -81,6 +81,8 @@ class UserController extends Controller
         $user = $this->getUser();
         if (!$user->getAddresses()->isEmpty()) {
             $address = $user->getAddresses()[0];
+        } else {
+            $user->addAddress($address);
         }
         
         $form = $this->createForm(UserContactType::class, $user);

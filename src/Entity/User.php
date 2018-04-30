@@ -162,7 +162,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
     
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -174,7 +174,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
