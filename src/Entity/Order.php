@@ -40,6 +40,18 @@ class Order
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
+     * @ORM\JoinColumn(name="shipping_address_id", referencedColumnName="id", nullable=false)
+     */
+    private $shippingAddress;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
+     * @ORM\JoinColumn(name="billing_address_id", referencedColumnName="id", nullable=false)
+     */
+    private $billingAddress;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -114,6 +126,30 @@ class Order
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getShippingAddress(): ?Address
+    {
+        return $this->shippingAddress;
+    }
+
+    public function setShippingAddress(?Address $shippingAddress): self
+    {
+        $this->shippingAddress = $shippingAddress;
+
+        return $this;
+    }
+
+    public function getBillingAddress(): ?Address
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(?Address $billingAddress): self
+    {
+        $this->billingAddress = $billingAddress;
 
         return $this;
     }
