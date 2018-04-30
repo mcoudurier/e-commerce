@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Entity\Address;
 use App\Form\AddressType;
+use App\Form\UserContactType;
 use App\Form\LoginType;
 use App\Form\RegisterType;
 use App\Form\ChangePasswordType;
@@ -82,7 +83,7 @@ class UserController extends Controller
             $address = $user->getAddresses()[0];
         }
         
-        $form = $this->createForm(AddressType::class, $address);
+        $form = $this->createForm(UserContactType::class, $user);
         
         $masterRequest = $this->get('request_stack')->getMasterRequest();
         $form->handleRequest($masterRequest);
@@ -90,14 +91,15 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             
             $address->setUser($user)
-                    ->setCountry('France');
+                    ->setCountry('France')
+                    ->setType('billing');
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($address);
             $em->flush();
         }
 
-        return $this->render('shop/account/address_form.html.twig', [
+        return $this->render('shop/account/user_contact_form.html.twig', [
             'address_form' => $form->createView(),
         ]);
     }
