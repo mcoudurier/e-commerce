@@ -1,0 +1,83 @@
+{% extends 'admin/layout.html.twig' %}
+{% block title %}Details commande # {{ order.id }}{% endblock title %}
+
+{% block admin_content %}
+<header>
+    <h1>Details commande # {{ order.id }}</h1>
+    <p>Le {{ order.dateCreated|date() }}</p>
+</header>
+
+<div class="row">
+    <section class="shipping col-md-4">
+        <header>
+            <h4>Addresse de livraison</h4>
+        </header>
+        <address>
+            {% set shipping = order.shippingAddress %}
+            {{ order.user.firstName }}
+            {{ order.user.lastName }}<br>
+            {{ shipping.address1 }}<br>
+            {% if shipping.address2 is not null %}
+                {{ shipping.address2 }}<br>
+            {% endif %}
+            {{ shipping.postCode}}<br>
+            {{ shipping.city }}<br>
+            <span>Tel:</span> {{ shipping.phone }}<br>
+        </address>
+    </section>
+    <section class="billing col-md-4">
+        <header>
+            <h4>Addresse de facturation</h4>
+        </header>
+        <address>
+            {% set billing = order.billingAddress %}
+            {{ order.user.firstName }}
+            {{ order.user.lastName }}<br>
+            {{ billing.address1 }}<br>
+            {% if billing.address2 is not null %}
+                {{ billing.address2 }}<br>
+            {% endif %}
+            {{ billing.postCode}}<br>
+            {{ billing.city }}<br>
+            <span>Tel:</span> {{ shipping.phone }}<br>
+        </address>
+    </section>
+</div>
+<table class="table">
+    <thead>
+        <tr class="row">
+            <th class="col-md-2">Produit</th>
+            <th class="col-md">Prix</th>
+            <th class="col-md">Quantité</th>
+            <th class="col-md">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in order.products %}
+            <tr class="row">
+                <td class="col-md-2">
+                    <div class="row">
+                    {% set thumb = product.product.images|first %}
+                        <div class="col-md">
+                            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="img img-fluid">
+                        </div>
+                        <div class="col-md">
+                            {{ product.product.name }}
+                        </div>
+                    </div>
+                </td>
+                <td class="col-md">
+                    {{ product.product.price }} €
+                </td>
+                <td class="col-md">
+                    {{ product.quantity }}
+                </td>
+                <td class="col-md">
+                    {{ product.product.price * product.quantity }} €
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

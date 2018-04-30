@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use App\Form\ProductType;
 use App\Entity\Product;
+use App\Entity\Order;
 
 class AdminController extends Controller
 {
@@ -101,6 +102,32 @@ class AdminController extends Controller
             'form' => $form->createView(),
             'totalPages' => $totalPages,
             'currentPage' => $page,
+        ]);
+    }
+
+    public function orders()
+    {
+        $orders = $this->getDoctrine()
+            ->getRepository(Order::class)
+            ->findAll();
+        
+        return $this->render('admin/orders.html.twig', [
+            'orders' => $orders,
+        ]);
+    }
+
+    public function orderDetails($id)
+    {
+        $order = $this->getDoctrine()
+            ->getRepository(Order::class)
+            ->find($id);
+
+        if (!$order) {
+            throw $this->createNotFoundException('Cette commande n\'existe pas');
+        }
+
+        return $this->render('admin/order_details.html.twig', [
+            'order' => $order,
         ]);
     }
 }

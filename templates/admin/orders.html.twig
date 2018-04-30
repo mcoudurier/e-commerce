@@ -1,0 +1,30 @@
+{% extends 'admin/layout.html.twig' %}
+{% block title %}Commandes{% endblock title %}
+
+{% block admin_content %}
+<h1>Commandes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for order in orders %}
+                <td>
+                    <a href="{{ path('admin_order-details', { 'id': order.id }) }}">{{ order.id }}</a>
+                </td>
+                <td>
+                    {{ order.dateCreated|date('d/m/Y à H\\hi', 'Europe/Paris') }}
+                </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}

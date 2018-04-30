@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Basket;
 use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\Order;
 
 class StripeController extends Controller
 {
@@ -40,6 +41,19 @@ class StripeController extends Controller
             'source' => $token,
             'receipt_email' => $this->getUser()->getEmail(),
         ]);
+        
+        $user = $this->getUser();
+        $address = $user->getAddresses()[0];
+
+        $order = new Order();
+        $order->create($this->basket);
+        $order->setUser($user)
+              ->setShippingAddress($address)
+              ->setBillingAddress($address);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($order);
+        $em->flush();
         
         $message = (new \Swift_Message('Confirmation de commande'))
             ->setFrom('send@example.com')

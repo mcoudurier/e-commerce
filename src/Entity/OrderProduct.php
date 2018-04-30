@@ -34,6 +34,12 @@ class OrderProduct
      */
     private $quantity;
 
+    public function __construct(Product $product)
+    {
+        $this->product = $product;
+        $this->quantity = $product->getQuantity();
+    }
+
     public function getId()
     {
         return $this->id;

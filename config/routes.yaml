@@ -106,3 +106,13 @@ checkout_summary:
 checkout_payment:
     path: /checkout/payment
     controller: App\Controller\CheckoutController::payment
+
+admin_orders:
+    path: /admin/orders
+    controller: App\Controller\AdminController::orders
+
+admin_order-details:
+    path: /admin/order-details/{id}
+    controller: App\Controller\AdminController::orderDetails
+    requirements:
+        id: '\d+'

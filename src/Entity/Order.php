@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\OrderProduct;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
@@ -56,6 +57,13 @@ class Order
     {
         $this->products = new ArrayCollection();
         $this->dateCreated = new \DateTime();
+    }
+
+    public function create(Basket $basket)
+    {
+        foreach ($basket->getProducts() as $product) {
+            $this->addProduct(new OrderProduct($product));
+        }
     }
 
     public function getId()
