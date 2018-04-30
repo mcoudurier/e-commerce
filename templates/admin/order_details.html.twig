@@ -5,6 +5,7 @@
 <header>
     <h1>Details commande # {{ order.id }}</h1>
     <p>Le {{ order.dateCreated|date() }}</p>
+    <p>Paiement: {{ order.transaction.method }}</p>
 </header>
 
 <div class="row">
@@ -79,5 +80,6 @@
         {% endfor %}
     </tbody>
 </table>
+<p>Total: {{ order.transaction.total }} €</p>
 
 {% endblock %}

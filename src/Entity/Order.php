@@ -53,6 +53,11 @@ class Order
      */
     private $billingAddress;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Transaction", mappedBy="order", cascade={"persist", "remove"})
+     */
+    private $transaction;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -83,7 +88,7 @@ class Order
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setOrderId($this);
+            $product->setOrder($this);
         }
 
         return $this;
@@ -94,8 +99,8 @@ class Order
         if ($this->products->contains($product)) {
             $this->products->removeElement($product);
             // set the owning side to null (unless already changed)
-            if ($product->getOrderId() === $this) {
-                $product->setOrderId(null);
+            if ($product->getOrder() === $this) {
+                $product->setOrder(null);
             }
         }
 
@@ -158,6 +163,23 @@ class Order
     public function setBillingAddress(?Address $billingAddress): self
     {
         $this->billingAddress = $billingAddress;
+
+        return $this;
+    }
+
+    public function getTransaction(): ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    public function setTransaction(Transaction $transaction): self
+    {
+        $this->transaction = $transaction;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $transaction->getOrder()) {
+            $transaction->setOrder($this);
+        }
 
         return $this;
     }

@@ -62,7 +62,7 @@ class OrderProduct
         return $this->order;
     }
 
-    public function setOrderId(?Order $order): self
+    public function setOrder(?Order $order): self
     {
         $this->order = $order;
 

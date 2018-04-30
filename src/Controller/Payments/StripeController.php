@@ -49,7 +49,11 @@ class StripeController extends Controller
         $order->create($this->basket);
         $order->setUser($user)
               ->setShippingAddress($address)
-              ->setBillingAddress($address);
+              ->setBillingAddress($address)
+              ->setTransaction(
+                  new App\Entity\Transaction(
+                      'stripe', $this->basket->totalPrice())
+              );
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);

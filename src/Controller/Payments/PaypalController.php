@@ -14,6 +14,7 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\PaymentExecution;
+use App\Entity\Order;
 
 class PaypalController extends Controller
 {
@@ -86,6 +87,23 @@ class PaypalController extends Controller
         } catch (\Exception $e) {
             return new Response('Payement impossible');
         }
+        
+        $user = $this->getUser();
+        $address = $user->getAddresses()[0];
+
+        $order = new Order();
+        $order->create($this->basket);
+        $order->setUser($user)
+              ->setShippingAddress($address)
+              ->setBillingAddress($address)
+              ->setTransaction(
+                  new \App\Entity\Transaction(
+                      'paypal', $this->basket->totalPrice($this->basket->getProducts()))
+              );
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($order);
+        $em->flush();
 
         $message = (new \Swift_Message('Confirmation de commande'))
             ->setFrom('send@example.com')
