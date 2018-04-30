@@ -13,9 +13,6 @@
 </nav>
 
 {% include "shop/account/address_form.html.twig" %}
-
-<a href="{{ path('checkout_shipping') }}" class="btn btn-primary">Suivant</a>
-
-</form>
+<input type="submit" form="address-form" value="Suivant" class="btn btn-primary">
 
 {% endblock %}

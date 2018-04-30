@@ -5,25 +5,22 @@
 
 <div class="row">
     {% for product in products %}
-        <article class="card col-md-4 p-4">
-            <header class="product-card__header">
+        <div class="col-md-4">
+            <article class="card">
                 {% set thumb = product.images|first %}
                 <a href="/product/{{ product.id }}">
                     <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product-card__image img img-fluid">
                 </a>
-                <h4 class="product-card__heading">
-                    <a href="/product/{{ product.id }}" class="product-card__link">
-                        {{ product.name }}
-                    </a>
-                </h4>
-            </header>
-            <div class="product-card__body">
-                {{ product.description }}
-            </div>
-            <footer class="product-card__footer">
-                € {{ product.price }}
-            </footer>
-        </article>
+                <div class="card-body d-flex justify-content-between">
+                    <h4 class="product-card__heading">
+                        <a href="/product/{{ product.id }}" class="product-card__link">
+                            {{ product.name }}
+                        </a>
+                    </h4>
+                    <span>€ {{ product.price }}</span>
+                </div>
+            </article>
+        </div>
     {% endfor %}
 </div>
 

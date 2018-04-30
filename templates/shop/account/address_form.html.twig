@@ -1,4 +1,4 @@
-{{ form_start(address_form) }}
+{{ form_start(address_form, { 'attr': { 'id': 'address-form' } }) }}
     {{ form_row(address_form.address1) }}
     {{ form_row(address_form.address2) }}
     <div class="form-row">
@@ -14,5 +14,4 @@
         </div>
     </div>
     {{ form_row(address_form.phone) }}
-    <input type="submit" value="Enregistrer" class="btn btn-primary">
 {{ form_end(address_form) }}

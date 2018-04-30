@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Basket;
 use App\Form\AddressType;
 
@@ -21,19 +23,45 @@ class CheckoutController extends Controller
         $this->stripePk = $this->config['publishable_key'];
     }
 
-    public function address()
+    public function address(Request $req)
     {
         $address = $this->getUser()->getAddresses()[0];
-        $addressForm = $this->createForm(AddressType::class, $address);
+        $form = $this->createForm(AddressType::class, $address);
+        
+        $form->handleRequest($req);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $address->setType('shipping');
+
+            return $this->redirectToRoute('checkout_shipping');
+        }
 
         return $this->render('shop/checkout/address.html.twig', [
-            'address_form' => $addressForm->createView(),
+            'address_form' => $form->createView(),
         ]);
     }
 
-    public function shipping()
+    public function shipping(Request $req)
     {
-        return $this->render('shop/checkout/shipping.html.twig');
+        $form = $this->createFormBuilder()
+            ->add('shipping', ChoiceType::class, [
+                'expanded' => true,
+                'choices' => [
+                    'Colissimo' => 'colissimo',
+                    'Chronopost' => 'chronopost',
+                ],
+            ])
+            ->getForm();
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('checkout_summary');
+        }
+
+        return $this->render('shop/checkout/shipping.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     public function summary()

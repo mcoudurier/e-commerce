@@ -12,8 +12,8 @@
     </ol>
 </nav>
 
-<a href="{{ path('checkout_summary') }}" class="btn btn-primary">Suivant</a>
-
-</form>
+{{ form_start(form, { 'attr': { 'id': 'form' } })  }}
+{{ form_end(form) }}
+<input type="submit" form="form" value="Suivant" class="btn btn-primary">
 
 {% endblock %}
