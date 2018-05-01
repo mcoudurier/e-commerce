@@ -13,12 +13,8 @@ class UserContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, [
-                'label' => 'Nom',
-            ])
-            ->add('lastName', TextType::class, [
-                'label' => 'Prénom',
-            ])
+            ->add('firstName', TextType::class)
+            ->add('lastName', TextType::class)
             ->add('addresses', CollectionType::class, [
                 'entry_type' => AddressType::class,
             ])

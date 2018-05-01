@@ -6,10 +6,19 @@
 {% endif %}
 
 {{ form_start(loginForm) }}
-    {{ form_row(loginForm.username, {'full_name': '_email', 'value': lastUserName}) }}
-    {{ form_row(loginForm.plainPassword, {'full_name': '_password'}) }}
+    {{ form_row(loginForm.username, {
+        'full_name': '_email',
+        'value': lastUserName,
+        'label': 'E-mail',
+    }) }}
+    {{ form_row(loginForm.plainPassword, {
+        'full_name': '_password',
+        'label': 'Mot de passe',
+    }) }}
+   
     {% if order == true %}
         <input type="hidden" name="_target_path" value="{{ path('checkout_address') }}" />
     {% endif %}
+  
     <input type="submit" value="Connexion" class="btn btn-primary">
 {{ form_end(loginForm) }}

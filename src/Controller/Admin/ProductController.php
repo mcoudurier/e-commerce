@@ -12,13 +12,7 @@ class ProductController extends Controller
     public function index(Request $req, $page)
     {
         $form = $this->createFormBuilder()
-            ->add('search', SearchType::class, [
-                'required' => false,
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Rechercher',
-                ],
-            ])
+            ->add('search', SearchType::class)
             ->getForm();
         
         $form->handleRequest($req);
@@ -47,8 +41,8 @@ class ProductController extends Controller
         return $this->render('admin/all_products.html.twig', [
             'products' => $products,
             'form' => $form->createView(),
-            'totalPages' => $totalPages,
-            'currentPage' => $page,
+            'total_pages' => $totalPages,
+            'current_page' => $page,
         ]);
     }
     

@@ -1,17 +1,26 @@
-{{ form_start(address_form, { 'attr': { 'id': 'address-form' } }) }}
-    {{ form_row(address_form.address1) }}
-    {{ form_row(address_form.address2) }}
-    <div class="form-row">
-        <div class="col form-group">
-            {{ form_label(address_form.postCode) }}
-            {{ form_errors(address_form.postCode) }}
-            {{ form_widget(address_form.postCode) }}
-        </div>
-        <div class="col form-group">
-            {{ form_label(address_form.city) }}
-            {{ form_errors(address_form.city) }}
-            {{ form_widget(address_form.city) }}
-        </div>
+{{ form_row(address_form.address1, {
+    'label': 'Rue',
+}) }}
+{{ form_row(address_form.address2, {
+    'label': 'Complément',
+    'required': false,
+    'attr': {
+        'placeholder': 'appartement, étage, escalier, etc.',
+    },
+}) }}
+<div class="form-row">
+    <div class="col form-group">
+        {{ form_label(address_form.postCode, 'Code postal') }}
+        {{ form_errors(address_form.postCode) }}
+        {{ form_widget(address_form.postCode) }}
     </div>
-    {{ form_row(address_form.phone) }}
-{{ form_end(address_form) }}
+    <div class="col form-group">
+        {{ form_label(address_form.city, 'Ville') }}
+        {{ form_errors(address_form.city) }}
+        {{ form_widget(address_form.city) }}
+    </div>
+</div>
+{{ form_row(address_form.phone, {
+    'label': 'Téléphone',
+    'required': false,
+}) }}

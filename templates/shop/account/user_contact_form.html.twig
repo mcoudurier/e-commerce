@@ -1,31 +1,17 @@
 {{ form_start(address_form) }}
     <div class="form-row">
         <div class="col form-group">
-            {{ form_label(address_form.firstName) }}
+            {{ form_label(address_form.firstName, 'Nom') }}
             {{ form_errors(address_form.firstName) }}
             {{ form_widget(address_form.firstName) }}
         </div>
         <div class="col form-group">
-            {{ form_label(address_form.lastName) }}
+            {{ form_label(address_form.lastName, 'Prénom') }}
             {{ form_errors(address_form.lastName) }}
             {{ form_widget(address_form.lastName) }}
         </div>
     </div>
     {% set address = address_form.addresses[0] %}
-    {{ form_row(address.address1) }}
-    {{ form_row(address.address2) }}
-    <div class="form-row">
-        <div class="col form-group">
-            {{ form_label(address.postCode) }}
-            {{ form_errors(address.postCode) }}
-            {{ form_widget(address.postCode) }}
-        </div>
-        <div class="col form-group">
-            {{ form_label(address.city) }}
-            {{ form_errors(address.city) }}
-            {{ form_widget(address.city) }}
-        </div>
-    </div>
-    {{ form_row(address.phone) }}
+    {% include 'shop/account/address_form.html.twig' with {'address_form': address } %}
     <input type="submit" value="Enregistrer" class="btn btn-primary">
 {{ form_end(address_form) }}
