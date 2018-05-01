@@ -18,4 +18,15 @@ class OrderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Order::class);
     }
+
+    public function findOneByIdAndUser(int $orderId, int $userId): ?Order
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.id = :id')
+            ->andWhere('o.user = :user_id')
+            ->setParameter('id', $orderId)
+            ->setParameter('user_id', $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

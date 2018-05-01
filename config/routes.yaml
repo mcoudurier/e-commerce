@@ -66,15 +66,19 @@ user_welcome:
     path: /user/welcome
     controller: App\Controller\UserController::welcome
 
-user_login:
+security_login:
     path: /internal/login
-    controller: App\Controller\UserController::login
+    controller: App\Controller\SecurityController::login
 
-user_register:
+security_register:
     path: /internal/register
-    controller: App\Controller\UserController::register
+    controller: App\Controller\SecurityController::register
 
-user_logout:
+security_change-password:
+    path: /user/account/change-password
+    controller: App\Controller\SecurityController::changePassword
+
+security_logout:
     path: /user/logout
 
 user_account:
@@ -85,9 +89,15 @@ user_edit-address:
     path: /user/account/edit-address
     controller: App\Controller\UserController::editAddress
 
-user_change-password:
-    path: /user/account/change-password
-    controller: App\Controller\UserController::changePassword
+user_orders:
+    path: /user/account/orders
+    controller: App\Controller\UserController::orders
+
+user_order:
+    path: /user/account/order/{id}
+    controller: App\Controller\UserController::order
+    requirements:
+        id: '\d+'
 
 paypal_checkout:
     path: /checkout/paypal

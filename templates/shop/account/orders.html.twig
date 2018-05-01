@@ -1,0 +1,14 @@
+{% extends 'shop/layout.html.twig' %}
+{% block title %}Commandes{% endblock title %}
+
+{% block shop_content %}
+
+<header>
+    <h1>Mes commandes</h1>
+</header>
+
+{% for order in orders %}
+<a href="{{ path('user_order', { 'id': order.id }) }}"># {{ order.id }}</a>
+{% endfor %}
+
+{% endblock %}

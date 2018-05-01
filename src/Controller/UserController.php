@@ -3,20 +3,16 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\UserContactType;
-use App\Form\LoginType;
-use App\Form\RegisterType;
-use App\Form\ChangePasswordType;
-use App\Form\Model\ChangePassword;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Repository\OrderRepository;
 
 class UserController extends Controller
 {
-    public function welcome(Request $req, ?bool $order = null)
+    public function welcome(Request $req, ?bool $order = null): Response
     {
         $order = $req->get('order');
 
@@ -25,56 +21,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(Request $req, AuthenticationUtils $authenticationUtils, ?bool $order)
-    {
-        $user = new User();
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $form = $this->createForm(LoginType::class, $user, [
-            'action' => $this->generateUrl('user_login'),
-        ]);
-        
-        return $this->render('shop/account/login_form.html.twig', [
-            'loginForm' => $form->createView(),
-            'error' => $error,
-            'lastUserName' => $lastUsername,
-            'order' => $order,
-        ]);
-    }
-
-    public function register(UserPasswordEncoderInterface $passwordEncoder, ?bool $order)
-    {
-        $user = new User();
-        $form = $this->createForm(RegisterType::class, $user);
-
-        $masterRequest = $this->get('request_stack')->getMasterRequest();
-        $form->handleRequest($masterRequest);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            $user->setRoles('ROLE_USER');
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-        }
-
-        return $this->render('shop/account/register_form.html.twig', [
-            'registrationForm' => $form->createView(),
-            'order' => $order,
-        ]);
-    }
-
-    public function account(Request $req)
+    public function account(Request $req): Response
     {
         return $this->render('shop/account/account.html.twig');
     }
 
-    public function editAddress()
+    public function editAddress(): Response
     {
         $address = new Address();
         
@@ -106,32 +58,26 @@ class UserController extends Controller
         ]);
     }
 
-    public function changePassword(Request $req, UserPasswordEncoderInterface $passwordEncoder)
+    public function orders(): Response
     {
-        $changePassword = new changePassword();
+        $orders = $this->getUser()->getOrders();
 
-        $form = $this->createForm(changePasswordType::class, $changePassword);
+        return $this->render('shop/account/orders.html.twig', [
+            'orders' => $orders,
+        ]);
+    }
 
-        $form->handleRequest($req);
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-            
-            $newPassword = $passwordEncoder->encodePassword($user, $changePassword->getNewPassword());
-            
-            $user->setPassword($newPassword);
+    public function order(int $id, OrderRepository $orderRepository): Response
+    {
+        $order = $orderRepository
+            ->findOneByIdAndUser($id, $this->getUser()->getId());
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', 'Mot de passe changé');
-
-            return $this->redirectToRoute('user_account');
+        if (!$order) {
+            throw $this->createNotFoundException();
         }
 
-        return $this->render('shop/account/change_password.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('shop/account/order_single.html.twig', [
+            'order' => $order,
         ]);
     }
 }

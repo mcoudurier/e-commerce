@@ -20,11 +20,11 @@ security:
             provider: our_db_provider
             form_login:
                 login_path: user_welcome
-                check_path: user_login
+                check_path: security_login 
                 failure_path: user_welcome
                 username_parameter: _email
             logout:
-                path: user_logout
+                path: security_logout
                 target: index
 
             # activate different ways to authenticate
