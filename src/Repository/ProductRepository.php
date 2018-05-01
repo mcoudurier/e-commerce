@@ -70,4 +70,13 @@ class ProductRepository extends ServiceEntityRepository
 
         return new Paginator($query);
     }
+
+    public function countCurrentlySelling()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('count(p.id)')
+            ->where('p.active = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
