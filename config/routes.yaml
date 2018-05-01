@@ -8,29 +8,39 @@ product_show:
     requirements:
         id: '\d+'
 
-product_delete:
-    path: /admin/delete-product/{id}
-    controller: App\Controller\ProductController::delete
-    requirements:
-        id: '\d+'
-
 admin_index:
     path: /admin
-    controller: App\Controller\AdminController::index
+    controller: App\Controller\Admin\AdminController::index
+
+admin_product-index:
+    path: /admin/all-products/{page}
+    controller: App\Controller\Admin\ProductController::index
+    defaults: { page: 1 }
+    requirements:
+        page: '\d+'
 
 admin_product-editor:
     path: /admin/product-editor/{id}
-    controller: App\Controller\AdminController::productEditor
+    controller: App\Controller\Admin\ProductController::editor
     defaults: { id: null }
     requirements:
         id: '\d+'
 
-admin_all-products:
-    path: /admin/all-products/{page}
-    controller: App\Controller\AdminController::allProducts
-    defaults: { page: 1 }
+admin_product-delete:
+    path: /admin/delete-product/{id}
+    controller: App\Controller\Admin\ProductController::delete
     requirements:
-        page: '\d+'
+        id: '\d+'
+
+admin_order-index:
+    path: /admin/orders
+    controller: App\Controller\Admin\OrderController::index
+
+admin_order-show:
+    path: /admin/order-details/{id}
+    controller: App\Controller\Admin\OrderController::show
+    requirements:
+        id: '\d+'
 
 basket_show:
     path: /basket
@@ -107,12 +117,3 @@ checkout_payment:
     path: /checkout/payment
     controller: App\Controller\CheckoutController::payment
 
-admin_orders:
-    path: /admin/orders
-    controller: App\Controller\AdminController::orders
-
-admin_order-details:
-    path: /admin/order-details/{id}
-    controller: App\Controller\AdminController::orderDetails
-    requirements:
-        id: '\d+'

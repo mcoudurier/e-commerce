@@ -17,7 +17,7 @@
         {% for order in orders %}
             <tr>
                 <td>
-                    <a href="{{ path('admin_order-details', { 'id': order.id }) }}">{{ order.id }}</a>
+                    <a href="{{ path('admin_order-show', { 'id': order.id }) }}">{{ order.id }}</a>
                 </td>
                 <td>
                     {{ order.dateCreated|date('d/m/Y à H\\hi', 'Europe/Paris') }}

@@ -41,17 +41,17 @@
                     <span class="page-link">Précédent</span>
                 </li>
             {% else %}
-                <a href="{{ path('admin_all-products', {'page': currentPage - 1 }) }}" class="page-link">Précédent</a>
+                <a href="{{ path('admin_product-index', {'page': currentPage - 1 }) }}" class="page-link">Précédent</a>
             {% endif %}
             
             {% for p in 1..totalPages %}
                 {% if p == currentPage %}
                     <li class="page-item active">
-                        <a href="{{ path('admin_all-products', {'page': p }) }}" class="page-link">{{ p }}</a>
+                        <a href="{{ path('admin_product-index', {'page': p }) }}" class="page-link">{{ p }}</a>
                     </li>
                 {% else %}
                     <li class="page-item">
-                        <a href="{{ path('admin_all-products', {'page': p }) }}" class="page-link">{{ p }}</a>
+                        <a href="{{ path('admin_product-index', {'page': p }) }}" class="page-link">{{ p }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -61,7 +61,7 @@
                     <span class="page-link">Suivant</span>
                 </li>
             {% else %}
-                <a href="{{ path('admin_all-products', {'page': currentPage + 1 }) }}" class="page-link">Suivant</a>
+                <a href="{{ path('admin_product-index', {'page': currentPage + 1 }) }}" class="page-link">Suivant</a>
             {% endif %}
         </ul>
     </nav>
