@@ -1,0 +1,27 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "E-commerce website built with Symfony",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "compile-css": "node-sass --output-style compressed assets/scss/main.scss public/css/style.css",
+    "watch-css": "node-sass -w --output-style compressed assets/scss/main.scss public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcoudurier/e-commerce.git"
+  },
+  "author": "Mathieu Coudurier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcoudurier/e-commerce/issues"
+  },
+  "homepage": "https://github.com/mcoudurier/e-commerce#readme",
+  "devDependencies": {
+    "bootstrap": "^4.1.1",
+    "node-sass": "^4.9.0"
+  }
+}

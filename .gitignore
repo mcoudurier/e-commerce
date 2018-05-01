@@ -14,4 +14,6 @@
 /public/img
 /config/paypal.php
 /config/stripe.php
+/node_modules
+/public/css
 
