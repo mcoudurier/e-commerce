@@ -1,6 +1,8 @@
 {
+    "name": "mcoudurier/e-commerce",
+    "description": "E-commerce website built with Symfony",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": "^7.1.3",
         "ext-iconv": "*",
