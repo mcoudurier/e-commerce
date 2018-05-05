@@ -2,8 +2,9 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}E-commerce{% endblock %}</title>
         <meta name="viewport" content="width=device-width initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet">
         <link rel="stylesheet" href="/css/style.css">
         <script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -15,26 +16,52 @@
         {% block stylesheets %}
         {% endblock %}
     </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-light bg-light">
-                <a href="/" class="navbar-brand">Brand</a>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <a href="{{ path('user_account') }}"><i class="fas fa-user"></i> Mon compte</a>
-                {% else %}
-                    <a href="{{ path('user_welcome') }}"></i> Connexion / Inscription</a>
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('admin_index') }}">Administration</a>
-                {% endif %}
-                <a href="{{ path('basket_show') }}">
-                    <i class="fas fa-shopping-cart"></i> 
-                    <span class="basket-count">
-                        ({{ render(controller('App\\Controller\\BasketController::productCount')) }})
-                    </span>
-                </a>
+    <body class="">
+        <header class="bg-white">
+            <nav class="navbar navbar-light">
+                <button class="btn d-block d-md-none" data-toggle="collapse" data-target="#sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+               
+                <a href="{{ path('index') }}" class="navbar-brand">Brand</a>
+                
+                <div class="nav-right d-flex mx-2">
+                    <div class="dropdown pr-2 mr-2">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% set href = path('user_account') %}
+                        {% else %}
+                            {% set href = path('user_welcome') %}
+                        {% endif %}
+                        <a href="{{ href }}" class="text-secondary">
+                            <i class="far fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="dropdown-item" href="{{ path('admin_index') }}">Administration</a>
+                            {% endif %}
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a class="dropdown-item" href="{{ path('security_logout' )}}">Déconnexion</a>
+                            {% endif %}
+                        </div>
+                    </div>
+              
+                    <a class="basket-link mx-2" href="{{ path('basket_show') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <div class="basket-count d-flex justify-content-center align-items-center">
+                            <span class="text-white">
+                                {{ render(controller('App\\Controller\\BasketController::productCount')) }}
+                            </span>
+                        </div>
+                    </a>
+                </div>
             </nav>
         </header>
+        
+        {% if app.request.attributes.get('_route') == 'index' %}
+            <div class="hero"></div>
+        {% endif %}
+        
+        {% block breadcrumb %}{% endblock breadcrumb %}
 
         {% if app.session.flashbag.peekAll is not empty %}
             <div class="flash container mt-2" id="flash">
@@ -53,7 +80,51 @@
 
         {% block content %}{% endblock %}
 
-        <footer>
+        <footer class="footer mt-5">
+            <div class="footer__upper py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md">
+                            <ul class="footer__nav p-0">
+                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Moyens de paiment</a></li>
+                                <li><a href="#">Livraison</a></li>
+                                <li><a href="#">Conditions générales de vente</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md">
+                            <p>Retrouvez nous sur:</p>
+                            <ul class="d-flex flex-row social-icons p-0">
+                                <li class="mx-1 border">
+                                    <a href="#" class="social-link d-flex justify-content-center align-items-center">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li class="mx-1 border">
+                                    <a href="#" class="social-link d-flex justify-content-center align-items-center">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="mx-1 border">
+                                    <a href="#" class="social-link d-flex justify-content-center align-items-center">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-lower bg-white">
+                <div class="container d-flex justify-content-between align-items-center border-top">
+                    <span class="p-4 text-secondary">Copyright © 2018 Mathieu Coudurier</span>
+                    <div class="footer-img">
+                        <img class="px-2" src="/img/visa.png" alt="visa">
+                        <img class="px-2" src="/img/paypal.png" alt="paypal">
+                        <img class="px-2" src="/img/mastercard.png" alt="mastercard">
+                    </div>
+                </div>
+            </div>
             {% block footer %}{% endblock %}
         </footer>
         <script src="/js/flash.js"></script>

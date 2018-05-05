@@ -3,12 +3,22 @@
 
 {% block shop_content %}
 
-<header>
+<header class="mb-4">
     <h1>Mon compte</h1>
-    <a href="{{ path('user_orders') }}">Mes commandes</a>
 </header>
 
-<section class="card mt-4">
+<nav class="account-nav">
+    <ul class="nav nav-tabs user-account-tabs">
+        <li class="nav-item">
+            <a href="#" class="nav-link active">Compte</a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('user_orders') }}" class="nav-link active">Commandes</a>
+        </li>
+    </ul>
+</nav>
+
+<section class="card">
     <header class="card-header">
         <h3>Identification</h3>
     </header>
@@ -24,14 +34,19 @@
     </div>
 </section>
 
-<section class="card mt-4">
-    <header class="card-header">
-        <h3>Coordonnées <small class="text-secondary">(adresse de facturation)</small></h3>
-    </header>
-    <div class="card-body">
-        {{ render(controller(
-            'App\\Controller\\UserController::editAddress'
-        ))}}
+<section class="user-contact mt-4">
+    <div class="card mb-4">
+        <header class="card-header">
+            <h3>Coordonnées <small class="text-secondary">(adresse de facturation)</small></h3>
+        </header>
+        <div class="card-body">
+            {{ render(controller(
+                'App\\Controller\\UserController::editAddress'
+            ))}}
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <input type="submit" form="user-contact-form" value="Sauvegarder" class="btn btn-primary">
     </div>
 </section>
 

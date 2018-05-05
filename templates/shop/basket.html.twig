@@ -3,46 +3,52 @@
 
 {% block shop_content %}
 
-<header>
+<header class="mb-4">
     <h1>Mon panier</h1>
 </header>
 
 {% if products is empty %}
     <div class="basket-empty">
-        <p>Votre panier est vide</p>
-        <a href="/" class="btn btn-info">Continuer mes achats</a>
+        <p>Le panier est vide.</p>
+        <a href="/" class="btn btn-info">Continuer les achats</a>
     </div>
 {% else %}
     <div class="basket-products mb-4">
         {% for product in products %}
             <div class="basket-product row border-bottom py-2">
                 {% set thumb = product.images|first %}
-                <div class="col">
+                <div class="col-4 col-sm-6 col-md-2">
                     <a href="{{ path('product_show', {'id': product.id}) }}">
                         <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="basket-product__img img img-fluid">
                     </a>
                 </div>
                 <div class="col">
-                    <span class="basket-product__name">
-                        {{ product.name }}
-                    </span>
-                </div>
-                <div class="col">
-                    <input class="basket-product__quantity form-control" type="number" name="quantity" data-target-id="{{ product.id }}" min="1" value="{{ product.quantity }}">
-                </div>
-                <div class="col">
-                    <span class="basket-product__price" data-target-id="{{ product.id }}">
-                        € {{ product.calcTotalPrice }}
-                    </span>
-                </div>
-                <div class="col">
-                    <a href="/basket/remove/{{ product.id }}" class="basket-product__remove btn btn-secondary">&times;</a>
+                    <div class="row">
+                        <div class="col-md pb-2">
+                            <span class="basket-product__name">
+                                {{ product.name }}
+                            </span>
+                        </div>
+                        <div class="col-md-2 pb-2">
+                            <input class="basket-product__quantity form-control" type="number" name="quantity" data-target-id="{{ product.id }}" min="1" value="{{ product.quantity }}">
+                        </div>
+                        <div class="col-md pb-2">
+                            <span class="basket-product__price" data-target-id="{{ product.id }}">
+                                {{ product.calcTotalPrice }} €
+                            </span>
+                        </div>
+                        <div class="col-md pb-2">
+                            <a href="/basket/remove/{{ product.id }}" class="basket-product__remove btn" title="Supprimer">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 
-    <div class="row">
+    <div class="d-flex">
         <div class="basket-checkout ml-auto">
             <p class="basket-checkout__total">
                 Sous total: <span class="basket-checkout__total-price">{{ totalPrice }}</span> €

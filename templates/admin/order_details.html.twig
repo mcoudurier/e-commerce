@@ -2,18 +2,18 @@
 {% block title %}Details commande # {{ order.id }}{% endblock title %}
 
 {% block admin_content %}
-<header>
+<header class="mb-5">
     <h1>Details commande # {{ order.id }}</h1>
     <p>Le {{ order.dateCreated|date() }}</p>
     <p>Paiement: {{ order.transaction.method }}</p>
 </header>
 
-<div class="row">
+<section class="row addresses mb-5">
     <section class="shipping col-md-4">
         <header>
             <h4>Adresse de livraison</h4>
         </header>
-        <address>
+        <div>
             {% set shipping = order.shippingAddress %}
             {{ order.user.firstName }}
             {{ order.user.lastName }}<br>
@@ -24,13 +24,14 @@
             {{ shipping.postCode}}<br>
             {{ shipping.city }}<br>
             <span>Tel:</span> {{ shipping.phone }}<br>
-        </address>
+        </div>
     </section>
+
     <section class="billing col-md-4">
         <header>
             <h4>Adresse de facturation</h4>
         </header>
-        <address>
+        <div>
             {% set billing = order.billingAddress %}
             {{ order.user.firstName }}
             {{ order.user.lastName }}<br>
@@ -41,22 +42,23 @@
             {{ billing.postCode}}<br>
             {{ billing.city }}<br>
             <span>Tel:</span> {{ shipping.phone }}<br>
-        </address>
+        </div>
     </section>
-</div>
+</section>
+
 <table class="table">
     <thead>
         <tr class="row">
-            <th class="col-md-2">Produit</th>
-            <th class="col-md">Prix</th>
-            <th class="col-md">Quantité</th>
-            <th class="col-md">Total</th>
+            <th class="col-md-6 col-lg-4">Produit</th>
+            <th class="col-md-2 col-lg">Prix</th>
+            <th class="col-md-2 col-lg">Quantité</th>
+            <th class="col-md-2 col-lg">Total</th>
         </tr>
     </thead>
     <tbody>
         {% for product in order.products %}
             <tr class="row">
-                <td class="col-md-2">
+                <td class="col-md-6 col-lg-4">
                     <div class="row">
                     {% set thumb = product.product.images|first %}
                         <div class="col-md">
@@ -67,13 +69,13 @@
                         </div>
                     </div>
                 </td>
-                <td class="col-md">
+                <td class="col-md-2 col-lg">
                     {{ product.product.price }} €
                 </td>
-                <td class="col-md">
+                <td class="col-md-2 col-lg">
                     {{ product.quantity }}
                 </td>
-                <td class="col-md">
+                <td class="col-md-2 col-lg">
                     {{ product.product.price * product.quantity }} €
                 </td>
             </tr>

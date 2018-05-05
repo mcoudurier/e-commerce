@@ -3,12 +3,55 @@
 
 {% block shop_content %}
 
-<header>
+<header class="mb-4">
     <h1>Mes commandes</h1>
 </header>
 
-{% for order in orders %}
-<a href="{{ path('user_order', { 'id': order.id }) }}"># {{ order.id }}</a>
-{% endfor %}
+<nav>
+    <ul class="nav nav-tabs user-account-tabs">
+        <li class="nav-item">
+            <a href="{{ path('user_account') }}" class="nav-link active">Compte</a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('user_orders') }}" class="nav-link active">Commandes</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('user_order', { 'id': order.id }) }}">{{ order.id }}</a>
+                        </td>
+                        <td>
+                            {{ order.dateCreated|date() }}
+                        </td>
+                        <td>
+                            <div class="badge badge-primary p-2">
+                                Expédiée
+                            </div>
+                        </td>
+                        <td>
+                            {{ order.transaction.total }} €
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
 {% endblock %}

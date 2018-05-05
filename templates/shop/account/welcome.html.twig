@@ -1,20 +1,26 @@
 {% extends 'shop/layout.html.twig' %}
 
+{% block breadcrumb %}
+    {% if order == true %}
+        <div class="breadcrumbs">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item active" aria-current="page">Identification</li>
+                        <li class="breadcrumb-item">Adresse</li>
+                        <li class="breadcrumb-item">Livraison</li>
+                        <li class="breadcrumb-item">Récapitulatif</li>
+                        <li class="breadcrumb-item">Paiement</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    {% endif %}
+{% endblock breadcrumb %}
+
 {% block shop_content %}
 
-<h1 class="pb-4 text-center border-bottom">Bienvenue</h1>
-
-{% if order == true %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Identification</li>
-            <li class="breadcrumb-item">Adresse</li>
-            <li class="breadcrumb-item">Livraison</li>
-            <li class="breadcrumb-item">Récapitulatif</li>
-            <li class="breadcrumb-item">Paiement</li>
-        </ol>
-    </nav>
-{% endif %}
+<h1 class="pb-4 text-center">Bienvenue</h1>
 
 <div class="row pt-4">
     <section class="login col-md pr-4">

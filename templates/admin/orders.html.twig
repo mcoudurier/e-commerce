@@ -4,7 +4,7 @@
 {% block admin_content %}
 <h1>Commandes</h1>
 
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>#</th>
@@ -23,7 +23,9 @@
                     {{ order.dateCreated|date('d/m/Y à H\\hi', 'Europe/Paris') }}
                 </td>
                 <td>
-
+                    <div class="badge badge-primary p-2">
+                        Expédiée
+                    </div>
                 </td>
                 <td>
                     {{ order.transaction.total }} €

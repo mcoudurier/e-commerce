@@ -2,10 +2,10 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block admin_content %}
-    <header class="mb-4 d-flex align-items-center justify-content-between">
+    <header class="mb-4 d-flex flex-column align-items-start flex-md-row align-items-md-center">
         <h1>{{ title }}</h1>
         {% if form.vars.data.id is not empty %}
-            <a href="{{ path('admin_product-delete', {'id': form.vars.data.id }) }}" class="delete-product btn btn-danger">Supprimer</a>
+            <a href="{{ path('admin_product-delete', {'id': form.vars.data.id }) }}" class="delete-product btn btn-danger ml-md-4">Supprimer</a>
         {% endif %}
     </header>
 

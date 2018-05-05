@@ -1,16 +1,26 @@
 {% extends 'shop/layout.html.twig' %}
 {% block title %}Récapitulatif{% endblock %}
 
+{% block breadcrumb %}
+<div class="breadcrumbs">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item">Identification</li>
+                <li class="breadcrumb-item">Adresse</li>
+                <li class="breadcrumb-item">Livraison</li>
+                <li class="breadcrumb-item active" aria-current="page">Récapitulatif</li>
+                <li class="breadcrumb-item">Paiement</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock breadcrumb %}
+
 {% block shop_content %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">Identification</li>
-      <li class="breadcrumb-item">Adresse</li>
-      <li class="breadcrumb-item">Livraison</li>
-      <li class="breadcrumb-item active" aria-current="page">Récapitulatif</li>
-      <li class="breadcrumb-item">Paiement</li>
-    </ol>
-</nav>
+<header>
+    <h1>Récapitulatif</h1>
+</header>
 
 <table class="table">
     <thead>

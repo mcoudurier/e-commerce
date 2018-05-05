@@ -15,22 +15,27 @@
     <table class="table table-hover">
         <thead>
             <tr class="row">
-                <th class="col-md d-sm-table-cell d-none"></th>
-                <th class="col-md d-sm-table-cell d-none">Nom</th>
-                <th class="col-md d-sm-table-cell d-none">Catégorie</th>
-                <th class="col-md d-sm-table-cell d-none">Stock</th>
+                <th class="col-md">Produit</th>
+                <th class="col-md">Catégorie</th>
+                <th class="col-md">Stock</th>
             </tr>
         </thead>
         {% if products is not empty %}
             {% for product in products %}
             <tr class="row tr-link" data-href="{{ path('admin_product-editor', {'id': product.id }) }}">
-                <td class="col-md d-sm-table-cell d-block">
+                <td class="col-md">
+                    <div class="row">
                     {% set thumb = product.images|first %}
-                    <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product__img img img-fluid">
+                        <div class="col-md">
+                            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="img img-fluid">
+                        </div>
+                        <div class="col-md">
+                            {{ product.name }}
+                        </div>
+                    </div>
                 </td>
-                <td class="col-md d-sm-table-cell d-block">{{ product.name }}</td>
-                <td class="col-md d-sm-table-cell d-block">{{ product.category }}</td>
-                <td class="col-md d-sm-table-cell d-block">{{ product.stock }}</td>
+                <td class="col-md">{{ product.category }}</td>
+                <td class="col-md">{{ product.stock }}</td>
             </tr>
             {% endfor %}
         {% else %}

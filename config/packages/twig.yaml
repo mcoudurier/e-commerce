@@ -3,3 +3,8 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig', 'form/label.html.twig']
+
+    date:
+        format: d/m/Y
+        interval_format: '%%d days'
+        timezone: Europe/Paris

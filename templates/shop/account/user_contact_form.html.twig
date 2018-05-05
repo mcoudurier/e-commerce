@@ -1,4 +1,4 @@
-{{ form_start(address_form) }}
+{{ form_start(address_form, { 'attr': { 'id': 'user-contact-form' }}) }}
     <div class="form-row">
         <div class="col form-group">
             {{ form_label(address_form.firstName, 'Nom') }}
@@ -13,5 +13,4 @@
     </div>
     {% set address = address_form.addresses[0] %}
     {% include 'shop/account/address_form.html.twig' with {'address_form': address } %}
-    <input type="submit" value="Enregistrer" class="btn btn-primary">
 {{ form_end(address_form) }}
