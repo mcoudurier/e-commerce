@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
 use App\Form\ProductType;
 use App\Entity\Product;
 
@@ -69,16 +70,17 @@ class ProductController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            foreach ($product->getImages() as $image) {
-                $file = $image->getFile();
-                $filename = time().'_'.$file->getClientOriginalName();
-                $filesize = filesize($file);
-                $image->setSize($filesize);
-                $image->setName($filename);
-                $file->move($this->getParameter('images_directory'), $filename);
-            }
-
             $product = $form->getData();
+            
+            foreach ($product->getImages() as $image) {
+                if ($file = $image->getFile()) {
+                    $filename = time().'_'.$file->getClientOriginalName();
+                    $filesize = filesize($file);
+                    $image->setSize($filesize);
+                    $image->setName($filename);
+                    $file->move($this->getParameter('images_directory'), $filename);
+                }
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
