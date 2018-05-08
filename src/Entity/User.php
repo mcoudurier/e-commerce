@@ -88,20 +88,28 @@ class User implements UserInterface, \Serializable
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('id', new Assert\GreaterThan(0));
-        $metadata->addPropertyConstraint('username', new Assert\Type('string'));
-        
         $metadata->addPropertyConstraint('password', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('password', new Assert\NotNull());
         
         $metadata->addPropertyConstraint('email', new Assert\Email());
+        $metadata->addPropertyConstraint('email', new Assert\NotNull());
+
         $metadata->addPropertyConstraint('firstName', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('firstName', new Assert\NotNull());
+
         $metadata->addPropertyConstraint('lastName', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('lastName', new Assert\NotNull());
+
         $metadata->addPropertyConstraint('role', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('role', new Assert\NotNull());
         
         $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('plainPassword', new Assert\NotNull());
         $metadata->addPropertyConstraint('plainPassword', new Assert\Length([
             'min' => 6
         ]));
+
+        $metadata->addPropertyConstraint('addresses', new Assert\Valid());
     }
 
     public function getId()

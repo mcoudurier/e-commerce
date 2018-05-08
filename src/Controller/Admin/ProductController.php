@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Form\ProductType;
 use App\Entity\Product;
+use App\Entity\Image;
 
 class ProductController extends Controller
 {
@@ -62,6 +63,8 @@ class ProductController extends Controller
             }
             
             $title = 'Modification d\'un produit';
+        } else {
+            $product->addImage(new Image());
         }
 
         $form = $this->createForm(ProductType::class, $product);

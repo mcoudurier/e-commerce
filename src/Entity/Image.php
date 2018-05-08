@@ -5,6 +5,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Product;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -47,22 +48,12 @@ class Image
      */
     private $file;
 
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    public function setFile($file)
-    {
-        $this->file = $file;
-    }
-    
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('file', new Assert\Image());
-        $metadata->addPropertyConstraint('name', new Assert\Type('string'));
+
         $metadata->addPropertyConstraint('description', new Assert\Type('string'));
-        $metadata->addPropertyConstraint('size', new Assert\Type('integer'));
+        $metadata->addPropertyConstraint('description', new Assert\NotNull());
     }
 
     public function getId(): int
@@ -75,7 +66,7 @@ class Image
         return $this->product;
     }
     
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -90,23 +81,33 @@ class Image
         return $this->size;
     }
     
-    public function setProduct($product)
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+    
+    public function setProduct(Product $product)
     {
         $this->product = $product;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
     
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
     
-    public function setSize($size)
+    public function setSize(int $size)
     {
         $this->size = $size;
+    }
+    
+    public function setFile(UploadedFile $file)
+    {
+        $this->file = $file;
     }
 }

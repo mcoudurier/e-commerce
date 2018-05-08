@@ -69,17 +69,29 @@ class Product
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('id', new Assert\GreaterThan(0));
         $metadata->addPropertyConstraint('name', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('name', new Assert\NotNull());
+        
         $metadata->addPropertyConstraint('description', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('description', new Assert\NotNull());
+        
         $metadata->addPropertyConstraint('category', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('category', new Assert\NotNull());
+        
         $metadata->addPropertyConstraint('stock', new Assert\Type('int'));
+        $metadata->addPropertyConstraint('stock', new Assert\NotNull());
+        
+        $metadata->addPropertyConstraint('price', new Assert\NotNull());
+        
+        $metadata->addPropertyConstraint('weight', new Assert\NotNull());
+        
         $metadata->addPropertyConstraint('images', new Assert\Count([
             'min' => 1,
             'max' => 3,
             'minMessage' => 'Chaque produit doit avoir au moins une image',
             'maxMessage' => 'Un produit ne peut pas avoir plus de trois images'
         ]));
+        $metadata->addPropertyConstraint('images', new Assert\Valid());
     }
 
     public function setId(int $id)

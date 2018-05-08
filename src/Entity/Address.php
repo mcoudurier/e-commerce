@@ -67,9 +67,16 @@ class Address
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addPropertyConstraint('address1', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('address1', new Assert\NotNull());
+
         $metadata->addPropertyConstraint('address2', new Assert\Type('string'));
+
         $metadata->addPropertyConstraint('city', new Assert\Type('string'));
+        $metadata->addPropertyConstraint('city', new Assert\NotNull());
+
         $metadata->addPropertyConstraint('postCode', new Assert\Type('integer'));
+        $metadata->addPropertyConstraint('postCode', new Assert\NotNull());
+
         $metadata->addPropertyConstraint('phone', new PhoneNumber([
             'message' => 'Numéro de téléphone invalide'
         ]));
