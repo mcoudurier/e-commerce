@@ -24,6 +24,7 @@ class RegisterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'validation_groups' => 'register',
             'data_class' => User::class
         ]);
     }

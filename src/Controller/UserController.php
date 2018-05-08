@@ -44,6 +44,8 @@ class UserController extends Controller
         
         if ($form->isSubmitted() && $form->isValid()) {
             
+            $user = $form->getData();
+            
             $address->setUser($user)
                     ->setCountry('France')
                     ->setType('billing');

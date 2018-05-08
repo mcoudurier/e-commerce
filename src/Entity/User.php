@@ -91,8 +91,12 @@ class User implements UserInterface, \Serializable
         $metadata->addPropertyConstraint('password', new Assert\Type('string'));
         $metadata->addPropertyConstraint('password', new Assert\NotNull());
         
-        $metadata->addPropertyConstraint('email', new Assert\Email());
-        $metadata->addPropertyConstraint('email', new Assert\NotNull());
+        $metadata->addPropertyConstraint('email', new Assert\Email([
+            'groups' => ['register'],
+        ]));
+        $metadata->addPropertyConstraint('email', new Assert\NotNull([
+            'groups' => ['register'],
+        ]));
 
         $metadata->addPropertyConstraint('firstName', new Assert\Type('string'));
         $metadata->addPropertyConstraint('firstName', new Assert\NotNull());
@@ -103,9 +107,14 @@ class User implements UserInterface, \Serializable
         $metadata->addPropertyConstraint('role', new Assert\Type('string'));
         $metadata->addPropertyConstraint('role', new Assert\NotNull());
         
-        $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string'));
-        $metadata->addPropertyConstraint('plainPassword', new Assert\NotNull());
+        $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string', [
+            'groups' => ['register'],
+        ]));
+        $metadata->addPropertyConstraint('plainPassword', new Assert\NotNull([
+            'groups' => ['register'],
+        ]));
         $metadata->addPropertyConstraint('plainPassword', new Assert\Length([
+            'groups' => ['register'],
             'min' => 6
         ]));
 
@@ -175,7 +184,7 @@ class User implements UserInterface, \Serializable
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -187,7 +196,7 @@ class User implements UserInterface, \Serializable
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 

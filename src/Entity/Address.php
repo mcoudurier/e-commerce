@@ -92,7 +92,7 @@ class Address
         return $this->address1;
     }
 
-    public function setAddress1(string $address1): self
+    public function setAddress1(?string $address1): self
     {
         $this->address1 = $address1;
 
@@ -116,7 +116,7 @@ class Address
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -128,7 +128,7 @@ class Address
         return $this->postCode;
     }
 
-    public function setPostCode(int $postCode): self
+    public function setPostCode(?int $postCode): self
     {
         $this->postCode = $postCode;
 
