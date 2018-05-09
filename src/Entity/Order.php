@@ -64,6 +64,11 @@ class Order
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $trackingNumber;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -202,6 +207,18 @@ class Order
         }
 
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTrackingNumber(): ?string
+    {
+        return $this->trackingNumber;
+    }
+
+    public function setTrackingNumber(?string $trackingNumber): self
+    {
+        $this->trackingNumber = $trackingNumber;
 
         return $this;
     }

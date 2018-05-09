@@ -6,13 +6,24 @@
     <h1>Details commande # {{ order.id }}</h1>
 </header>
 
-<p>Le {{ order.dateCreated|date() }}</p>
-<p>Paiement: {{ order.transaction.method }}</p>
-
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Valider" class="btn btn-primary">
-{{ form_end(form) }}
+<div class="row mb-5">
+    <div class="col-4">
+        <p>Le {{ order.dateCreated|date() }}</p>
+        <p>Paiement: {{ order.transaction.method }}</p>
+    </div>
+    <div class="col-4">
+        {{ form_start(form) }}
+            {{ form_row(form.status, {
+                'label': 'statut',
+            }) }}
+            {{ form_row(form.trackingNumber, {
+                'label': 'Numéro de suivi',
+                'required': false,
+            }) }}
+            <input type="submit" value="Valider" class="btn btn-primary">
+        {{ form_end(form) }}
+    </div>
+</div>
 
 <section class="row addresses mb-5">
     <section class="shipping col-md-4">
