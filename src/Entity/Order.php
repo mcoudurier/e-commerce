@@ -13,6 +13,7 @@ use App\Entity\OrderProduct;
  */
 class Order
 {
+    const STATUSES = ['processing', 'shipped'];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -57,6 +58,11 @@ class Order
      * @ORM\OneToOne(targetEntity="App\Entity\Transaction", mappedBy="order", cascade={"persist", "remove"})
      */
     private $transaction;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -180,6 +186,22 @@ class Order
         if ($this !== $transaction->getOrder()) {
             $transaction->setOrder($this);
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        if (!in_array($status, self::STATUSES)) {
+            throw new \InvalidArgumentException('Invalid order status');
+        }
+
+        $this->status = $status;
 
         return $this;
     }

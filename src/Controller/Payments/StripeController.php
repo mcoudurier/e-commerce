@@ -50,6 +50,7 @@ class StripeController extends Controller
         $order->setUser($user)
               ->setShippingAddress($address)
               ->setBillingAddress($address)
+              ->setStatus('processing')
               ->setTransaction(
                   new \App\Entity\Transaction(
                       'stripe', $this->basket->totalPrice($this->basket->getProducts()))

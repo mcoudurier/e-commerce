@@ -96,6 +96,7 @@ class PaypalController extends Controller
         $order->setUser($user)
               ->setShippingAddress($address)
               ->setBillingAddress($address)
+              ->setStatus('processing')
               ->setTransaction(
                   new \App\Entity\Transaction(
                       'paypal', $this->basket->totalPrice($this->basket->getProducts()))
