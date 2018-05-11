@@ -3,29 +3,34 @@
 
 {% block shop_content %}
 
-<h2>Nouveautés</h2>
-<div class="row">
-    {% for product in products %}
-        <div class="col-md-4">
-            <article class="product-card card border-0">
-                {% set thumb = product.images|first %}
-                <div class="image-container">
-                    <a href="/product/{{ product.id }}">
-                        <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product-card__image img img-fluid">
-                    </a>
-                </div>
-                <div class="card-body">
-                    <h4 class="product-card__heading">
-                        <a href="/product/{{ product.id }}" class="product-card__link">
-                            {{ product.name }}
+<section class="new-products">
+    <header class="d-flex flex-column justify-content-center align-items-center mb-4">
+        <h2>Nouveautés</h2>
+        <div class="line"></div>
+    </header>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4">
+                <article class="product-card card border-0 mb-4">
+                    {% set thumb = product.images|first %}
+                    <div class="image-container">
+                        <a href="/product/{{ product.id }}">
+                            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="product-card__image img img-fluid">
                         </a>
-                    </h4>
-                    <div class="divider mb-2"></div>
-                    <div class="product-card__price text-right">{{ product.price }} €</div>
-                </div>
-            </article>
-        </div>
-    {% endfor %}
-</div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <h4 class="product-card__heading">
+                            <a href="/product/{{ product.id }}" class="product-card__link">
+                                {{ product.name }}
+                            </a>
+                        </h4>
+                        <div class="divider mb-2"></div>
+                        <div class="product-card__price text-right">{{ product.price }} €</div>
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock %}

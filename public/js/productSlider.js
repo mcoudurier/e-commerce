@@ -4,10 +4,11 @@ $(document).ready(() => {
 
     $images.on('click', (e) => {
         let i = 0;
-       
+
         $('.overlay__close').on('click', () => {
             $('.overlay').fadeOut();
             $('.overlay__slide img').remove();
+            $('body').removeClass('noscroll');
         });
 
         $('.previous').on('click', () => {
@@ -27,6 +28,7 @@ $(document).ready(() => {
         });
 
         $('.overlay').fadeIn();
+        $('body').addClass('noscroll');
         $('.overlay__slide').append(e.target.cloneNode());
     });
 });

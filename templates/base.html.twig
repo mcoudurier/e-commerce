@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}E-commerce{% endblock %}</title>
         <meta name="viewport" content="width=device-width initial-scale=1.0">
+        <meta name="description" content="E-commerce">
         <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet">
         <link rel="stylesheet" href="/css/style.css">
         <script
@@ -17,25 +18,20 @@
         {% endblock %}
     </head>
     <body class="">
-        <header class="bg-white">
-            <nav class="navbar navbar-light">
-                <button class="btn d-block d-md-none" data-toggle="collapse" data-target="#sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
-               
+        <header class="top-header bg-white">
+            <nav class="top-nav navbar navbar-light">
                 <a href="{{ path('index') }}" class="navbar-brand">Brand</a>
                 
                 <div class="nav-right d-flex mx-2">
-                    <div class="dropdown pr-2 mr-2">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {% set href = path('user_account') %}
-                        {% else %}
-                            {% set href = path('user_welcome') %}
-                        {% endif %}
-                        <a href="{{ href }}" class="text-secondary">
-                            <i class="far fa-user"></i>
-                        </a>
+                    <div class="dropdown mr-4">
+                        <i class="far fa-user"></i>
                         <div class="dropdown-menu">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path('user_account') }}" class="dropdown-item">Mon compte</a>
+                            {% else %}
+                                <a href="{{ path('user_welcome') }}" class="dropdown-item">Connexion</a>
+                                <a href="{{ path('user_welcome') }}" class="dropdown-item">Nouveau compte</a>
+                            {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a class="dropdown-item" href="{{ path('admin_index') }}">Administration</a>
                             {% endif %}
