@@ -1,5 +1,6 @@
 <?php
 namespace App\Payments;
+
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
@@ -35,14 +36,16 @@ class PaypalFactory
             $itemList->addItem($item);
         }
 
+        $subTotal = $basket->totalPrice($products);
+
         $details = (new Details())
-            //->setShipping(0)
-            //->setTax(0)
-            ->setSubtotal($basket->totalPrice($products));
+            ->setShipping($basket->getShippingFee())
+            //->setTax()
+            ->setSubtotal($subTotal);
 
         $amount = (new Amount())
             ->setCurrency('EUR')
-            ->setTotal($basket->totalPrice($products))
+            ->setTotal($basket->grandTotal())
             ->setDetails($details);
 
         return (new Transaction())

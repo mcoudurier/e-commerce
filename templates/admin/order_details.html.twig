@@ -10,6 +10,7 @@
     <div class="col-4">
         <p>Le {{ order.dateCreated|date() }}</p>
         <p>Paiement: {{ order.transaction.method }}</p>
+        <p>Livraison: {{ order.shippingMethod.name }}</p>
     </div>
     <div class="col-4">
         {{ form_start(form) }}
@@ -99,6 +100,7 @@
         {% endfor %}
     </tbody>
 </table>
+<p>Livraison: {{ order.shippingMethod.fee }} €</p>
 <p>Total: {{ order.transaction.total }} €</p>
 
 {% endblock %}

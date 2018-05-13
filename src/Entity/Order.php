@@ -69,6 +69,12 @@ class Order
      */
     private $trackingNumber;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ShippingMethod")
+     * @ORM\JoinColumn(name="shipping_method_id", referencedColumnName="id", nullable=false)
+     */
+    private $shippingMethod;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -219,6 +225,18 @@ class Order
     public function setTrackingNumber(?string $trackingNumber): self
     {
         $this->trackingNumber = $trackingNumber;
+
+        return $this;
+    }
+
+    public function getShippingMethod(): ?ShippingMethod
+    {
+        return $this->shippingMethod;
+    }
+
+    public function setShippingMethod(?ShippingMethod $shippingMethod): self
+    {
+        $this->shippingMethod = $shippingMethod;
 
         return $this;
     }

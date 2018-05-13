@@ -54,16 +54,23 @@
 <div class="d-flex justify-content-end">
     <div>
         <p>
-            Sous total: {{ totalPrice }} €
+            <span class="font-weight-bold">Sous total:</span> {{ total_price }} €
         </p>
         <p>
-            Livraison: 
+            <span class="font-weight-bold">Livraison:</span>
+            {% if shipping_fee == 0 %}
+                gratuite
+            {% else %}
+                {{ shipping_fee }} €
+            {% endif %}
         </p>
         <p>
-            TVA 20%: {{ vatPrice }} €
+            <span class="font-weight-bold">TVA 20%:</span>
+            {{ vat_price }} €
         </p>
         <p>
-            Total à payer: 
+            <span class="font-weight-bold">Total à payer:</span>
+            {{ grand_total }} €
         </p>
     </div>
 </div>

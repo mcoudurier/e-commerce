@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Basket;
 use App\Form\AddressType;
+use App\Entity\ShippingMethod;
 
 class CheckoutController extends Controller
 {
@@ -43,19 +44,16 @@ class CheckoutController extends Controller
 
     public function shipping(Request $req)
     {
-        $form = $this->createFormBuilder()
-            ->add('shipping', ChoiceType::class, [
-                'expanded' => true,
-                'choices' => [
-                    'Colissimo' => 'colissimo',
-                    'Chronopost' => 'chronopost',
-                ],
-            ])
-            ->getForm();
+        $shippingMethod = new ShippingMethod();
+
+        $form = $this->createForm(\App\Form\ShippingMethodType::class, null);
 
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $shippingMethod = $form->getData()['shippingMethod'];
+            
+            $this->basket->addShippingMethod($shippingMethod);
             return $this->redirectToRoute('checkout_summary');
         }
 
@@ -68,12 +66,16 @@ class CheckoutController extends Controller
     {
         $products = $this->basket->getProducts();
         $totalPrice = $this->basket->totalPrice($products);
-        $vatPrice = $this->basket->vatPrice($totalPrice);
+        $vatPrice = $this->basket->vatPrice($this->basket->grandTotal());
+        $shippingFee = $this->basket->getShippingMethod()->getFee();
+        $grandTotal = $this->basket->grandTotal();
         
         return $this->render('shop/checkout/summary.html.twig', [
             'products' => $products,
-            'totalPrice' => $totalPrice,
-            'vatPrice' => $vatPrice,
+            'total_price' => $totalPrice,
+            'shipping_fee' => $shippingFee,
+            'vat_price' => $vatPrice,
+            'grand_total' => $grandTotal,
         ]);
     }
 

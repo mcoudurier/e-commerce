@@ -1,9 +1,10 @@
 <?php
 namespace App\Entity;
 
-use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\Product;
+use App\Entity\ShippingMethod;
 
 /**
  * Represents the basket in the session
@@ -136,5 +137,28 @@ class Basket implements \Countable
         $netPrice = $totalPrice / (1 + $vatRate);
         $vatPrice = $totalPrice - $netPrice;
         return round($vatPrice, 2);
+    }
+
+    public function addShippingMethod($shippingMethod)
+    {
+        $this->session->set('shipping', $shippingMethod);
+    }
+
+    public function getShippingFee(): float
+    {
+        return $this->session->get('shipping')->getFee();
+    }
+
+    public function getShippingMethod(): ShippingMethod
+    {
+        $id = $this->session->get('shipping')->getId();
+        return $this->objectManager
+            ->getRepository(ShippingMethod::class)
+            ->find($id);
+    }
+
+    public function grandTotal(): float
+    {
+        return $this->totalPrice($this->getProducts()) + $this->getShippingFee();
     }
 }

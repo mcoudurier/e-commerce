@@ -62,6 +62,7 @@ class PaypalController extends Controller
         try {
             $payment->create($this->apiContext);
         } catch (\Exception $e) {
+            return new Response($e->getData());
             return new Response('Payement impossible');
         }
         
@@ -90,6 +91,7 @@ class PaypalController extends Controller
         
         $user = $this->getUser();
         $address = $user->getAddresses()[0];
+        $totalPrice = $this->basket->grandTotal();
 
         $order = new Order();
         $order->create($this->basket);
@@ -97,9 +99,10 @@ class PaypalController extends Controller
               ->setShippingAddress($address)
               ->setBillingAddress($address)
               ->setStatus('processing')
+              ->setShippingMethod($this->basket->getShippingMethod())
               ->setTransaction(
                   new \App\Entity\Transaction(
-                      'paypal', $this->basket->totalPrice($this->basket->getProducts()))
+                      'paypal', $totalPrice)
               );
         
         $em = $this->getDoctrine()->getManager();

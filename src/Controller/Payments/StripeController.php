@@ -30,9 +30,9 @@ class StripeController extends Controller
         \Stripe\Stripe::setApiKey($this->secretKey);
 
         $token = $req->get('stripeToken');
-        
-        $products = $this->basket->getProducts();
-        $totalPrice = $this->basket->totalPrice($products) * 100;
+       
+        // Stripe expects prices in pennies
+        $totalPrice = $this->basket->grandTotal() * 100;
 
         $charge = \Stripe\Charge::create([
             'amount' => $totalPrice,
@@ -51,9 +51,10 @@ class StripeController extends Controller
               ->setShippingAddress($address)
               ->setBillingAddress($address)
               ->setStatus('processing')
+              ->setShippingMethod($this->basket->getShippingMethod())
               ->setTransaction(
                   new \App\Entity\Transaction(
-                      'stripe', $this->basket->totalPrice($this->basket->getProducts()))
+                      'stripe', $totalPrice)
               );
         
         $em = $this->getDoctrine()->getManager();

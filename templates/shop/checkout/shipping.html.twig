@@ -23,6 +23,18 @@
 </header>
 
 {{ form_start(form, { 'attr': { 'id': 'form' } })  }}
+    {% for shippingMethod in form.shippingMethod %}
+        {% set index = shippingMethod.vars.value %}
+        {% set entity = form.shippingMethod.vars.choices[index].data %}
+        {% if entity.fee == 0 %}
+            {% set label = entity.name ~ ' gratuit' %}
+        {% else %}
+            {% set label = entity.name ~ ' ' ~ entity.fee ~ ' €' %}
+        {% endif %}
+        {{ form_row(shippingMethod, {
+            'label': label,
+        }) }}
+    {% endfor %}
 {{ form_end(form) }}
 <input type="submit" form="form" value="Suivant" class="btn btn-primary">
 
