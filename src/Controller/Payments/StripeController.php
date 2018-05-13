@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Basket;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\Order;
 
 class StripeController extends Controller
 {
@@ -43,20 +42,9 @@ class StripeController extends Controller
         ]);
         
         $user = $this->getUser();
-        $address = $user->getAddresses()[0];
-
-        $order = new Order();
-        $order->create($this->basket);
-        $order->setUser($user)
-              ->setShippingAddress($address)
-              ->setBillingAddress($address)
-              ->setStatus('processing')
-              ->setShippingMethod($this->basket->getShippingMethod())
-              ->setTransaction(
-                  new \App\Entity\Transaction(
-                      'stripe', $totalPrice)
-              );
         
+        $order = \App\lib\OrderFactory::create($this->basket, $this->getUser(), 'stripe');
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);
         $em->flush();

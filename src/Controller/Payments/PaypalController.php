@@ -5,16 +5,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Basket;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Payments\PaypalFactory;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\PaymentExecution;
-use App\Entity\Order;
+use App\Entity\Basket;
+use App\Payments\PaypalFactory;
 
 class PaypalController extends Controller
 {
@@ -89,21 +88,7 @@ class PaypalController extends Controller
             return new Response('Payement impossible');
         }
         
-        $user = $this->getUser();
-        $address = $user->getAddresses()[0];
-        $totalPrice = $this->basket->grandTotal();
-
-        $order = new Order();
-        $order->create($this->basket);
-        $order->setUser($user)
-              ->setShippingAddress($address)
-              ->setBillingAddress($address)
-              ->setStatus('processing')
-              ->setShippingMethod($this->basket->getShippingMethod())
-              ->setTransaction(
-                  new \App\Entity\Transaction(
-                      'paypal', $totalPrice)
-              );
+        $order = \App\lib\OrderFactory::create($this->basket, $this->getUser(), 'paypal');
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);
