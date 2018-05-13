@@ -82,7 +82,7 @@ class CheckoutController extends Controller
     public function payment()
     {
         $products = $this->basket->getProducts();
-        $totalPrice = $this->basket->totalPrice($products) * 100;
+        $totalPrice = $this->basket->grandTotal() * 100;
 
         return $this->render('shop/checkout/payment.html.twig', [
             'stripe_pk' => $this->stripePk,
