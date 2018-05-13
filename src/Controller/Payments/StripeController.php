@@ -5,8 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Basket;
 use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\Basket;
+use App\Service\Mailer;
 
 class StripeController extends Controller
 {
@@ -24,7 +25,7 @@ class StripeController extends Controller
         $this->secretKey = $this->config['secret_key'];
     }
 
-    public function stripeCheckout(Request $req, \Swift_Mailer $mailer)
+    public function stripeCheckout(Request $req, Mailer $mailer)
     {
         \Stripe\Stripe::setApiKey($this->secretKey);
 
@@ -49,16 +50,8 @@ class StripeController extends Controller
         $em->persist($order);
         $em->flush();
         
-        $message = (new \Swift_Message('Confirmation de commande'))
-            ->setFrom('send@example.com')
-            ->setTo($this->getUser()->getEmail())
-            ->setBody(
-                $this->renderView('emails/order_confirmation.html.twig'),
-                'text/html'
-            );
-
-        $mailer->send($message);
-
+        $mailer->orderConfirmation($user);
+        
         return $this->render('shop/order_confirmation.html.twig');
     }
 }

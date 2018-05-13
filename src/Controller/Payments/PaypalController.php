@@ -14,6 +14,7 @@ use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\PaymentExecution;
 use App\Entity\Basket;
 use App\Payments\PaypalFactory;
+use App\Service\Mailer;
 
 class PaypalController extends Controller
 {
@@ -74,7 +75,7 @@ class PaypalController extends Controller
      * @param Request $req
      * @return void
      */
-    public function paypalPayment(Request $req, \Swift_Mailer $mailer)
+    public function paypalPayment(Request $req, Mailer $mailer)
     {
         $payment = Payment::get($req->get('paymentId'), $this->apiContext);
         
@@ -87,22 +88,16 @@ class PaypalController extends Controller
         } catch (\Exception $e) {
             return new Response('Payement impossible');
         }
+
+        $user = $this->getUser();
         
-        $order = \App\lib\OrderFactory::create($this->basket, $this->getUser(), 'paypal');
+        $order = \App\lib\OrderFactory::create($this->basket, $user, 'paypal');
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);
         $em->flush();
 
-        $message = (new \Swift_Message('Confirmation de commande'))
-            ->setFrom('send@example.com')
-            ->setTo($this->getUser()->getEmail())
-            ->setBody(
-                $this->renderView('emails/order_confirmation.html.twig'),
-                'text/html'
-            );
-
-        $mailer->send($message);
+        $mailer->orderConfirmation($user);
 
         return $this->render('shop/order_confirmation.html.twig');
     }
