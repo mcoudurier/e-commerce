@@ -63,6 +63,16 @@ class Address
      * @ORM\Column(type="string", length=255)
      */
     private $type;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreated;
+
+    public function __construct()
+    {
+        $this->dateCreated = new \DateTime();
+    }
     
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
@@ -182,6 +192,18 @@ class Address
             throw new \InvalidArgumentException('Invalid address type');
         }
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDateCreated(): ?\DateTimeInterface
+    {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated(\DateTimeInterface $dateCreated): self
+    {
+        $this->dateCreated = $dateCreated;
 
         return $this;
     }
