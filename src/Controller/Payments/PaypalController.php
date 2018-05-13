@@ -98,6 +98,8 @@ class PaypalController extends Controller
         $em->flush();
 
         $mailer->orderConfirmation($user);
+        
+        $this->basket->clear();
 
         return $this->render('shop/order_confirmation.html.twig');
     }
