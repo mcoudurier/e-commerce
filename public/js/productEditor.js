@@ -24,11 +24,11 @@ function previewImage(fileInput) {
     if (fileInput.files && fileInput.files[0]) {
         let reader = new FileReader();
         reader.onload = function(e) {
-            $('.image:last img').remove();
+            $(fileInput).closest('.image').find('.img:first').remove();
             $('<img/>', {
                 'class': 'img img-fluid',
                 'src': e.target.result,
-            }).prependTo($('.image:last'));
+            }).prependTo(fileInput.closest('.image'));
         }
         reader.readAsDataURL(fileInput.files[0]);
     }
