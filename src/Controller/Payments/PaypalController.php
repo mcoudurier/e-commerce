@@ -15,6 +15,7 @@ use PayPal\Api\PaymentExecution;
 use App\Entity\Basket;
 use App\Payments\PaypalFactory;
 use App\Service\Mailer;
+use App\Service\OrderFactory;
 
 class PaypalController extends Controller
 {
@@ -75,7 +76,7 @@ class PaypalController extends Controller
      * @param Request $req
      * @return void
      */
-    public function paypalPayment(Request $req, Mailer $mailer)
+    public function paypalPayment(Request $req, Mailer $mailer, OrderFactory $orderFactory)
     {
         $payment = Payment::get($req->get('paymentId'), $this->apiContext);
         
@@ -91,7 +92,7 @@ class PaypalController extends Controller
 
         $user = $this->getUser();
         
-        $order = \App\lib\OrderFactory::create($this->basket, $user, 'paypal');
+        $order = $orderFactory->create($this->basket, $user, 'paypal');
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);

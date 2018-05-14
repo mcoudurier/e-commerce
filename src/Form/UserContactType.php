@@ -6,7 +6,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Entity\User;
+use App\Entity\Address;
+use App\Form\Model\UserContact;
 
 class UserContactType extends AbstractType
 {
@@ -15,8 +16,8 @@ class UserContactType extends AbstractType
         $builder
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
-            ->add('addresses', CollectionType::class, [
-                'entry_type' => AddressType::class,
+            ->add('address', AddressType::class, [
+                'error_bubbling' => true,
             ])
         ;
     }
@@ -24,7 +25,7 @@ class UserContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => UserContact::class,
         ]);
     }
 }

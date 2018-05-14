@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Basket;
 use App\Service\Mailer;
+use App\Service\OrderFactory;
 
 class StripeController extends Controller
 {
@@ -25,7 +26,7 @@ class StripeController extends Controller
         $this->secretKey = $this->config['secret_key'];
     }
 
-    public function stripeCheckout(Request $req, Mailer $mailer)
+    public function stripeCheckout(Request $req, Mailer $mailer, OrderFactory $orderFactory)
     {
         \Stripe\Stripe::setApiKey($this->secretKey);
 
@@ -44,7 +45,7 @@ class StripeController extends Controller
         
         $user = $this->getUser();
         
-        $order = \App\lib\OrderFactory::create($this->basket, $this->getUser(), 'stripe');
+        $order = $orderFactory->create($this->basket, $user, 'paypal');
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);

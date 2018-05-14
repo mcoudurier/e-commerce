@@ -9,6 +9,6 @@
             {{ form_widget(address_form.lastName) }}
         </div>
     </div>
-    {% set address = address_form.addresses[0] %}
+    {% set address = address_form.address %}
     {% include 'shop/account/address_form.html.twig' with {'address_form': address } %}
 {{ form_end(address_form) }}

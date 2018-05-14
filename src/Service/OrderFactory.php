@@ -1,28 +1,37 @@
 <?php
-namespace App\lib;
+namespace App\Service;
 
 use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Entity\Basket;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Repository\AddressRepository;
 
 class OrderFactory
 {
-    public static function create(Basket $basket, User $user, string $paymentMethod)
+    private $addressRepository;
+
+    public function __construct(AddressRepository $addressRepository)
+    {
+        $this->addressRepository = $addressRepository;
+    }
+    public function create(Basket $basket, User $user, string $paymentMethod)
     {
         $order = new Order();
         
         foreach ($basket->getProducts() as $product) {
             $order->addProduct(new OrderProduct($product));
         }
+
+        $shippingAddress = $this->addressRepository->findCurrentWithType($user->getId(), 'shipping');
+        $billingAddress = $this->addressRepository->findCurrentWithType($user->getId(), 'billing');
         
-        $address = $user->getAddresses()[0];
         $totalPrice = $basket->grandTotal();
 
         $order->setUser($user)
-              ->setShippingAddress($address)
-              ->setBillingAddress($address)
+              ->setShippingAddress($shippingAddress)
+              ->setBillingAddress($billingAddress)
               ->setStatus('processing')
               ->setShippingMethod($basket->getShippingMethod())
               ->setTransaction(

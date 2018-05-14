@@ -9,6 +9,7 @@ use App\Entity\Address;
 use App\Form\AddressType;
 use App\Form\UserContactType;
 use App\Repository\OrderRepository;
+use App\Repository\AddressRepository;
 
 class UserController extends Controller
 {
@@ -26,29 +27,45 @@ class UserController extends Controller
         return $this->render('shop/account/account.html.twig');
     }
 
-    public function editAddress(): Response
+    public function editAddress(AddressRepository $addressRepository): Response
     {
-        $address = new Address();
-        
         $user = $this->getUser();
-        if (!$user->getAddresses()->isEmpty()) {
-            $address = $user->getAddresses()[0];
-        } else {
-            $user->addAddress($address);
-        }
         
-        $form = $this->createForm(UserContactType::class, $user);
+        $address = $addressRepository->findCurrentWithType($user->getId(), 'billing');
+
+        $userContact = new \App\Form\Model\UserContact($user, $address);
+        
+        $form = $this->createForm(UserContactType::class, $userContact);
         
         $masterRequest = $this->get('request_stack')->getMasterRequest();
         $form->handleRequest($masterRequest);
         
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $user = $form->getData();
+            $uow = $this->getDoctrine()
+                ->getManager()
+                ->getUnitOfWork();
+            $uow->computeChangeSets();
+
+            if ($uow->isEntityScheduled($address)) {
+                $address = clone $address;
+                $address->setDateCreated(new \DateTime());
+            }
             
+            $userContact = $form->getData();
+            $address = $userContact->getAddress();
+
+            $user->setFirstName($userContact->getFirstName())
+                 ->setLastName($userContact->getLastName());
+
             $address->setUser($user)
                     ->setCountry('France')
                     ->setType('billing');
+            
+            if ($uow->isEntityScheduled($address)) {
+                $address = clone $address;
+                $address->setDateCreated(new \DateTime());
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($address);

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Basket;
 use App\Form\AddressType;
 use App\Entity\ShippingMethod;
+use App\Repository\AddressRepository;
 
 class CheckoutController extends Controller
 {
@@ -24,15 +25,32 @@ class CheckoutController extends Controller
         $this->stripePk = $this->config['publishable_key'];
     }
 
-    public function address(Request $req)
+    public function address(Request $req, AddressRepository $addressRepository)
     {
-        $address = $this->getUser()->getAddresses()[0];
+        $address = $addressRepository
+            ->findCurrentWithType($this->getUser()->getId(), 'shipping');
         $form = $this->createForm(AddressType::class, $address);
         
         $form->handleRequest($req);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            $address = $form->getData();
+           
+            $uow = $this->getDoctrine()
+                ->getManager()
+                ->getUnitOfWork();
+            $uow->computeChangeSets();
+
+            if ($uow->isEntityScheduled($address)) {
+                $address = clone $address;
+                $address->setDateCreated(new \DateTime());
+            }
+
             $address->setType('shipping');
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($address);
+            $em->flush();
 
             return $this->redirectToRoute('checkout_shipping');
         }
