@@ -34,6 +34,12 @@ class CheckoutController extends Controller
         if (!$this->basket->hasProducts()) {
             return $this->redirectToRoute('basket_show');
         }
+        $billingAddress = $addressRepository
+            ->findCurrentWithType($this->getUser()->getId(), 'shipping');
+        if (null === $billingAddress) {
+            $this->addFlash('info', 'Veuillez renseigner une adresse de facturation avant de continuer');
+            return $this->redirectToRoute('user_account');
+        }
 
         $address = $addressRepository
             ->findCurrentWithType($this->getUser()->getId(), 'shipping');
