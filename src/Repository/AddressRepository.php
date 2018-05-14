@@ -19,7 +19,7 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
-    public function findCurrentWithType(int $userId, string $type): Address
+    public function findCurrentWithType(int $userId, string $type): ?Address
     {
         return $this->createQueryBuilder('a')
             ->where('a.user = :userId')

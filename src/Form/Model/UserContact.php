@@ -16,7 +16,7 @@ class UserContact
 
     private $address;
 
-    public function __construct(User $user, Address $address)
+    public function __construct(User $user, ?Address $address)
     {
         $this->user = $user;
         $this->firstName = $user->getFirstName();
@@ -28,7 +28,6 @@ class UserContact
     {
         $metadata->addPropertyConstraint('firstName', new Assert\NotNull());
         $metadata->addPropertyConstraint('lastName', new Assert\NotNull());
-        $metadata->addPropertyConstraint('user', new Assert\Valid());
         $metadata->addPropertyConstraint('address', new Assert\Valid());
     }
 

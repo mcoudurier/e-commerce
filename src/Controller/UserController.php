@@ -42,6 +42,9 @@ class UserController extends Controller
         
         if ($form->isSubmitted() && $form->isValid()) {
             
+            $userContact = $form->getData();
+            $address = $userContact->getAddress();
+            
             $uow = $this->getDoctrine()
                 ->getManager()
                 ->getUnitOfWork();
@@ -51,9 +54,6 @@ class UserController extends Controller
                 $address = clone $address;
                 $address->setDateCreated(new \DateTime());
             }
-            
-            $userContact = $form->getData();
-            $address = $userContact->getAddress();
 
             $user->setFirstName($userContact->getFirstName())
                  ->setLastName($userContact->getLastName());

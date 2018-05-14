@@ -46,7 +46,9 @@ class CheckoutController extends Controller
                 $address->setDateCreated(new \DateTime());
             }
 
-            $address->setType('shipping');
+            $address->setType('shipping')
+                    ->setCountry('France')
+                    ->setUser($this->getUser());
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($address);
