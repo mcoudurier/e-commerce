@@ -100,16 +100,17 @@ user_order:
         id: '\d+'
 
 paypal_checkout:
-    path: /checkout/paypal
+    path: /checkout/paypal-checkout
     controller: App\Controller\Payments\PaypalController::paypalCheckout
 
 paypal_payment:
-    path: /checkout/success
+    path: /checkout/paypal-payment
     controller: App\Controller\Payments\PaypalController::paypalPayment
 
 stripe_checkout:
-    path: /checkout/stripe
+    path: /checkout/stripe-checkout
     controller: App\Controller\Payments\StripeController::stripeCheckout
+    methods: [POST]
 
 checkout_address:
     path: /checkout/address

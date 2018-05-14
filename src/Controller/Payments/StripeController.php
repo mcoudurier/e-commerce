@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Basket;
 use App\Service\Mailer;
@@ -18,16 +19,23 @@ class StripeController extends Controller
 
     private $secretKey;
 
+    private $session;
+
     public function __construct(ObjectManager $objectManager)
     {
         $this->basket = new Basket($objectManager);
         // TODO: Load the config in a cleaner way
         $this->config = require(__DIR__ . '/../../../config/stripe.php');
         $this->secretKey = $this->config['secret_key'];
+        $this->session = new Session();
     }
 
     public function stripeCheckout(Request $req, Mailer $mailer, OrderFactory $orderFactory)
     {
+        if (!$this->session->get('checkout/payment')) {
+            return $this->redirectToRoute('basket_show');
+        }
+
         \Stripe\Stripe::setApiKey($this->secretKey);
 
         $token = $req->get('stripeToken');
@@ -54,7 +62,7 @@ class StripeController extends Controller
         $mailer->orderConfirmation($user);
 
         $this->basket->clear();
-
+        
         return $this->render('shop/order_confirmation.html.twig');
     }
 }

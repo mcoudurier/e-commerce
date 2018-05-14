@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
@@ -25,6 +26,8 @@ class PaypalController extends Controller
 
     private $apiContext;
 
+    private $session;
+
     public function __construct(ObjectManager $objectManager)
     {
         $this->basket = new Basket($objectManager);
@@ -35,6 +38,7 @@ class PaypalController extends Controller
                 $this->config['client_id'],
                 $this->config['secret'])
         );
+        $this->session = new Session();
     }
 
     /**
@@ -45,6 +49,10 @@ class PaypalController extends Controller
      */
     public function paypalCheckout(Request $req)
     {
+        if (!$this->session->get('checkout/payment')) {
+            return $this->redirectToRoute('basket_show');
+        }
+
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
@@ -63,9 +71,10 @@ class PaypalController extends Controller
         try {
             $payment->create($this->apiContext);
         } catch (\Exception $e) {
-            return new Response($e->getData());
             return new Response('Payement impossible');
         }
+        
+        $this->session->set('checkout/paypal-checkout', true);
         
         return $this->redirect($payment->getApprovalLink());
     }
@@ -78,6 +87,10 @@ class PaypalController extends Controller
      */
     public function paypalPayment(Request $req, Mailer $mailer, OrderFactory $orderFactory)
     {
+        if (!$this->session->get('checkout/paypal-checkout')) {
+            return $this->redirectToRoute('basket_show');
+        }
+
         $payment = Payment::get($req->get('paymentId'), $this->apiContext);
         
         $execution = (new PaymentExecution())

@@ -9,6 +9,7 @@ use App\Entity\Basket;
 use App\Form\AddressType;
 use App\Entity\ShippingMethod;
 use App\Repository\AddressRepository;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class CheckoutController extends Controller
 {
@@ -18,15 +19,22 @@ class CheckoutController extends Controller
 
     private $basket;
 
+    private $session;
+
     public function __construct(ObjectManager $objectManager)
     {
         $this->basket = new Basket($objectManager);
         $this->config = require(__DIR__ . '/../../config/stripe.php');
         $this->stripePk = $this->config['publishable_key'];
+        $this->session = new Session();
     }
 
     public function address(Request $req, AddressRepository $addressRepository)
     {
+        if (!$this->basket->hasProducts()) {
+            return $this->redirectToRoute('basket_show');
+        }
+
         $address = $addressRepository
             ->findCurrentWithType($this->getUser()->getId(), 'shipping');
         $form = $this->createForm(AddressType::class, $address);
@@ -54,6 +62,8 @@ class CheckoutController extends Controller
             $em->persist($address);
             $em->flush();
 
+            $this->session->set('checkout/address', true);
+
             return $this->redirectToRoute('checkout_shipping');
         }
 
@@ -62,9 +72,11 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function shipping(Request $req)
+    public function shipping(Request $req, AddressRepository $addressRepository)
     {
-        $shippingMethod = new ShippingMethod();
+        if (!$this->session->get('checkout/address')) {
+            return $this->redirectToRoute('basket_show');
+        }
 
         $form = $this->createForm(\App\Form\ShippingMethodType::class, null);
 
@@ -74,6 +86,9 @@ class CheckoutController extends Controller
             $shippingMethod = $form->getData()['shippingMethod'];
             
             $this->basket->addShippingMethod($shippingMethod);
+
+            $this->session->set('checkout/shipping', true);
+
             return $this->redirectToRoute('checkout_summary');
         }
 
@@ -84,6 +99,11 @@ class CheckoutController extends Controller
 
     public function summary()
     {
+        if (!$this->session->get('checkout/shipping')) {
+            return $this->redirectToRoute('basket_show');
+        }
+        $this->session->set('checkout/summary', true);
+
         $products = $this->basket->getProducts();
         $totalPrice = $this->basket->totalPrice($products);
         $vatPrice = $this->basket->vatPrice($this->basket->grandTotal());
@@ -101,6 +121,11 @@ class CheckoutController extends Controller
 
     public function payment()
     {
+        if (!$this->session->get('checkout/summary')) {
+            return $this->redirectToRoute('basket_show');
+        }
+        $this->session->set('checkout/payment', true);
+
         $products = $this->basket->getProducts();
         $totalPrice = $this->basket->grandTotal() * 100;
 
