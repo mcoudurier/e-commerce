@@ -18,7 +18,7 @@
 {% endblock breadcrumb %}
 
 {% block shop_content %}
-<header>
+<header class="mb-4">
     <h1>Paiement</h1>
 </header>
 
@@ -35,6 +35,6 @@
     </script>
 </form>
 
-<a href="{{ path('paypal_checkout') }}" class="basket-checkout__order btn btn-primary">Commander</a>
+<a href="{{ path('paypal_checkout') }}" class="basket-checkout__order btn btn-primary">Payer avec paypal</a>
 
 {% endblock %}

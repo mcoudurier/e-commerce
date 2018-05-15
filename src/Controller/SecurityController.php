@@ -50,6 +50,8 @@ class SecurityController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            $this->addFlash('success', 'Compte créé. Vous pouvez maintenant vous connecter');
         }
 
         return $this->render('shop/account/register_form.html.twig', [

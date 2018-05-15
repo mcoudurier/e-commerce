@@ -50,7 +50,7 @@ function addImageForm($collectionHolder, $newLinkLi) {
 
     $collectionHolder.data('index', index + 1);
 
-    $('<div class="col-md-3 image">'+newForm+'</div>').insertBefore($('.add-image-container'))
+    $('<div class="col-md-4 image">'+newForm+'</div>').insertBefore($('.add-image-container'))
 
     $fileInput = $('input[type=file]').last();
     $fileInput.change(function() {

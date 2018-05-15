@@ -20,38 +20,41 @@
 
 <div class="card">
     <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
+        {% if orders is empty %}
+            <p>Pas de commande pour l'instant.</p>
+        {% else %}
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            <a href="{{ path('user_order', { 'id': order.id }) }}">{{ order.id }}</a>
-                        </td>
-                        <td>
-                            {{ order.dateCreated|date() }}
-                        </td>
-                        <td>
-                            <div class="badge badge-primary p-2">
-                                {{ order.status }}
-                            </div>
-                        </td>
-                        <td>
-                            {{ order.transaction.total }} €
-                        </td>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Total</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('user_order', { 'id': order.id }) }}">{{ order.id }}</a>
+                            </td>
+                            <td>
+                                {{ order.dateCreated|date() }}
+                            </td>
+                            <td>
+                                <div class="badge badge-primary p-2">
+                                    {{ order.status }}
+                                </div>
+                            </td>
+                            <td>
+                                {{ order.transaction.total }} €
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 </div>
-
 
 {% endblock %}

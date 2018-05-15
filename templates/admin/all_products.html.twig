@@ -2,7 +2,9 @@
 {% block title %}Tous les produits{% endblock title %}
 
 {% block admin_content %}
-    <h1 class="mb-4">Produits</h1>
+    <header class="mb-4">
+        <h1>Produits</h1>
+    </header>
 
     {{ form_start(form) }}
     {{ form_row(form.search, {
@@ -13,7 +15,7 @@
     {{ form_end(form) }}
 
     <table class="table table-hover">
-        <thead>
+        <thead class="thead-responsive">
             <tr class="row">
                 <th class="col-md">Produit</th>
                 <th class="col-md">Catégorie</th>
@@ -22,24 +24,26 @@
         </thead>
         {% if products is not empty %}
             {% for product in products %}
-            <tr class="row tr-link" data-href="{{ path('admin_product-editor', {'id': product.id }) }}">
-                <td class="col-md">
-                    <div class="row">
-                    {% set thumb = product.images|first %}
-                        <div class="col-md">
-                            <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="img img-fluid">
+                <tr class="row tr-link" data-href="{{ path('admin_product-editor', {'id': product.id }) }}">
+                    <td class="col-md">
+                        <div class="row">
+                            {% set thumb = product.images|first %}
+                            <div class="col-md">
+                                <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="img img-fluid">
+                            </div>
+                            <div class="col-md">
+                                {{ product.name }}
+                            </div>
                         </div>
-                        <div class="col-md">
-                            {{ product.name }}
-                        </div>
-                    </div>
-                </td>
-                <td class="col-md">{{ product.category }}</td>
-                <td class="col-md">{{ product.stock }}</td>
-            </tr>
+                    </td>
+                    <td class="col-md">{{ product.category }}</td>
+                    <td class="col-md">{{ product.stock }}</td>
+                </tr>
             {% endfor %}
         {% else %}
-        <tr><td>Aucun résultat</td></tr>
+            <tr>
+                <td>Aucun résultat</td>
+            </tr>
         {% endif %}
     </table>
     

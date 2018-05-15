@@ -2,13 +2,14 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row flex-md-nowrap">
-            <div class="d-md-none col-12 my-3 d-flex justify-content-end">
+        <div class="row">
+            <div class="col-12 d-lg-none my-3 d-flex justify-content-end">
                 <button class="btn" data-toggle="collapse" data-target="#sidebar">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <nav id="sidebar" class="sidebar d-md-block collapse col-12 col-md-3 col-lg-2">
+            
+            <nav id="sidebar" class="sidebar collapse d-lg-block col-12 col-lg-3 col-xl-2">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('admin_index') }}">Accueil</a>
@@ -25,8 +26,9 @@
                 </ul>
             </nav>
             
-            <main class="col-md-10 py-5">
-            {% block admin_content %}{% endblock %}
+            <main class="col-lg-9 col-xl-10 py-lg-4 py-md-3 py-2">
+                {% block admin_content %}
+                {% endblock %}
             </main>
         </div>
     </div>

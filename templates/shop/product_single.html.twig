@@ -38,14 +38,14 @@
         </header>
         <p class="product-single__price">{{ product.price }} €</p>
         <div class="basket-add mb-4">
-                {% if product.hasStock %}
-                    <a href="/basket/add/{{ product.id }}" class="btn btn-primary">
-                        <i class="fas fa-shopping-cart mr-2"></i>
-                        Ajouter au panier
-                    </a>
-                {% else %}
-                    <a href="#" class="btn btn-secondary disabled">Rupture de stock</a>
-                {% endif %}
+            {% if product.hasStock %}
+                <a href="/basket/add/{{ product.id }}" class="btn btn-primary">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    Ajouter au panier
+                </a>
+            {% else %}
+                <a href="#" class="btn btn-secondary disabled">Rupture de stock</a>
+            {% endif %}
         </div>
         <p>
             {{ product.description }}

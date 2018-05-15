@@ -18,14 +18,14 @@
 {% endblock breadcrumb %}
 
 {% block shop_content %}
-<header>
+<header class="mb-4">
     <h1>Récapitulatif</h1>
 </header>
 
 <table class="table">
     <thead>
         <tr class="row">
-            <th class="col">Produit</th>
+            <th class="col-6">Produit</th>
             <th class="col">Quantité</th>
             <th class="col">Total</th>
         </tr>
@@ -33,7 +33,7 @@
     <tbody>
         {% for product in products %}
             <tr class="row">
-                <td class="col">
+                <td class="col-6">
                     <div class="row">
                         {% set image = product.images|first %}
                         <div class="col">
@@ -65,7 +65,7 @@
             {% endif %}
         </p>
         <p>
-            <span class="font-weight-bold">TVA 20%:</span>
+            <span class="font-weight-bold">Dont TVA:</span>
             {{ vat_price }} €
         </p>
         <p>
