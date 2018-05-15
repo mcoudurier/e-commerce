@@ -62,9 +62,15 @@ class Product
      */
     private $active = true;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreated;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->dateCreated = new \DateTime();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -216,6 +222,18 @@ class Product
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getDateCreated(): ?\DateTimeInterface
+    {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated(\DateTimeInterface $dateCreated): self
+    {
+        $this->dateCreated = $dateCreated;
 
         return $this;
     }

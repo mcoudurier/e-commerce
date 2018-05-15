@@ -3,17 +3,18 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Product;
+use App\Repository\ProductRepository;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(ProductRepository $productRepository)
     {
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->findAll();
+        $allProducts = $productRepository->findAll();
+        $latestProducts = $productRepository->findLatest(3);
 
         return $this->render('shop/index.html.twig', [
-            'products' => $products,
+            'all_products' => $allProducts,
+            'latest_products' => $latestProducts,
         ]);
     }
 
