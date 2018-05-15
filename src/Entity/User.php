@@ -95,12 +95,6 @@ class User implements UserInterface, \Serializable
             'groups' => ['register'],
         ]));
 
-        $metadata->addPropertyConstraint('firstName', new Assert\Type('string'));
-        $metadata->addPropertyConstraint('firstName', new Assert\NotNull());
-
-        $metadata->addPropertyConstraint('lastName', new Assert\Type('string'));
-        $metadata->addPropertyConstraint('lastName', new Assert\NotNull());
-
         $metadata->addPropertyConstraint('role', new Assert\Type('string'));
         $metadata->addPropertyConstraint('role', new Assert\NotNull());
         
