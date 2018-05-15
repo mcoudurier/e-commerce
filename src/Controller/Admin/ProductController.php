@@ -90,6 +90,10 @@ class ProductController extends Controller
             $em->flush();
             
             $this->addFlash('success', 'Produit ajouté');
+            
+            return $this->redirect($this->generateUrl('admin_product-editor', [
+                'id' => $product->getId(),
+            ]));
         }
 
         return $this->render('admin/product_editor.html.twig', [
