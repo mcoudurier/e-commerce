@@ -133,7 +133,7 @@ class CheckoutController extends Controller
         $this->session->set('checkout/payment', true);
 
         $products = $this->basket->getProducts();
-        $totalPrice = $this->basket->grandTotal() * 100;
+        $totalPrice = $this->basket->grandTotal();
 
         return $this->render('shop/checkout/payment.html.twig', [
             'stripe_pk' => $this->stripePk,

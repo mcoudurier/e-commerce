@@ -22,19 +22,46 @@
     <h1>Paiement</h1>
 </header>
 
-<form action="{{ path('stripe_checkout') }}" method="POST">
-    <script
-        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-        data-key="{{ stripe_pk }}"
-        data-amount="{{ total_price }}"
-        data-name="Demo Site"
-        data-description="Example charge"
-        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-        data-locale="auto"
-        data-currency="eur">
-    </script>
-</form>
+<script src="https://js.stripe.com/v3/"></script>
 
-<a href="{{ path('paypal_checkout') }}" class="basket-checkout__order btn btn-primary">Payer avec paypal</a>
+<div class="row">
+    <div class="col-md">
+        <h4>Par carte</h4>
+            <div id="card-errors-container" class="my-2 card-errors-container">
+                <span class="badge badge-danger">Erreur</span>
+                <span id="card-errors" class="my-4"></span>
+            </div>
+        <form action="{{ path('stripe_checkout') }}" method="post" id="payment-form" data-stripe-pk="{{ stripe_pk }}">
+
+            <div class="form-group">
+                <label for="card-number">Numéro</label>
+                <div id="card-number" class="form-control"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="card-expiry">Date d'expiration</label>
+                    <div id="card-expiry" class="form-control"></div>
+                </div>
+                <div class="col">
+                    <label for="card-cvc">Cryptogramme</label>
+                    <div id="card-cvc" class="form-control"></div>
+                </div>
+            </div>
+
+
+            <input type="submit" value="Payer {{ total_price }} €" class="btn btn-primary mt-4">
+        </form>
+    </div>
+
+    <div class="col-md mt-4 mt-md-0">
+        <h4>Avec paypal</h4>
+        <a href="{{ path('paypal_checkout') }}" class="basket-checkout__order btn btn-primary">Payer avec paypal</a>
+    </div>
+</div>
 
 {% endblock %}
+
+{% block javascripts %}
+    <script src="/js/stripeCheckout.js"></script>
+{% endblock javascripts %}

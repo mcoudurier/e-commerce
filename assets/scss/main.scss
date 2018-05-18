@@ -297,3 +297,18 @@ ul {
 .noscroll {
     overflow: hidden;
 }
+
+
+.StripeElement {
+    &--focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #81e4e4;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(40,190,190,0.25);
+    }
+}
+
+.card-errors-container {
+    display: none;
+}
