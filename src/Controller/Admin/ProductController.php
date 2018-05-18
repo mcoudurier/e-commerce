@@ -77,7 +77,7 @@ class ProductController extends Controller
             
             foreach ($product->getImages() as $image) {
                 if ($file = $image->getFile()) {
-                    $filename = time().'_'.$file->getClientOriginalName();
+                    $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
                     $filesize = filesize($file);
                     $image->setSize($filesize);
                     $image->setName($filename);
