@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Basket;
 use App\Service\Mailer;
@@ -30,7 +30,7 @@ class StripeController extends Controller
         $this->session = new Session();
     }
 
-    public function stripeCheckout(Request $req, Mailer $mailer, OrderFactory $orderFactory)
+    public function stripeCheckout(Request $req, Mailer $mailer, OrderFactory $orderFactory): Response
     {
         if (!$this->session->get('checkout/payment')) {
             return $this->redirectToRoute('basket_show');
@@ -53,7 +53,7 @@ class StripeController extends Controller
         
         $user = $this->getUser();
         
-        $order = $orderFactory->create($this->basket, $user, 'paypal');
+        $order = $orderFactory->create($this->basket, $user, 'stripe');
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($order);
