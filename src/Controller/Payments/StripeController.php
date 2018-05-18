@@ -43,13 +43,21 @@ class StripeController extends Controller
         // Stripe expects prices in pennies
         $totalPrice = $this->basket->grandTotal() * 100;
 
-        $charge = \Stripe\Charge::create([
-            'amount' => $totalPrice,
-            'currency' => 'eur',
-            'description' => 'Test charge',
-            'source' => $token,
-            'receipt_email' => $this->getUser()->getEmail(),
-        ]);
+        try {
+            \Stripe\Charge::create([
+                'amount' => $totalPrice,
+                'currency' => 'eur',
+                'description' => 'Test charge',
+                'source' => $token,
+                'receipt_email' => $this->getUser()->getEmail(),
+            ]);
+        } catch(\Stripe\Error\Card $e) {
+            $this->addFlash('danger', 'Paiement refusé');
+            return $this->redirectToRoute('checkout_payment');
+        } catch(\Exception $e) {
+            $this->addFlash('danger', 'Paiement impossible');
+            return $this->redirectToRoute('checkout_payment');
+        }
         
         $user = $this->getUser();
         
