@@ -3,10 +3,10 @@ index:
     controller: App\Controller\ProductController::index
 
 product_show:
-    path: /product/{id}
+    path: /product/{slug}
     controller: App\Controller\ProductController::show
     requirements:
-        id: '\d+'
+        slug: '[a-zA-Z1-9\-]+'
 
 admin_index:
     path: /admin

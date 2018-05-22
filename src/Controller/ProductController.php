@@ -18,11 +18,11 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($slug)
     {
         $product = $this->getDoctrine()
             ->getRepository(Product::class)
-            ->find($id);
+            ->findOneBySlug($slug);
 
         if (!$product) {
             throw $this->createNotFoundException();

@@ -9,7 +9,12 @@ use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
- * @ORM\Table(name="products")
+ * @ORM\Table(
+ *     name="products",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="uniq_slug_softdelete", columns={"slug", "deleted_at"})
+ *     }
+ * )
  */
 class Product
 {
@@ -58,19 +63,26 @@ class Product
     private $quantity;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $active = true;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $dateCreated;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $deletedAt;
+
+    /**
+     * @ORM\Column(type="string", length=191)
+     */
+    private $slug;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->dateCreated = new \DateTime();
+        // Null values are ignored by unique constraints
+        $this->deletedAt = date_create('0000-00-00 00:00:00');
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -234,6 +246,30 @@ class Product
     public function setDateCreated(\DateTimeInterface $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

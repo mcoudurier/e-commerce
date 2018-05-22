@@ -24,8 +24,18 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.id = :id')
-            ->andWhere('p.active = true')
+            ->andWhere('p.deletedAt = 0')
             ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findOneBySlug(string $slug): ?Product
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.slug = :slug')
+            ->andWhere('p.deletedAt = 0')
+            ->setParameter('slug', $slug)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -33,7 +43,14 @@ class ProductRepository extends ServiceEntityRepository
     public function findAll()
     {
         return $this->createQueryBuilder('p')
-            ->where('p.active = true')
+            ->where('p.deletedAt = 0')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllWithDeleted()
+    {
+        return $this->createQueryBuilder('p')
             ->getQuery()
             ->getResult();
     }
@@ -42,7 +59,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.id IN (:ids)')
-            ->andWhere('p.active = true')
+            ->andWhere('p.deletedAt = 0')
             ->setParameter('ids', $ids)
             ->getQuery()
             ->getResult();
@@ -52,7 +69,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.name LIKE :query')
-            ->andWhere('p.active = true')
+            ->andWhere('p.deletedAt = 0')
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults)
             ->setParameter('query', '%'.addcslashes($query, '%_').'%');
@@ -64,7 +81,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->select('p')
-            ->where('p.active = true')
+            ->where('p.deletedAt = 0')
             ->orderBy('p.dateCreated', 'DESC')
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults);
@@ -76,7 +93,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->select('count(p.id)')
-            ->where('p.active = true')
+            ->where('p.deletedAt = 0')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -85,7 +102,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->select('p')
-            ->where('p.active = true')
+            ->where('p.deletedAt = 0')
             ->orderBy('p.dateCreated', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()

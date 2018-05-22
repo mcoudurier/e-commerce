@@ -4,10 +4,12 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Form\ProductType;
 use App\Entity\Product;
 use App\Entity\Image;
+use App\Service\Slugger;
 
 class ProductController extends Controller
 {
@@ -48,7 +50,7 @@ class ProductController extends Controller
         ]);
     }
     
-    public function editor(Request $req, $id)
+    public function editor(Request $req, $id, Slugger $slugger)
     {
         $product = new Product();
         $title = 'Nouveau produit';
@@ -73,8 +75,6 @@ class ProductController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $product = $form->getData();
-            
             foreach ($product->getImages() as $image) {
                 if ($file = $image->getFile()) {
                     $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
@@ -84,8 +84,18 @@ class ProductController extends Controller
                     $file->move($this->getParameter('images_directory'), $filename);
                 }
             }
-
+            
             $em = $this->getDoctrine()->getManager();
+
+            $uow = $em->getUnitOfWork();
+            $uow->computeChangeSets();
+            $changeset = $uow->getEntityChangeSet($product);
+
+            if (array_key_exists('name', $changeset) || null === $product->getId()) {
+                $slug = $slugger->slugify($product->getName());
+                $product->setSlug($slug);
+            }
+
             $em->persist($product);
             $em->flush();
             
@@ -107,7 +117,7 @@ class ProductController extends Controller
         $em = $this->getDoctrine()->getManager();
        
         $product = $em->getRepository(Product::class)->find($id);
-        $product->setActive(false);
+        $product->setDeletedAt(new \Datetime());
         
         $em->persist($product);
         $em->flush();
