@@ -85,17 +85,10 @@ class ProductController extends Controller
                 }
             }
             
+            $slug = $slugger->slugify($product);
+            $product->setSlug($slug);
+
             $em = $this->getDoctrine()->getManager();
-
-            $uow = $em->getUnitOfWork();
-            $uow->computeChangeSets();
-            $changeset = $uow->getEntityChangeSet($product);
-
-            if (array_key_exists('name', $changeset) || null === $product->getId()) {
-                $slug = $slugger->slugify($product->getName());
-                $product->setSlug($slug);
-            }
-
             $em->persist($product);
             $em->flush();
             

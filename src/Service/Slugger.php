@@ -12,14 +12,15 @@ class Slugger
         $this->productRepository = $productRepository;
     }
 
-    public function slugify(string $name): string
+    public function slugify($product): string
     {
+        $name = $product->getName();
         $slug = str_replace(' ', '-', $name);
         $transliterator = \Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', \Transliterator::FORWARD);
         $slug = $transliterator->transliterate($slug);
         $slug = preg_replace('/[^a-z0-9\-]/i', '', $slug);
 
-        $product = $this->productRepository->findOneBySlug($slug);
+        $product = $this->productRepository->findDuplicateSlug($product->getId(), $slug);
 
         if ($product) {
             $lastChar = substr($slug, -1);
