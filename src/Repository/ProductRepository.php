@@ -50,8 +50,9 @@ class ProductRepository extends ServiceEntityRepository
                 ->andWhere('p.id != :id')
                 ->setParameter('id', $id);
         }
-        $queryBuilder->andWhere('p.slug = :slug OR p.slug LIKE :slug')
-            ->setParameter('slug', $slug . '-%');
+        $queryBuilder->andWhere('p.slug = :slug OR p.slug LIKE :slug_with_suffix')
+            ->setParameter('slug', $slug)
+            ->setParameter('slug_with_suffix', $slug . '-%');
 
         return $queryBuilder
             ->orderBy('p.slug', 'DESC')
