@@ -20,15 +20,16 @@ class Slugger
         $slug = $transliterator->transliterate($slug);
         $slug = preg_replace('/[^a-z0-9\-]/i', '', $slug);
 
-        $product = $this->productRepository->findDuplicateSlug($product->getId(), $slug);
+        $lastProduct = $this->productRepository->findDuplicateSlug($product->getId(), $slug);
 
-        if ($product) {
-            $lastChar = substr($slug, -1);
+        if ($lastProduct) {
+            $lastSlug = $lastProduct->getSlug();
+            $lastChar = mb_substr($lastSlug, -1);
             if (is_numeric($lastChar)) {
                 $lastChar++;
-                $slug = substr($slug, 0, -1) . $lastChar;
+                $slug .= '-' . $lastChar;
             } else {
-                $slug = $slug . '-1';
+                $slug .= '-1';
             }
         }
 

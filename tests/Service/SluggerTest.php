@@ -42,32 +42,40 @@ class SluggerTest extends TestCase
 
     public function testSlugifyAlreadyExists()
     {
-        $product = new Product();
-        $product->setId(1);
-        $product->setName('product-name');
+        $newProduct = new Product();
+        $newProduct->setId(1);
+        $newProduct->setName('product name');
+
+        $lastProduct = new Product();
+        $lastProduct->setId(2);
+        $lastProduct->setSlug('product-name');
         
         $this->productRepository->expects($this->any())
             ->method('findDuplicateSlug')
-            ->willReturn($product);
+            ->willReturn($lastProduct);
 
         $slugger = new Slugger($this->productRepository);
-        $slug = $slugger->slugify($product);
+        $slug = $slugger->slugify($newProduct);
         
         $this->assertEquals('product-name-1', $slug);
     }
 
     public function testSlugifyAlreadyExistsWithSuffix()
     {
-        $product = new Product();
-        $product->setId(1);
-        $product->setName('product-name-1');
+        $newProduct = new Product();
+        $newProduct->setId(1);
+        $newProduct->setName('product name');
+        
+        $lastProduct = new Product();
+        $lastProduct->setId(2);
+        $lastProduct->setSlug('product-name-1');
         
         $this->productRepository->expects($this->any())
             ->method('findDuplicateSlug')
-            ->willReturn($product);
+            ->willReturn($lastProduct);
 
         $slugger = new Slugger($this->productRepository);
-        $slug = $slugger->slugify($product);
+        $slug = $slugger->slugify($newProduct);
         
         $this->assertEquals('product-name-2', $slug);
     }

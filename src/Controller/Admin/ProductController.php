@@ -87,7 +87,7 @@ class ProductController extends Controller
             
             $slug = $slugger->slugify($product);
             $product->setSlug($slug);
-
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();

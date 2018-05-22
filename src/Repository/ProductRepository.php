@@ -40,14 +40,22 @@ class ProductRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findDuplicateSlug(int $id, string $slug): ?Product
+    public function findDuplicateSlug(?int $id, string $slug): ?Product
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.slug = :slug')
-            ->andWhere('p.deletedAt = 0')
-            ->andWhere('p.id != :id')
-            ->setParameter('slug', $slug)
-            ->setParameter('id', $id)
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder
+            ->andWhere('p.deletedAt = 0');
+        if ($id) {
+            $queryBuilder
+                ->andWhere('p.id != :id')
+                ->setParameter('id', $id);
+        }
+        $queryBuilder->andWhere('p.slug = :slug OR p.slug LIKE :slug')
+            ->setParameter('slug', $slug . '-%');
+
+        return $queryBuilder
+            ->orderBy('p.slug', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }
