@@ -50,8 +50,10 @@ class BasketController extends Controller
             $this->addFlash('primary', 'Le produit n\'est plus en stock');
         }
 
+        $slug = $product->getSlug();
+
         return $this->redirectToRoute('product_show', [
-            'id' => $id,
+            'slug' => $slug,
         ]);
     }
 

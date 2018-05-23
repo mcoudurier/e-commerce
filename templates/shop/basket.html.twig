@@ -18,7 +18,7 @@
             <div class="basket-product row border-bottom py-2">
                 {% set thumb = product.images|first %}
                 <div class="col-4 col-sm-6 col-md-2">
-                    <a href="{{ path('product_show', {'id': product.id}) }}">
+                    <a href="{{ path('product_show', {'slug': product.slug}) }}">
                         <img src="/img/upload/{{ thumb.name }}" alt="{{ thumb.description }}" class="basket-product__img img img-fluid">
                     </a>
                 </div>
