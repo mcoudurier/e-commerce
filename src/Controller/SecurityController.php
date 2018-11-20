@@ -36,7 +36,9 @@ class SecurityController extends Controller
     public function register(UserPasswordEncoderInterface $passwordEncoder, ?bool $order): Response
     {
         $user = new User();
-        $form = $this->createForm(RegisterType::class, $user);
+        $form = $this->createForm(RegisterType::class, $user, [
+            'action' => $this->generateUrl('security_register'),
+        ]);
 
         $masterRequest = $this->get('request_stack')->getMasterRequest();
         $form->handleRequest($masterRequest);
@@ -49,7 +51,13 @@ class SecurityController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
-            $em->flush();
+            
+            try {
+                $em->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('warning', 'Cette adresse email est déjà utilisée');
+                return $this->redirectToRoute('user_welcome');
+            }
 
             $this->addFlash('success', 'Compte créé. Vous pouvez maintenant vous connecter');
         }
