@@ -15,4 +15,5 @@
 /config/paypal.php
 /config/stripe.php
 /node_modules
+.idea/
 
