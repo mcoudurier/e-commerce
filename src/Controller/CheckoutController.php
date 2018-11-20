@@ -4,10 +4,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Basket;
 use App\Form\AddressType;
-use App\Entity\ShippingMethod;
 use App\Repository\AddressRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -78,7 +76,7 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function shipping(Request $req, AddressRepository $addressRepository)
+    public function shipping(Request $req)
     {
         if (!$this->session->get('checkout/address')) {
             return $this->redirectToRoute('basket_show');
@@ -132,12 +130,9 @@ class CheckoutController extends Controller
         }
         $this->session->set('checkout/payment', true);
 
-        $products = $this->basket->getProducts();
-        $totalPrice = $this->basket->grandTotal();
-
         return $this->render('shop/checkout/payment.html.twig', [
             'stripe_pk' => $this->stripePk,
-            'total_price' => $totalPrice,
+            'total_price' => $this->basket->grandTotal(),
         ]);
     }
 }

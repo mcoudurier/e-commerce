@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Payments;
 
+use App\Entity\Order;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,8 @@ class PaypalController extends Controller
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
                 $this->config['client_id'],
-                $this->config['secret'])
+                $this->config['secret']
+            )
         );
         $this->session = new Session();
     }
@@ -45,7 +47,7 @@ class PaypalController extends Controller
      * Generates the payment and redirects to the paypal checkout page
      *
      * @param Request $req
-     * @return void
+     * @return Response
      */
     public function paypalCheckout(Request $req)
     {
@@ -83,7 +85,9 @@ class PaypalController extends Controller
      * Actually executes the payment after the customer was redirected back from paypal
      *
      * @param Request $req
-     * @return void
+     * @param Mailer $mailer
+     * @param OrderFactory $orderFactory
+     * @return Response
      */
     public function paypalPayment(Request $req, Mailer $mailer, OrderFactory $orderFactory)
     {

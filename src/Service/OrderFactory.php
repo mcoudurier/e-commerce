@@ -4,7 +4,6 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Entity\Basket;
-use App\Entity\Transaction;
 use App\Entity\User;
 use App\Repository\AddressRepository;
 
@@ -36,7 +35,9 @@ class OrderFactory
               ->setShippingMethod($basket->getShippingMethod())
               ->setTransaction(
                   new \App\Entity\Transaction(
-                    $paymentMethod, $totalPrice)
+                      $paymentMethod,
+                      $totalPrice
+                  )
               );
 
         return $order;

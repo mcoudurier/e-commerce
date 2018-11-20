@@ -4,8 +4,6 @@ namespace App\Controller\Admin;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\File;
 use App\Form\ProductType;
 use App\Entity\Product;
 use App\Entity\Image;
@@ -74,7 +72,6 @@ class ProductController extends Controller
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             foreach ($product->getImages() as $image) {
                 if ($file = $image->getFile()) {
                     $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());

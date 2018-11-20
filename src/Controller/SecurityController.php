@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends Controller
 {
-    public function login(Request $req, AuthenticationUtils $authenticationUtils, ?bool $order): Response
+    public function login(AuthenticationUtils $authenticationUtils, ?bool $order): Response
     {
         $user = new User();
 
@@ -44,7 +44,6 @@ class SecurityController extends Controller
         $form->handleRequest($masterRequest);
         
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
             $user->setRoles('ROLE_USER');

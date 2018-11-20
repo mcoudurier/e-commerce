@@ -4,7 +4,6 @@ namespace App\Controller\Payments;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Basket;
@@ -51,10 +50,10 @@ class StripeController extends Controller
                 'source' => $token,
                 'receipt_email' => $this->getUser()->getEmail(),
             ]);
-        } catch(\Stripe\Error\Card $e) {
+        } catch (\Stripe\Error\Card $e) {
             $this->addFlash('danger', 'Paiement refusé');
             return $this->redirectToRoute('checkout_payment');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('danger', 'Paiement impossible');
             return $this->redirectToRoute('checkout_payment');
         }

@@ -17,7 +17,8 @@ class ChangePassword
             'oldPassword',
             new SecurityAssert\UserPassword([
                 'message' => 'Mot de passe invalide'
-            ]));
+            ])
+        );
         $metadata->addPropertyConstraint('newPassword', new Assert\Length([
             'min' => 5,
             'max' => 50,
@@ -45,5 +46,4 @@ class ChangePassword
     {
         $this->newPassword = $newPassword;
     }
-
 }

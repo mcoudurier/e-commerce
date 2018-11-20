@@ -196,7 +196,6 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-
     }
 
     public function serialize()
@@ -278,5 +277,4 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-
 }

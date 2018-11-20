@@ -15,7 +15,7 @@ class OrderStatusType extends AbstractType
         $builder
             ->add('status', ChoiceType::class, [
                 'choices' => Order::STATUSES,
-                'choice_label' => function($status) {
+                'choice_label' => function ($status) {
                     return $status;
                 }
             ])

@@ -3,8 +3,6 @@ namespace App\Entity;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\Product;
-use App\Entity\ShippingMethod;
 
 /**
  * Represents the basket in the session
@@ -79,10 +77,11 @@ class Basket implements \Countable
                 ->findAllById($ids);
             
             return $products = array_map(
-                function($p) {
+                function ($p) {
                     return $p->setQuantity($this->getQuantity($p));
-                }, 
-                $products);
+                },
+                $products
+            );
         }
 
         return null;
@@ -121,7 +120,7 @@ class Basket implements \Countable
         return $quantity;
     }
 
-    public function totalPrice(array $products): float 
+    public function totalPrice(array $products): float
     {
         $totalPrice = 0;
 

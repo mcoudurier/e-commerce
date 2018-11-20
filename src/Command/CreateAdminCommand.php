@@ -22,7 +22,7 @@ class CreateAdminCommand extends Command
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator
-        ) {
+    ) {
         
         $this->passwordEncoder = $passwordEncoder;
         $this->entityManager = $entityManager;

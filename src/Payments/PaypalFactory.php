@@ -9,7 +9,7 @@ use PayPal\Api\Transaction;
 use App\Entity\Basket;
 
 /**
- * Helps generating paypal transactions 
+ * Helps generating paypal transactions
  */
 class PaypalFactory
 {
@@ -25,8 +25,7 @@ class PaypalFactory
 
         $itemList = new ItemList();
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $item = (new Item())
                  ->setName($product->getName())
                  ->setCurrency('EUR')

@@ -2,11 +2,8 @@
 namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Order;
-use App\Entity\Transaction;
 use App\Form\OrderStatusType;
 
 class OrderController extends Controller

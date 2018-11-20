@@ -4,16 +4,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\User;
-use App\Entity\Address;
-use App\Form\AddressType;
 use App\Form\UserContactType;
 use App\Repository\OrderRepository;
 use App\Repository\AddressRepository;
 
 class UserController extends Controller
 {
-    public function welcome(Request $req, ?bool $order = null): Response
+    public function welcome(Request $req): Response
     {
         $order = $req->get('order');
 
@@ -22,7 +19,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function account(Request $req): Response
+    public function account(): Response
     {
         return $this->render('shop/account/account.html.twig');
     }
@@ -41,7 +38,6 @@ class UserController extends Controller
         $form->handleRequest($masterRequest);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $userContact = $form->getData();
             $address = $userContact->getAddress();
             
