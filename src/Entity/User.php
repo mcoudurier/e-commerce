@@ -98,9 +98,7 @@ class User implements UserInterface, \Serializable
         $metadata->addPropertyConstraint('role', new Assert\Type('string'));
         $metadata->addPropertyConstraint('role', new Assert\NotNull());
         
-        $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string', [
-            'groups' => ['register'],
-        ]));
+        $metadata->addPropertyConstraint('plainPassword', new Assert\Type('string'));
         $metadata->addPropertyConstraint('plainPassword', new Assert\NotNull([
             'groups' => ['register'],
         ]));
