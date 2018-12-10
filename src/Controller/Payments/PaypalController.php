@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Payments;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -17,7 +17,7 @@ use App\Payments\PaypalFactory;
 use App\Service\Mailer;
 use App\Service\OrderFactory;
 
-class PaypalController extends Controller
+class PaypalController extends AbstractController
 {
     private $basket;
 

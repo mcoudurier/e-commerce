@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProductType;
@@ -9,7 +9,7 @@ use App\Entity\Product;
 use App\Entity\Image;
 use App\Service\Slugger;
 
-class ProductController extends Controller
+class ProductController extends AbstractController
 {
     public function index(Request $req, $page)
     {

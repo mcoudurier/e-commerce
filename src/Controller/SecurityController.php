@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
@@ -12,7 +12,7 @@ use App\Form\Model\ChangePassword;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
     public function login(AuthenticationUtils $authenticationUtils, ?bool $order): Response
     {

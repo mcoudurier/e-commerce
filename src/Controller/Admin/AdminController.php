@@ -1,11 +1,11 @@
 <?php
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Product;
 use App\Entity\Transaction;
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     public function index()
     {

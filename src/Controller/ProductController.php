@@ -1,11 +1,11 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 
-class ProductController extends Controller
+class ProductController extends AbstractController
 {
     public function index(ProductRepository $productRepository)
     {

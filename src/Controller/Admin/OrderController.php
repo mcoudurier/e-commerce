@@ -1,12 +1,12 @@
 <?php
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Order;
 use App\Form\OrderStatusType;
 
-class OrderController extends Controller
+class OrderController extends AbstractController
 {
     public function index()
     {

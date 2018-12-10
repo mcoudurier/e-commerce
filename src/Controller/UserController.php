@@ -1,14 +1,14 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\UserContactType;
 use App\Repository\OrderRepository;
 use App\Repository\AddressRepository;
 
-class UserController extends Controller
+class UserController extends AbstractController
 {
     public function welcome(Request $req): Response
     {

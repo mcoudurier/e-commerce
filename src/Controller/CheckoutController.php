@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Basket;
@@ -9,7 +9,7 @@ use App\Form\AddressType;
 use App\Repository\AddressRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class CheckoutController extends Controller
+class CheckoutController extends AbstractController
 {
     private $config;
 
