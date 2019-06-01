@@ -92,9 +92,6 @@
     "psr/log": {
         "version": "1.0.2"
     },
-    "psr/simple-cache": {
-        "version": "1.0.1"
-    },
     "sensio/framework-extra-bundle": {
         "version": "4.0",
         "recipe": {
@@ -116,6 +113,9 @@
     "symfony/cache": {
         "version": "v4.0.7"
     },
+    "symfony/cache-contracts": {
+        "version": "v1.1.1"
+    },
     "symfony/config": {
         "version": "v4.0.7"
     },
@@ -127,9 +127,6 @@
             "version": "3.3",
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
-    },
-    "symfony/contracts": {
-        "version": "v1.0.2"
     },
     "symfony/debug": {
         "version": "v4.0.7"
@@ -148,6 +145,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.0.7"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.1"
     },
     "symfony/filesystem": {
         "version": "v4.0.7"
@@ -197,6 +197,9 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mime": {
+        "version": "v4.3.0"
+    },
     "symfony/options-resolver": {
         "version": "v4.0.8"
     },
@@ -218,11 +221,17 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.7.0"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.11.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.7.0"
     },
     "symfony/polyfill-php72": {
         "version": "v1.7.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.11.0"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.3"
@@ -260,6 +269,9 @@
     "symfony/security-http": {
         "version": "v4.2.1"
     },
+    "symfony/service-contracts": {
+        "version": "v1.1.2"
+    },
     "symfony/stopwatch": {
         "version": "v4.0.8"
     },
@@ -271,6 +283,9 @@
             "version": "2.5",
             "ref": "3db029c03e452b4a23f7fc45cec7c922c2247eb8"
         }
+    },
+    "symfony/translation-contracts": {
+        "version": "v1.1.2"
     },
     "symfony/twig-bridge": {
         "version": "v4.0.7"
