@@ -1,8 +1,8 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Represents the basket in the session
@@ -13,7 +13,7 @@ class Basket implements \Countable
 
     private $objectManager;
 
-    public function __construct(ObjectManager $objectManager = null)
+    public function __construct(EntityManagerInterface $objectManager = null)
     {
         $this->session = new Session();
         $this->objectManager = $objectManager;

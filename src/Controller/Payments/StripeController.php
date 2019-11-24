@@ -1,11 +1,11 @@
 <?php
 namespace App\Controller\Payments;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Basket;
 use App\Service\Mailer;
 use App\Service\OrderFactory;
@@ -20,7 +20,7 @@ class StripeController extends AbstractController
 
     private $session;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(EntityManagerInterface $objectManager)
     {
         $this->basket = new Basket($objectManager);
         // TODO: Load the config in a cleaner way

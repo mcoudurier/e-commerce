@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
-use App\Entity\ShippingMethod;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
+use App\Entity\ShippingMethod;
 
 /**
  * @method ShippingMethod|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ShippingMethodRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ShippingMethod::class);
     }

@@ -29,9 +29,6 @@
             "ref": "c745b67e4dec2771d4d57a60efd224faf445c929"
         }
     },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.3.3"
-    },
     "doctrine/doctrine-migrations-bundle": {
         "version": "1.2",
         "recipe": {
@@ -142,6 +139,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.0.7"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.0"
     },
     "symfony/event-dispatcher": {
         "version": "v4.0.7"

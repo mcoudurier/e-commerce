@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class CheckoutController extends AbstractController
 
     private $session;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(EntityManagerInterface $objectManager)
     {
         $this->basket = new Basket($objectManager);
         $this->config = require(__DIR__ . '/../../config/stripe.php');

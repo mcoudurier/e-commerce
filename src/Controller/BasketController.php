@@ -1,19 +1,19 @@
 <?php
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Basket;
 use App\Entity\Product;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class BasketController extends AbstractController
 {
     private $basket;
 
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(EntityManagerInterface $objectManager)
     {
         $this->basket = new Basket($objectManager);
     }
